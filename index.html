@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure & Liquidity Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #020408; /* Deepest Navy */
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .ui-layer {
+            position: relative;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .interactive {
+            pointer-events: auto;
+        }
+
+        /* Typography & Effects */
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        .glass-panel {
+            background: rgba(5, 10, 20, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-panel:hover {
+            background: rgba(5, 10, 20, 0.6);
+            border-color: rgba(0, 240, 255, 0.2);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        /* Animations */
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 240, 255, 0.02) 51%, transparent 52%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-500 { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar Styling */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(0, 240, 255, 0.2);
+            border-radius: 3px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 240, 255, 0.5);
+        }
+
+        .nav-link {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #00f0ff;
+            box-shadow: 0 0 8px #00f0ff;
+        }
+        
+        .hidden-page {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 3D Scene Container -->
+    <div id="canvas-container"></div>
+
+    <!-- CRT/Holo Overlay Effect -->
+    <div class="scanline-overlay"></div>
+
+    <!-- Main UI Layout Container (Fixed to Viewport) -->
+    <div class="ui-layer fixed inset-0 flex flex-col p-6 md:p-12 box-border">
+        
+        <!-- Header (Fixed Top) -->
+        <header class="flex justify-between items-start fade-in-up shrink-0 mb-6 z-50 pointer-events-none">
+            <div class="flex flex-col interactive pointer-events-auto cursor-pointer" onclick="switchPage('home')">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 border border-cyan-400 flex items-center justify-center relative">
+                        <div class="absolute w-full h-[1px] bg-cyan-400 rotate-45"></div>
+                        <div class="absolute w-full h-[1px] bg-cyan-400 -rotate-45"></div>
+                    </div>
+                    <div>
+                        <h1 class="font-display font-bold text-xl tracking-widest text-white uppercase">SLI_LAB</h1>
+                        <p class="font-mono text-xs text-cyan-300 tracking-wider">STRUCTURE & LIQUIDITY INTELLIGENCE LABORATORY</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex gap-6 interactive pointer-events-auto">
+                <a onclick="switchPage('research')" id="nav-research" class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">Research</a>
+                <a onclick="switchPage('what-we-study')" id="nav-what-we-study" class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">Scope</a>
+                <a onclick="switchPage('projects')" id="nav-projects" class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">Projects</a>
+                <a onclick="switchPage('mission')" id="nav-mission" class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">Mission</a>
+                <a onclick="switchPage('fellows')" id="nav-fellows" class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">Fellows</a>
+                <a onclick="switchPage('publications')" id="nav-publications" class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">Publications</a>
+                <a onclick="switchPage('frameworks')" id="nav-frameworks" class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">Frameworks</a>
+                <a onclick="switchPage('join')" id="nav-join" class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest">Join</a>
+                <a onclick="switchPage('founder')" id="nav-founder" class="nav-link text-xs font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest">Founder</a>
+            </nav>
+        </header>
+
+        <!-- Scrollable Content Area (Flex Child) -->
+        <div id="content-scroll-container" class="flex-1 overflow-y-auto custom-scroll interactive relative pr-2">
+            
+            <!-- HOME PAGE -->
+            <main id="page-home" class="flex flex-col items-start max-w-4xl mt-12 relative min-h-[60vh] pb-24">
+                <div class="h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-500 to-transparent absolute -left-8 top-0 hidden md:block opacity-30"></div>
+
+                <div class="glass-panel px-6 py-2 mb-6 rounded-full inline-flex items-center gap-2 fade-in-up delay-100">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span class="font-mono text-xs text-cyan-100 tracking-widest">SYSTEM ONLINE // NODE VERIFIED</span>
+                </div>
+
+                <h2 class="font-display text-5xl md:text-7xl lg:text-8xl font-light text-white leading-tight mb-6 fade-in-up delay-200">
+                    Cognitive <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-600 font-medium">Liquidity.</span><br>
+                    Architectural <span class="italic font-serif text-yellow-100 opacity-90">Structure.</span>
+                </h2>
+
+                <p class="text-gray-400 text-sm md:text-lg max-w-xl leading-relaxed mb-10 fade-in-up delay-300 border-l-2 border-cyan-900 pl-6">
+                    We engineer the intersection of fluid intelligence and rigid logic. 
+                    Our research explores multi-axis reasoning models to build transparency in AI decision chains.
+                </p>
+
+                <div class="flex flex-wrap gap-4 fade-in-up delay-300 mb-24">
+                    <button onclick="switchPage('research')" class="px-8 py-3 bg-white text-black font-display font-bold uppercase tracking-wider text-sm hover:bg-cyan-100 transition-colors clip-path-slant">
+                        Explore Research
+                    </button>
+                    <button onclick="switchPage('projects')" class="px-8 py-3 border border-white/20 text-white font-display font-bold uppercase tracking-wider text-sm hover:border-cyan-400 hover:text-cyan-400 transition-colors glass-panel">
+                        View Projects
+                    </button>
+                </div>
+
+                <!-- NEW CONTENT: DEFINITIONS (Full Restored Version) -->
+                <div class="w-full fade-in-up delay-500 space-y-24">
+                    
+                    <!-- STRUCTURAL INTELLIGENCE -->
+                    <section>
+                        <h3 class="font-display text-3xl text-white mb-8 flex items-center gap-4">
+                            <span class="w-8 h-[1px] bg-cyan-500"></span> STRUCTURAL INTELLIGENCE
+                        </h3>
+                        
+                        <div class="glass-panel p-8 mb-8 border-l-2 border-cyan-500">
+                            <p class="text-gray-300 text-lg font-light leading-relaxed mb-6">
+                                A meta-discipline that analyzes the forces, intentions, boundaries, constraints, and emergent patterns created by underlying structures across institutions, markets, technology, society, and cognition.
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-white/10 pt-6">
+                                <div>
+                                    <h4 class="text-xs font-mono text-gray-500 uppercase mb-2">Science Focuses On:</h4>
+                                    <ul class="text-sm text-gray-400 space-y-1">
+                                        <li>• Observation</li>
+                                        <li>• Measurement</li>
+                                        <li>• Causal inference</li>
+                                        <li>• Reproducibility</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-mono text-cyan-500 uppercase mb-2">Structural Intelligence Focuses On:</h4>
+                                    <ul class="text-sm text-cyan-100 space-y-1">
+                                        <li>• Purpose & Incentives</li>
+                                        <li>• Hidden constraints</li>
+                                        <li>• Systemic forces</li>
+                                        <li>• Cross-domain relationships</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="mt-6 text-center text-sm font-mono text-cyan-400">"Science explains. Structural Intelligence interprets and designs."</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                            <div class="p-6 border border-white/10 bg-white/5">
+                                <h4 class="text-cyan-300 font-display text-sm uppercase mb-4">Core Domains</h4>
+                                <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-gray-400">
+                                    <span class="hover:text-white transition-colors">Regulatory</span>
+                                    <span class="hover:text-white transition-colors">Market</span>
+                                    <span class="hover:text-white transition-colors">Organizational</span>
+                                    <span class="hover:text-white transition-colors">Social</span>
+                                    <span class="hover:text-white transition-colors">Cognitive</span>
+                                    <span class="hover:text-white transition-colors">Technological</span>
+                                    <span class="hover:text-white transition-colors">Information</span>
+                                    <span class="hover:text-white transition-colors">Liquidity</span>
+                                </div>
+                            </div>
+                            <div class="p-6 border border-white/10 bg-white/5 flex flex-col justify-center">
+                                <h4 class="text-cyan-300 font-display text-sm uppercase mb-2">Purpose</h4>
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    To convert complex systems into interpretable structures, reveal invisible forces, and provide a unified framework to design stable, adaptable institutions. It develops "structural cognition."
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- LIQUIDITY INTELLIGENCE -->
+                    <section>
+                        <h3 class="font-display text-3xl text-white mb-8 flex items-center gap-4">
+                            <span class="w-8 h-[1px] bg-yellow-500"></span> LIQUIDITY INTELLIGENCE
+                        </h3>
+                        
+                        <div class="glass-panel p-8 mb-8 border-l-2 border-yellow-500">
+                            <p class="text-gray-300 text-lg font-light leading-relaxed mb-6">
+                                The study of how value, information, decisions, and influence flow through systems — where they accelerate, where they congest, and how structural constraints shape those flows.
+                            </p>
+                            <p class="text-sm text-yellow-100/80 border-t border-white/10 pt-4">
+                                It is a universal model of "flow dynamics," extending beyond finance to regulatory, organizational, and cognitive systems.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="md:col-span-2">
+                                <h4 class="font-mono text-xs text-yellow-500 uppercase mb-4">The Six Axes of Liquidity</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="border-l border-white/10 pl-3">
+                                        <span class="block text-white text-sm font-bold">Value</span>
+                                        <span class="text-xs text-gray-500">Assets, credit, capital, incentives.</span>
+                                    </div>
+                                    <div class="border-l border-white/10 pl-3">
+                                        <span class="block text-white text-sm font-bold">Information</span>
+                                        <span class="text-xs text-gray-500">Speed, transparency, distortion.</span>
+                                    </div>
+                                    <div class="border-l border-white/10 pl-3">
+                                        <span class="block text-white text-sm font-bold">Decision</span>
+                                        <span class="text-xs text-gray-500">Circulation and resolution speed.</span>
+                                    </div>
+                                    <div class="border-l border-white/10 pl-3">
+                                        <span class="block text-white text-sm font-bold">Organizational</span>
+                                        <span class="text-xs text-gray-500">Workflow fluidity, authority.</span>
+                                    </div>
+                                    <div class="border-l border-white/10 pl-3">
+                                        <span class="block text-white text-sm font-bold">Regulatory</span>
+                                        <span class="text-xs text-gray-500">Flexibility, friction, adaptability.</span>
+                                    </div>
+                                    <div class="border-l border-white/10 pl-3">
+                                        <span class="block text-white text-sm font-bold">Cognitive</span>
+                                        <span class="text-xs text-gray-500">Memory, reasoning, knowledge flow.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="glass-panel p-6 bg-yellow-900/10 border-t border-yellow-500/20 flex flex-col justify-center">
+                                <h4 class="font-mono text-xs text-yellow-500 uppercase mb-2">Purpose</h4>
+                                <p class="text-xs text-gray-300 mb-2">Most systemic failures come from friction.</p>
+                                <p class="text-sm text-white font-medium">Liquidity Intelligence identifies bottlenecks to unlock flow.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- RELATIONSHIP -->
+                    <section class="border-t border-gray-800 pt-12 text-center">
+                        <div class="inline-block p-8 glass-panel relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-yellow-500"></div>
+                            <h3 class="font-display text-2xl text-white mb-6">CORE RESEARCH IDENTITY</h3>
+                            
+                            <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-8 font-mono text-sm">
+                                <div class="text-cyan-400">
+                                    <span class="block text-xs text-gray-500 mb-1">STRUCTURAL INTELLIGENCE</span>
+                                    How systems are shaped
+                                </div>
+                                <div class="text-2xl text-gray-600">+</div>
+                                <div class="text-yellow-400">
+                                    <span class="block text-xs text-gray-500 mb-1">LIQUIDITY INTELLIGENCE</span>
+                                    How systems move
+                                </div>
+                            </div>
+
+                            <p class="text-xl md:text-2xl text-white font-light italic">
+                                "Structures create flows.<br>Flows reshape structures."
+                            </p>
+                        </div>
+                    </section>
+
+                </div>
+            </main>
+
+            <!-- RESEARCH PAGE -->
+            <div id="page-research" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">RESEARCH AREAS</h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Structure & Liquidity Intelligence Research</p>
+                    <div class="glass-panel p-8 border-l-4 border-l-cyan-500 max-w-4xl">
+                        <p class="text-gray-300 leading-relaxed font-light text-lg mb-4">
+                            SLI Lab is an interdisciplinary research lab that analyzes societies, organizations, and technologies through a unique framework called <span class="text-white font-medium">Structure & Liquidity Intelligence</span>.
+                        </p>
+                    </div>
+                </div>
+                <!-- 6 AXES GRID -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4"><span class="w-8 h-[1px] bg-cyan-500"></span> THE SLI FRAMEWORK</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        
+                        <!-- 1 -->
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
+                            <h4 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">Value Liquidity</h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">The movement of economic value, credit, incentives, and assets.</p>
+                            <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
+                                <li>> Stablecoins, CBDCs, tokenized assets</li>
+                                <li>> Non-custodial digital infrastructure</li>
+                                <li>> Capital efficiency and risk distribution</li>
+                            </ul>
+                        </div>
+
+                        <!-- 2 -->
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
+                            <h4 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">Information Liquidity</h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">How information flows through society, institutions, and networks.</p>
+                            <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
+                                <li>> Media bias and info bottlenecks</li>
+                                <li>> Transparency in public administration</li>
+                                <li>> AI agents optimizing real-time info</li>
+                            </ul>
+                        </div>
+
+                        <!-- 3 -->
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
+                            <h4 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">Decision Liquidity</h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">The speed and clarity of decision-making in organizations or nations.</p>
+                            <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
+                                <li>> Government decision-making structures</li>
+                                <li>> Corporate hierarchy and decision delays</li>
+                                <li>> Human × AI joint decision models</li>
+                            </ul>
+                        </div>
+
+                        <!-- 4 -->
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
+                            <h4 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">Organizational Liquidity</h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">How flexible and adaptive an organization or system is.</p>
+                            <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
+                                <li>> Ministry-to-ministry bottleneck analysis</li>
+                                <li>> Public–private cooperation models</li>
+                                <li>> Decentralized governance (DAO) models</li>
+                            </ul>
+                        </div>
+
+                        <!-- 5 -->
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
+                            <h4 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">Regulatory Liquidity</h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">The adaptability of legal and regulatory systems.</p>
+                            <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
+                                <li>> Cross-border regulatory policy mapping</li>
+                                <li>> Digital government architecture</li>
+                                <li>> Structural gaps between regulation and technology</li>
+                            </ul>
+                        </div>
+
+                        <!-- 6 -->
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
+                            <h4 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">Cognitive Liquidity</h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">How knowledge, memory, and intelligence flow across humans, AI, and institutions.</p>
+                            <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
+                                <li>> Multi-axis thinking models</li>
+                                <li>> Memory-driven AI transparency concepts</li>
+                                <li>> Distributed cognition frameworks</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- RESEARCH GOALS -->
+                <div class="mb-16">
+                     <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span> RESEARCH GOALS
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-4 border-t border-cyan-500/30 bg-gradient-to-b from-cyan-900/10 to-transparent">
+                            <div class="font-mono text-2xl text-cyan-400 mb-2">01</div>
+                            <h4 class="text-white font-bold text-sm mb-2">Make Inefficiencies Visible</h4>
+                            <p class="text-gray-500 text-xs">Mapping hidden structural friction in society and finance.</p>
+                        </div>
+                        <div class="p-4 border-t border-cyan-500/30 bg-gradient-to-b from-cyan-900/10 to-transparent">
+                            <div class="font-mono text-2xl text-cyan-400 mb-2">02</div>
+                            <h4 class="text-white font-bold text-sm mb-2">Propose Liquidity Models</h4>
+                            <p class="text-gray-500 text-xs">Designing principles for how value and decisions should flow.</p>
+                        </div>
+                        <div class="p-4 border-t border-cyan-500/30 bg-gradient-to-b from-cyan-900/10 to-transparent">
+                            <div class="font-mono text-2xl text-cyan-400 mb-2">03</div>
+                            <h4 class="text-white font-bold text-sm mb-2">Future Architecture</h4>
+                            <p class="text-gray-500 text-xs">System-level blueprints for finance, governance, and AI.</p>
+                        </div>
+                        <div class="p-4 border-t border-cyan-500/30 bg-gradient-to-b from-cyan-900/10 to-transparent">
+                            <div class="font-mono text-2xl text-cyan-400 mb-2">04</div>
+                            <h4 class="text-white font-bold text-sm mb-2">Collaborative Intelligence</h4>
+                            <p class="text-gray-500 text-xs">Transparent AI reasoning and distributed memory.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OUTPUTS VS NO PUBLISH -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                    <div class="glass-panel p-8 border-t-4 border-t-green-500/50">
+                        <h3 class="font-display text-xl text-white mb-6 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span> RESEARCH OUTPUTS
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4">SLI Lab releases only non-technical, non-confidential, structural research:</p>
+                        <ul class="space-y-3 font-mono text-xs text-gray-300">
+                            <li class="flex gap-2"><span class="text-green-500">✓</span> Structural frameworks & Liquidity models</li>
+                            <li class="flex gap-2"><span class="text-green-500">✓</span> Cross-sector system analysis</li>
+                            <li class="flex gap-2"><span class="text-green-500">✓</span> Institutional design proposals</li>
+                            <li class="flex gap-2"><span class="text-green-500">✓</span> Governance & regulatory insights</li>
+                            <li class="flex gap-2"><span class="text-green-500">✓</span> AI cognition models (non-technical)</li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-panel p-8 border-t-4 border-t-red-500/50 relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 text-red-900/10 font-black text-9xl pointer-events-none select-none">Ø</div>
+                        <h3 class="font-display text-xl text-white mb-6 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-red-500 rounded-full"></span> RESTRICTED (CRITICAL SAFETY)
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4">SLI Lab does <span class="text-red-400">NOT</span> release:</p>
+                        <ul class="space-y-3 font-mono text-xs text-gray-300 relative z-10">
+                            <li class="flex gap-2"><span class="text-red-500">✕</span> Protocol design or Algorithms</li>
+                            <li class="flex gap-2"><span class="text-red-500">✕</span> Internal architecture or APIs</li>
+                            <li class="flex gap-2"><span class="text-red-500">✕</span> Custody-sensitive logic</li>
+                            <li class="flex gap-2"><span class="text-red-500">✕</span> Identity systems</li>
+                            <li class="flex gap-2"><span class="text-red-500">✕</span> Business secrets or Lendler tech</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Footer Quote -->
+                <div class="text-center max-w-2xl mx-auto border-t border-gray-800 pt-12">
+                    <h3 class="font-display text-2xl text-white mb-4">Why This Research Matters</h3>
+                    <p class="text-gray-400 text-sm italic mb-6">"Governments move slowly, regulations lag, and AI becomes a black box. The world is becoming more complex."</p>
+                    <p class="text-cyan-400 font-mono text-sm tracking-widest uppercase">
+                        “How do we redesign societal systems so they flow smoothly?”
+                    </p>
+                </div>
+            </div>
+
+            <!-- WHAT WE STUDY PAGE (Scope) -->
+            <div id="page-what-we-study" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                
+                <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">WHAT WE STUDY</h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Forces Shaping Intelligent Systems</p>
+                    
+                    <div class="glass-panel p-8 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
+                        <p class="text-gray-300 leading-relaxed font-light text-lg mb-6">
+                            At SLI Lab, we study one of the most fundamental forces shaping societies, economies, and intelligent systems: <span class="text-white font-bold">Structure</span>. And the phenomenon that determines how well structures survive, evolve, and interact: <span class="text-white font-bold">Liquidity</span>.
+                        </p>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            We examine how value moves, how information moves, how decisions move, and how institutions adapt or fail under pressure. Our work bridges economics, AI research, governance design, and system architecture — because all complex systems break for similar structural reasons.
+                        </p>
+                        <p class="text-gray-400 text-sm leading-relaxed mt-4">
+                            We believe that the future will belong to institutions and technologies that understand structural liquidity at a deep level.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Structure & Liquidity Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                    <!-- Structure -->
+                    <div class="glass-panel p-8 border-t-2 border-t-blue-500 hover:bg-white/5 transition-colors">
+                        <h3 class="font-display text-2xl text-blue-300 mb-4">Structures Shape Behavior</h3>
+                        <p class="text-gray-400 text-sm mb-6">Every system — financial, political, digital, or cognitive — behaves according to its structure.</p>
+                        <div class="mb-6">
+                            <p class="text-xs text-gray-500 uppercase mb-2">A structure determines:</p>
+                            <ul class="text-sm text-gray-300 space-y-1 font-mono">
+                                <li>• What can move</li>
+                                <li>• What cannot move</li>
+                                <li>• How fast something moves</li>
+                                <li>• How much friction exists</li>
+                                <li>• How power, information, and value flow</li>
+                            </ul>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-4">
+                            When the structure is wrong, no amount of strategy or technology can fix the outcomes.
+                        </p>
+                        <p class="text-gray-400 text-sm italic border-l border-blue-500/30 pl-3">
+                            Most failures we observe in the world — financial crises, policy failures, governance paralysis, ecosystem collapse, organizational stagnation — begin as structural failures long before they become visible. SLI Lab studies these invisible mechanics.
+                        </p>
+                    </div>
+
+                    <!-- Liquidity -->
+                    <div class="glass-panel p-8 border-t-2 border-t-yellow-500 hover:bg-white/5 transition-colors">
+                        <h3 class="font-display text-2xl text-yellow-300 mb-4">Liquidity Determines Survival</h3>
+                        <p class="text-gray-400 text-sm mb-6">Liquidity is not just a financial term. It is a universal property of systems.</p>
+                        <p class="text-gray-300 text-sm mb-6">In SLI Lab’s research, liquidity refers to the ease with which any unit of value, information, intelligence, or decision-making can move through a structure.</p>
+                        <div class="mb-6">
+                            <p class="text-xs text-gray-500 uppercase mb-2">When liquidity disappears:</p>
+                            <ul class="text-sm text-gray-300 space-y-1 font-mono">
+                                <li>• Economies freeze</li>
+                                <li>• Governments lose responsiveness</li>
+                                <li>• Organizations become slow</li>
+                                <li>• Ecosystems break</li>
+                                <li>• AI systems collapse under complexity</li>
+                            </ul>
+                        </div>
+                        <p class="text-gray-400 text-sm italic border-l border-yellow-500/30 pl-3">
+                            Liquidity is a structural health indicator across all domains.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Collapse & AI Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                    <div class="glass-panel p-8 border-l-2 border-l-red-500">
+                        <h3 class="font-display text-xl text-red-300 mb-4">Why Structures Collapse</h3>
+                        <p class="text-gray-400 text-sm mb-4">Most institutions fail not because the people are incompetent, but because the system around them is too rigid.</p>
+                        <p class="text-xs text-gray-500 uppercase mb-2">We Study:</p>
+                        <ul class="text-sm text-gray-300 space-y-1 font-mono mb-6">
+                            <li>• Bottlenecks</li>
+                            <li>• Decision Friction</li>
+                            <li>• Conflicting Incentives</li>
+                            <li>• Overloaded Channels</li>
+                            <li>• Non-transparent Information Flows</li>
+                            <li>• Structural Debts Accumulated Over Decades</li>
+                        </ul>
+                        <p class="text-gray-400 text-sm">
+                            Our research focuses on why institutions get stuck, and what kinds of structures restore fluidity without losing safety or control.
+                        </p>
+                    </div>
+
+                    <div class="glass-panel p-8 border-l-2 border-l-fuchsia-500">
+                        <h3 class="font-display text-xl text-fuchsia-300 mb-4">Why AI Needs Structural Design</h3>
+                        <p class="text-gray-400 text-sm mb-4">Modern AI systems are powerful, but structurally fragile.</p>
+                        <p class="text-xs text-gray-500 uppercase mb-2">They Suffer From:</p>
+                        <ul class="text-sm text-gray-300 space-y-1 font-mono mb-6">
+                            <li>• Stateless Memory</li>
+                            <li>• Fragmented Reasoning</li>
+                            <li>• Non-persistent Knowledge</li>
+                            <li>• Non-transparent Cognition</li>
+                            <li>• Non-explainable Internal Flows</li>
+                        </ul>
+                        <p class="text-gray-400 text-sm mb-4">
+                            As AI grows more integrated into society, its <span class="text-fuchsia-400">structural liquidity</span> — memory, reasoning flow, constraint architecture — will determine whether it remains controllable, safe, and aligned.
+                        </p>
+                        <p class="text-gray-400 text-sm">
+                            SLI Lab researches structural cognition, transparent memory concepts, and multi-axis frameworks for designing AI that works within human-governable structures.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bridging Thesis -->
+                <div class="mb-16">
+                    <div class="glass-panel p-8 border border-gray-700 bg-gray-900/30">
+                        <h3 class="font-display text-2xl text-white mb-6 text-center">BRIDGING VALUE, INTELLIGENCE, AND GOVERNANCE</h3>
+                        <p class="text-center text-gray-400 text-sm mb-8 max-w-2xl mx-auto">
+                            The central thesis of SLI Lab is simple: Value systems, intelligence systems, and governance systems share the same underlying structural laws.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                            <div class="text-right space-y-2">
+                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Whether we are analyzing:</p>
+                                <ul class="text-cyan-300 font-mono text-sm space-y-2">
+                                    <li>A Financial Network</li>
+                                    <li>A Public Institution</li>
+                                    <li>A Multi-Agent AI System</li>
+                                    <li>A Digital Economy</li>
+                                    <li>A Liquidity Mechanism</li>
+                                    <li>A Decision-Making Framework</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="hidden md:block w-[1px] h-full bg-gray-700 mx-auto absolute left-1/2 top-0 bottom-0 transform -translate-x-1/2"></div>
+                            
+                            <div class="text-left space-y-2">
+                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Each is governed by:</p>
+                                <ul class="text-yellow-300 font-mono text-sm space-y-2">
+                                    <li>Where information sits</li>
+                                    <li>How fast it moves</li>
+                                    <li>How it is constrained</li>
+                                    <li>Who can act</li>
+                                    <li>What incentives shape the flow</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="text-center text-gray-400 text-sm mt-8 max-w-2xl mx-auto">
+                            This unified structural view allows us to generate insights that traditional disciplines cannot see.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Unique & Question -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                    <div class="lg:col-span-1 glass-panel p-8">
+                        <h4 class="font-display text-lg text-white mb-4">Why SLI Lab Is Unique</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">
+                            Most research institutions specialize in one domain (economics, policy, AI, finance, sociology, systems engineering). SLI Lab does not separate them.
+                        </p>
+                        <p class="text-xs text-gray-300 mb-4">
+                            We look at the structural blueprint behind all of them — the <span class="text-white">"source code"</span> of institutional reality.
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            This cross-domain structural intelligence is what enables new analytical frameworks, system-level innovation, better governance design, safer AI architecture, and more transparent financial infrastructure.
+                        </p>
+                    </div>
+                    
+                    <div class="lg:col-span-2 glass-panel p-8 border-t-2 border-t-cyan-500">
+                        <h4 class="font-display text-lg text-cyan-300 mb-4">Our Guiding Question</h4>
+                        <p class="text-xl text-white font-light leading-relaxed italic">
+                            "What structural form allows value, intelligence, and governance to move freely, safely, and transparently across human and digital systems?"
+                        </p>
+                        <p class="text-xs text-gray-500 mt-6">
+                            We pursue this question through theory, frameworks, institutional briefs, and conceptual models — always with the goal of supporting a more transparent, adaptive, and structurally sound global future.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PROJECTS PAGE -->
+            <div id="page-projects" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                 <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">RESEARCH PROJECTS</h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Full Public Version</p>
+                    <div class="glass-panel p-6 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
+                        <p class="text-gray-300 leading-relaxed font-light text-sm">
+                            Below is the complete list of concept-level, non-confidential research projects carried out by SLI Lab. These projects cover cognitive models, public systems, interoperability, and institutional design.
+                        </p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+                    <!-- 01. Cognitive Liquidity -->
+                    <div class="glass-panel p-6 border-t-2 border-t-blue-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-blue-300">01. Cognitive Liquidity</h3>
+                            <span class="text-[9px] font-mono border border-blue-500/30 text-blue-400 px-2 py-1 rounded">Research</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A conceptual framework studying how memory, reasoning, and knowledge flow within humans, institutions, and AI systems.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-blue-400">Problem:</strong> AI and institutions lack interpretable, shared reasoning structures.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-blue-400">Impact:</strong> Blueprints for cognition that enable oversight, transparency, and safe coordination.</div>
+                        </div>
+                    </div>
+
+                    <!-- 02. Public System Mapping -->
+                    <div class="glass-panel p-6 border-t-2 border-t-purple-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-purple-300">02. Public System Mapping</h3>
+                            <span class="text-[9px] font-mono border border-purple-500/30 text-purple-400 px-2 py-1 rounded">Drafting</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A structural framework to identify bottlenecks in value, information, and decision flows across ministries and public infrastructure.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-purple-400">Problem:</strong> Administrative friction reduces execution speed and policy impact.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-purple-400">Impact:</strong> Improved government efficiency and inter-agency coordination.</div>
+                        </div>
+                    </div>
+
+                    <!-- 03. Digital Interoperability -->
+                    <div class="glass-panel p-6 border-t-2 border-t-green-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-green-300">03. Digital Interoperability</h3>
+                            <span class="text-[9px] font-mono border border-green-500/30 text-green-400 px-2 py-1 rounded">Research</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">High-level frameworks for how stablecoins, CBDCs, and tokenized assets can interoperate structurally across borders.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-green-400">Problem:</strong> Digital value systems remain siloed and non-coordinated.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-green-400">Impact:</strong> Enables global liquidity and cross-national cooperation.</div>
+                        </div>
+                    </div>
+
+                    <!-- 04. Transparent AI Memory -->
+                    <div class="glass-panel p-6 border-t-2 border-t-yellow-400 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-yellow-300">04. Transparent AI Memory</h3>
+                            <span class="text-[9px] font-mono border border-yellow-400/30 text-yellow-400 px-2 py-1 rounded">Concept</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A conceptual model for AI systems with transparent, auditable memory and reasoning.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-400">Problem:</strong> AI remains a black box with no structural accountability.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-400">Impact:</strong> Governance-friendly AI architecture for public and institutional use.</div>
+                        </div>
+                    </div>
+
+                    <!-- 05. Coordination Patterns -->
+                    <div class="glass-panel p-6 border-t-2 border-t-orange-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-orange-300">05. Coordination Patterns</h3>
+                            <span class="text-[9px] font-mono border border-orange-500/30 text-orange-400 px-2 py-1 rounded">Research</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">Structural models of how ministries, corporations, and institutions coordinate across boundaries.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-orange-400">Problem:</strong> Coordination capacity lags behind system complexity.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-orange-400">Impact:</strong> Faster cross-sector workflows and improved policy delivery.</div>
+                        </div>
+                    </div>
+
+                    <!-- 06. Multi-Axis Framework -->
+                    <div class="glass-panel p-6 border-t-2 border-t-red-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-red-300">06. Multi-Axis Framework</h3>
+                            <span class="text-[9px] font-mono border border-red-500/30 text-red-400 px-2 py-1 rounded">Writing</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A structural analysis framework that extends beyond traditional SWOT/PEST by capturing multi-axis system dynamics.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-red-400">Problem:</strong> Existing frameworks oversimplify real-world complexity.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-red-400">Impact:</strong> Sharper strategic insight for governments and enterprises.</div>
+                        </div>
+                    </div>
+
+                    <!-- 07. Financial Failure Modes -->
+                    <div class="glass-panel p-6 border-t-2 border-t-amber-700 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-amber-500">07. Financial Failure Modes</h3>
+                            <span class="text-[9px] font-mono border border-amber-700/30 text-amber-600 px-2 py-1 rounded">Research</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A taxonomy of structural failure modes in financial systems: incentive gaps, opacity, misaligned flows.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-amber-600">Problem:</strong> Crises originate from structural design, not volatility.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-amber-600">Impact:</strong> Tools for crisis prevention and systemic risk reduction.</div>
+                        </div>
+                    </div>
+
+                    <!-- 08. Regulatory Liquidity -->
+                    <div class="glass-panel p-6 border-t-2 border-t-gray-400 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-gray-300">08. Regulatory Liquidity</h3>
+                            <span class="text-[9px] font-mono border border-gray-400/30 text-gray-400 px-2 py-1 rounded">Concept</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A model analyzing how regulatory structures affect economic speed, innovation, and compliance flow.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-gray-300">Problem:</strong> Regulation is viewed as binary rather than fluid.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-gray-300">Impact:</strong> Reduction of regulatory friction while maintaining oversight.</div>
+                        </div>
+                    </div>
+
+                    <!-- 09. Global Value Flow -->
+                    <div class="glass-panel p-6 border-t-2 border-t-emerald-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-emerald-400">09. Global Value Flow</h3>
+                            <span class="text-[9px] font-mono border border-emerald-500/30 text-emerald-400 px-2 py-1 rounded">Writing</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">High-level structural architecture for enabling frictionless cross-border digital value movement.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-emerald-400">Problem:</strong> Global value flow is fragmented and opaque.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-emerald-400">Impact:</strong> Improves international policy alignment and infrastructure.</div>
+                        </div>
+                    </div>
+
+                    <!-- 10. Human-AI Symbiosis -->
+                    <div class="glass-panel p-6 border-t-2 border-t-fuchsia-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-fuchsia-400">10. Human-AI Symbiosis</h3>
+                            <span class="text-[9px] font-mono border border-fuchsia-500/30 text-fuchsia-400 px-2 py-1 rounded">Research</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A conceptual framework on how humans and AI can share reasoning while preserving human agency.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-fuchsia-400">Problem:</strong> AI automates tasks without protecting responsibility.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-fuchsia-400">Impact:</strong> Ethical and functional human-AI collaboration.</div>
+                        </div>
+                    </div>
+
+                    <!-- 11. Organizational Memory Systems -->
+                    <div class="glass-panel p-6 border-t-2 border-t-stone-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-stone-400">11. Organizational Memory</h3>
+                            <span class="text-[9px] font-mono border border-stone-500/30 text-stone-400 px-2 py-1 rounded">Drafting</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A structural model for preserving institutional memory with traceability.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-stone-400">Problem:</strong> Organizations forget faster than they learn.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-stone-400">Impact:</strong> Stabilizes long-term governance and decision continuity.</div>
+                        </div>
+                    </div>
+
+                    <!-- 12. Liquidity Policy Design -->
+                    <div class="glass-panel p-6 border-t-2 border-t-rose-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-rose-400">12. Liquidity Policy Design</h3>
+                            <span class="text-[9px] font-mono border border-rose-500/30 text-rose-400 px-2 py-1 rounded">Early Research</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A policy framework that treats legislation as a dynamic flow system, not a static rulebook.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-rose-400">Problem:</strong> Policies restrict flow instead of enabling adaptability.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-rose-400">Impact:</strong> More flexible, responsive governance models.</div>
+                        </div>
+                    </div>
+
+                    <!-- 13. Public-Private Interoperability -->
+                    <div class="glass-panel p-6 border-t-2 border-t-sky-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-sky-400">13. Public-Private Interop</h3>
+                            <span class="text-[9px] font-mono border border-sky-500/30 text-sky-400 px-2 py-1 rounded">Research</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">Models describing how governments and private-sector systems exchange authority, value, and trust.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-sky-400">Problem:</strong> Silos create unnecessary friction.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-sky-400">Impact:</strong> Unified digital trust across sectors.</div>
+                        </div>
+                    </div>
+
+                    <!-- 14. Structural Integrity in Digital Finance -->
+                    <div class="glass-panel p-6 border-t-2 border-t-orange-600 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-orange-500">14. Structural Integrity</h3>
+                            <span class="text-[9px] font-mono border border-orange-600/30 text-orange-500 px-2 py-1 rounded">Draft</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A conceptual study on how digital financial ecosystems maintain resilience and trust.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-orange-500">Problem:</strong> Lack of shared standards for digital integrity.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-orange-500">Impact:</strong> Reduced systemic fragility in digital economies.</div>
+                        </div>
+                    </div>
+
+                    <!-- 15. National Strategy Architecture -->
+                    <div class="glass-panel p-6 border-t-2 border-t-yellow-800 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-yellow-700">15. National Strategy</h3>
+                            <span class="text-[9px] font-mono border border-yellow-800/30 text-yellow-700 px-2 py-1 rounded">Concept</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">Research on how countries structure data, intelligence, and strategic memory.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-700">Problem:</strong> National strategies lack coherent cognitive systems.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-700">Impact:</strong> Better long-term planning across ministries.</div>
+                        </div>
+                    </div>
+
+                    <!-- 16. Multi-Value Mapping -->
+                    <div class="glass-panel p-6 border-t-2 border-t-cyan-600 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-cyan-400">16. Multi-Value Mapping</h3>
+                            <span class="text-[9px] font-mono border border-cyan-600/30 text-cyan-500 px-2 py-1 rounded">Draft</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">Structural interoperability study across value types (Stablecoin, CBDC, RWA).</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-cyan-500">Problem:</strong> Value categories evolve in isolation.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-cyan-500">Impact:</strong> Policy-ready structural interoperability frameworks.</div>
+                        </div>
+                    </div>
+
+                    <!-- 17. Institutional Friction Index (IFI) -->
+                    <div class="glass-panel p-6 border-t-2 border-t-yellow-500 hover:bg-white/5 transition-colors flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-lg text-yellow-400">17. Friction Index (IFI)</h3>
+                            <span class="text-[9px] font-mono border border-yellow-500/30 text-yellow-500 px-2 py-1 rounded">Early Research</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A conceptual metric for measuring friction across decision, value, and information flows.</p>
+                        <div class="space-y-2 pt-3 border-t border-white/5">
+                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-500">Problem:</strong> No standard measure of institutional inefficiency.</div>
+                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-500">Impact:</strong> Provides a quantified basis for reform.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PUBLICATIONS PAGE -->
+            <div id="page-publications" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                 <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">PUBLICATIONS</h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Research Papers, Frameworks & Institutional Essays</p>
+                    <div class="glass-panel p-6 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
+                        <p class="text-gray-300 leading-relaxed font-light text-sm mb-4">
+                            SLI Lab publishes conceptual research exploring how value, information, decisions, institutions, and intelligence flow across modern systems. All publications follow these principles:
+                        </p>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-400 font-mono">
+                            <li class="flex gap-2 items-center"><span class="w-1 h-1 bg-cyan-400 rounded-full"></span> Concept-level only (no implementation)</li>
+                            <li class="flex gap-2 items-center"><span class="w-1 h-1 bg-cyan-400 rounded-full"></span> Safe for public/gov readership</li>
+                            <li class="flex gap-2 items-center"><span class="w-1 h-1 bg-cyan-400 rounded-full"></span> Independent from proprietary mechanisms</li>
+                            <li class="flex gap-2 items-center"><span class="w-1 h-1 bg-cyan-400 rounded-full"></span> Designed for intellectual authority</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                    <div class="glass-panel p-8 border-t-2 border-t-blue-500 hover:bg-white/5 transition-colors">
+                        <h3 class="font-display text-2xl text-blue-300 mb-2">01. Research Papers</h3>
+                        <p class="text-gray-400 text-xs mb-4">What Is Structural Liquidity? • The Six-Axis Liquidity Framework • Designing Non-Custodial Public Infrastructure</p>
+                    </div>
+                    <div class="glass-panel p-8 border-t-2 border-t-purple-500 hover:bg-white/5 transition-colors">
+                        <h3 class="font-display text-2xl text-purple-300 mb-2">02. Opinion Essays</h3>
+                        <p class="text-gray-400 text-xs mb-4">The Future of Structural Intelligence • Why Global Systems Fail • Institutional Intelligence</p>
+                    </div>
+                    <div class="glass-panel p-8 border-t-2 border-t-green-500 hover:bg-white/5 transition-colors">
+                        <h3 class="font-display text-2xl text-green-300 mb-2">03. Institutional Briefs</h3>
+                        <p class="text-gray-400 text-xs mb-4">Structural Liquidity in Public Systems • Multi-Axis Analysis for Institutional Reform</p>
+                    </div>
+                    <div class="glass-panel p-8 border-t-2 border-t-orange-500 hover:bg-white/5 transition-colors">
+                        <h3 class="font-display text-2xl text-orange-300 mb-2">04. Government Whitepapers</h3>
+                        <p class="text-gray-400 text-xs mb-4">Value Interoperability in Public Finance • Designing Transparent Digital Programs</p>
+                    </div>
+                </div>
+                 <!-- 5. Framework Introductions (Yellow - Full Width) -->
+                <div class="glass-panel p-8 border-t-2 border-t-yellow-500 hover:bg-white/5 transition-colors mb-16">
+                    <h3 class="font-display text-2xl text-yellow-300 mb-2">05. Framework Introductions</h3>
+                    <p class="text-xs text-gray-500 font-mono mb-6 uppercase tracking-widest">Foundational Models</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                         <div>
+                            <h4 class="text-white font-bold text-sm mb-1">The Six-Axis Liquidity Framework</h4>
+                            <p class="text-gray-400 text-xs leading-relaxed">Our primary structural lens.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm mb-1">Multi-Axis Structural Thinking</h4>
+                            <p class="text-gray-400 text-xs leading-relaxed">A next-generation analytical framework that extends beyond classic management tools.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm mb-1">Value / Information / Decision Flow Models</h4>
+                            <p class="text-gray-400 text-xs leading-relaxed">Conceptual tools for diagnosing bottlenecks in organizations and institutions.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm mb-1">Institutional Pattern Mapping</h4>
+                            <p class="text-gray-400 text-xs leading-relaxed">A comparative analysis of recurring structural patterns across public and private systems.</p>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Footer Section: Purpose -->
+                <div class="text-center max-w-2xl mx-auto border-t border-gray-800 pt-12 pb-8">
+                    <h3 class="font-display text-2xl text-white mb-8">PURPOSE OF THIS SECTION</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                        <div>
+                            <div class="text-cyan-400 font-mono text-xs mb-2 uppercase">Thought Leadership</div>
+                            <p class="text-gray-400 text-xs">Establish SLI Lab as a global home for structural intelligence and innovation.</p>
+                        </div>
+                        <div>
+                            <div class="text-cyan-400 font-mono text-xs mb-2 uppercase">Attract Talent</div>
+                            <p class="text-gray-400 text-xs">Attract researchers and practitioners who want to join labs that publish original frameworks.</p>
+                        </div>
+                        <div>
+                            <div class="text-cyan-400 font-mono text-xs mb-2 uppercase">Public Foundation</div>
+                            <p class="text-gray-400 text-xs">Create an intellectual foundation independent from commercial mechanisms.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MISSION PAGE -->
+            <div id="page-mission" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">MISSION & VISION</h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">FOUNDER EDITION</p>
+                </div>
+
+                <!-- OUR MISSION -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span> OUR MISSION
+                    </h3>
+                    <div class="glass-panel p-8 border-l-4 border-l-cyan-500 max-w-4xl">
+                        <p class="text-gray-300 leading-relaxed font-light text-lg mb-4">
+                            SLI Lab exists to understand and redesign the structural logic that governs value, information, organizations, and intelligence in the digital age.
+                        </p>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Our mission is to create transparent, scalable, human-aligned systems that allow societies, institutions, and technologies to operate with higher liquidity—meaning faster, safer, and more adaptable flows of value, decisions, knowledge, and coordination.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- THE VISION -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span> THE VISION
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
+                            <div class="font-mono text-3xl text-cyan-400 mb-3">01</div>
+                            <p class="text-gray-300 text-sm">Reveal hidden structures shaping economic & social systems.</p>
+                        </div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
+                            <div class="font-mono text-3xl text-cyan-400 mb-3">02</div>
+                            <p class="text-gray-300 text-sm">Provide analytical frameworks transcending traditional silos.</p>
+                        </div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
+                            <div class="font-mono text-3xl text-cyan-400 mb-3">03</div>
+                            <p class="text-gray-300 text-sm">Enable governments to design safer, adaptive digital infrastructures.</p>
+                        </div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
+                            <div class="font-mono text-3xl text-cyan-400 mb-3">04</div>
+                            <p class="text-gray-300 text-sm">Advance a paradigm where structure + liquidity are core tools.</p>
+                        </div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
+                            <div class="font-mono text-3xl text-cyan-400 mb-3">05</div>
+                            <p class="text-gray-300 text-sm">Build bridges between academia, industry, and public institutions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STRUCTURAL PROBLEMS WE STUDY -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span> STRUCTURAL PROBLEMS WE STUDY
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
+                            <h4 class="font-display text-lg text-white mb-3">Fragmented Infrastructure</h4>
+                            <p class="text-gray-400 text-sm">Different asset classes and regulations operate in isolation, limiting global interoperability.</p>
+                        </div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
+                            <h4 class="font-display text-lg text-white mb-3">Institutional Slow-Flow</h4>
+                            <p class="text-gray-400 text-sm">Legacy architectures in governments and banks cannot adapt to modern speed.</p>
+                        </div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
+                            <h4 class="font-display text-lg text-white mb-3">Cognitive Bottlenecks</h4>
+                            <p class="text-gray-400 text-sm">AI and humans operate on different timescales, creating inefficiency and risk.</p>
+                        </div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
+                            <h4 class="font-display text-lg text-white mb-3">Low-Liquidity Structures</h4>
+                            <p class="text-gray-400 text-sm">Inflexible hierarchies and opaque decision flows slow innovation.</p>
+                        </div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
+                            <h4 class="font-display text-lg text-white mb-3">Non-Transparent Systems</h4>
+                            <p class="text-gray-400 text-sm">Users struggle to understand how digital systems behave, leading to misalignment and mistrust.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STRUCTURE + LIQUIDITY GRID -->
+                <div class="mb-16">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="glass-panel p-8 border-t-2 border-t-blue-500">
+                            <h3 class="font-display text-2xl text-blue-300 mb-4">STRUCTURE</h3>
+                            <p class="text-xs text-gray-500 uppercase mb-6">THE DEEP ARCHITECTURE</p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-gray-300 text-sm">Rules</div>
+                                <div class="text-gray-300 text-sm">Flows</div>
+                                <div class="text-gray-300 text-sm">Constraints</div>
+                                <div class="text-gray-300 text-sm">Hierarchies</div>
+                                <div class="text-gray-300 text-sm">Interfaces</div>
+                                <div class="text-gray-300 text-sm">Memory</div>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-8 border-t-2 border-t-yellow-500">
+                            <h3 class="font-display text-2xl text-yellow-300 mb-4">LIQUIDITY</h3>
+                            <p class="text-xs text-gray-500 uppercase mb-6">THE EASE OF MOVEMENT</p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-gray-300 text-sm">Value</div>
+                                <div class="text-gray-300 text-sm">Information</div>
+                                <div class="text-gray-300 text-sm">Decisions</div>
+                                <div class="text-gray-300 text-sm">Rights</div>
+                                <div class="text-gray-300 text-sm">Agency</div>
+                                <div class="text-gray-300 text-sm">Intelligence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LONG-TERM SOCIETAL VALUE -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span> LONG-TERM SOCIETAL VALUE
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-8">SLI Lab contributes to society in four major ways:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="glass-panel p-8 border-l-2 border-l-green-500">
+                            <h4 class="font-display text-xl text-green-300 mb-4">1. Safer Infrastructures</h4>
+                            <p class="text-gray-400 text-sm">By developing structural frameworks, we help governments and institutions evaluate and design future-proof systems.</p>
+                        </div>
+                        <div class="glass-panel p-8 border-l-2 border-l-blue-500">
+                            <h4 class="font-display text-xl text-blue-300 mb-4">2. Higher Transparency</h4>
+                            <p class="text-gray-400 text-sm">SLI models make complex processes observable, understandable, and auditable across critical systems.</p>
+                        </div>
+                        <div class="glass-panel p-8 border-l-2 border-l-purple-500">
+                            <h4 class="font-display text-xl text-purple-300 mb-4">3. AI-Society Alignment</h4>
+                            <p class="text-gray-400 text-sm">Our work on cognitive liquidity and structural safety contributes to responsible AI-human coordination.</p>
+                        </div>
+                        <div class="glass-panel p-8 border-l-2 border-l-orange-500">
+                            <h4 class="font-display text-xl text-orange-300 mb-4">4. New Structural Thinkers</h4>
+                            <p class="text-gray-400 text-sm">Through research and collaborations, SLI Lab cultivates talent capable of solving the next era of systemic challenges.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INNOVATION PHILOSOPHY -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-yellow-500"></span> INNOVATION PHILOSOPHY
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
+                            <div class="flex items-start gap-4">
+                                <div class="font-mono text-2xl text-cyan-400 shrink-0">01</div>
+                                <div>
+                                    <h4 class="font-display text-white text-lg mb-2">Structure precedes behavior</h4>
+                                    <p class="text-gray-400 text-sm">Systems do what they are designed to do—Not what we wish they would do.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
+                            <div class="flex items-start gap-4">
+                                <div class="font-mono text-2xl text-cyan-400 shrink-0">02</div>
+                                <div>
+                                    <h4 class="font-display text-white text-lg mb-2">Liquidity determines adaptability</h4>
+                                    <p class="text-gray-400 text-sm">Systems with higher liquidity respond faster, fail more gracefully, and innovate more naturally.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
+                            <div class="flex items-start gap-4">
+                                <div class="font-mono text-2xl text-cyan-400 shrink-0">03</div>
+                                <div>
+                                    <h4 class="font-display text-white text-lg mb-2">Transparency reduces systemic risk</h4>
+                                    <p class="text-gray-400 text-sm">Hidden structures fail silently. Visible structures evolve intelligently.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
+                            <div class="flex items-start gap-4">
+                                <div class="font-mono text-2xl text-cyan-400 shrink-0">04</div>
+                                <div>
+                                    <h4 class="font-display text-white text-lg mb-2">Interdisciplinarity is the new frontier</h4>
+                                    <p class="text-gray-400 text-sm">The biggest breakthroughs emerge between disciplines, not within them.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
+                            <div class="flex items-start gap-4">
+                                <div class="font-mono text-2xl text-cyan-400 shrink-0">05</div>
+                                <div>
+                                    <h4 class="font-display text-white text-lg mb-2">Innovation must be structural, not cosmetic</h4>
+                                    <p class="text-gray-400 text-sm">Real progress is not a "feature." It is the redesign of the system that makes all future features possible.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FRAMEWORKS PAGE (NEW) -->
+            <div id="page-frameworks" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">FRAMEWORK LIBRARY</h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Public Conceptual Frameworks</p>
+                    <div class="glass-panel p-6 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
+                        <p class="text-gray-300 leading-relaxed font-light text-sm">
+                            These frameworks represent the foundational intellectual tools developed at SLI Lab. They are conceptual, non-technical, and safe for open publication.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                    <!-- 1. Six Liquidity Axes -->
+                    <div class="glass-panel p-8 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-2xl text-cyan-300">01. The Six Liquidity Axes</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">Unified Lens for Structural Flow</p>
+                        <p class="text-gray-300 text-sm mb-6">A model that decomposes societal systems into six distinct forms of liquidity — the “speed and ease of flow” across different layers.</p>
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-400 font-mono mb-6">
+                            <li>• Value Liquidity</li>
+                            <li>• Information Liquidity</li>
+                            <li>• Decision Liquidity</li>
+                            <li>• Organizational Liquidity</li>
+                            <li>• Regulatory Liquidity</li>
+                            <li>• Cognitive Liquidity</li>
+                        </ul>
+                        <div class="border-t border-white/10 pt-4 mt-4">
+                            <p class="text-xs text-gray-500 mb-1"><strong class="text-white">Why It Matters:</strong> Most failures come from friction in one or more axes.</p>
+                            <p class="text-xs text-gray-500"><strong class="text-white">Applications:</strong> Policy design, AI architecture, governance.</p>
+                        </div>
+                    </div>
+
+                    <!-- 2. Multi-Axis Structural Framework -->
+                    <div class="glass-panel p-8 hover:bg-white/5 transition-colors border-t-2 border-t-purple-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-2xl text-purple-300">02. Multi-Axis Framework</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">Beyond SWOT & PEST</p>
+                        <p class="text-gray-300 text-sm mb-6">A conceptual tool for analyzing systems across multiple structural dimensions simultaneously, instead of single-axis frameworks.</p>
+                        <div class="border-l-2 border-purple-500/30 pl-4 mb-6">
+                            <p class="text-xs text-gray-400 italic">"How do complex systems behave when multiple structural pressures interact at once?"</p>
+                        </div>
+                        <div class="border-t border-white/10 pt-4 mt-4">
+                            <p class="text-xs text-gray-500 mb-1"><strong class="text-white">Why It Matters:</strong> Real-world problems are multi-dimensional and nonlinear.</p>
+                            <p class="text-xs text-gray-500"><strong class="text-white">Applications:</strong> Institutional strategy, risk modeling.</p>
+                        </div>
+                    </div>
+
+                    <!-- 3. Cognitive Liquidity Model -->
+                    <div class="glass-panel p-8 hover:bg-white/5 transition-colors border-t-2 border-t-blue-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-2xl text-blue-300">03. Cognitive Liquidity Model</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">AI & Institutional Cognition</p>
+                        <p class="text-gray-300 text-sm mb-6">A high-level model describing how cognition (human or machine) maintains transparency, coherence, and continuity across time.</p>
+                        <div class="border-l-2 border-blue-500/30 pl-4 mb-6">
+                            <p class="text-xs text-gray-400 italic">"How can intelligent systems store and retrieve knowledge without losing interpretability?"</p>
+                        </div>
+                        <div class="border-t border-white/10 pt-4 mt-4">
+                            <p class="text-xs text-gray-500 mb-1"><strong class="text-white">Why It Matters:</strong> AI is structurally opaque; institutions are cognitively slow.</p>
+                            <p class="text-xs text-gray-500"><strong class="text-white">Applications:</strong> AI governance, explainability.</p>
+                        </div>
+                    </div>
+
+                    <!-- 4. Structural Failure Patterns -->
+                    <div class="glass-panel p-8 hover:bg-white/5 transition-colors border-t-2 border-t-red-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-2xl text-red-300">04. Structural Failure Patterns</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">Taxonomy of System Collapse</p>
+                        <p class="text-gray-300 text-sm mb-6">A classification of recurrent failure modes across financial systems, public governance, and AI ecosystems.</p>
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-400 font-mono mb-6">
+                            <li>• Bottleneck decomposition</li>
+                            <li>• Coordination collapse</li>
+                            <li>• Incentive mismatch</li>
+                            <li>• Velocity asymmetry</li>
+                        </ul>
+                        <div class="border-t border-white/10 pt-4 mt-4">
+                            <p class="text-xs text-gray-500 mb-1"><strong class="text-white">Why It Matters:</strong> Allows preventative architecture rather than reactive fixes.</p>
+                            <p class="text-xs text-gray-500"><strong class="text-white">Applications:</strong> Risk management, crisis prediction.</p>
+                        </div>
+                    </div>
+
+                    <!-- 5. Institutional Design Patterns -->
+                    <div class="glass-panel p-8 hover:bg-white/5 transition-colors border-t-2 border-t-green-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-2xl text-green-300">05. Institutional Design Patterns</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">Reusable Templates</p>
+                        <p class="text-gray-300 text-sm mb-6">A library of conceptual "design templates" for institutions, similar to software engineering patterns.</p>
+                        <ul class="grid grid-cols-1 gap-2 text-xs text-gray-400 font-mono mb-6">
+                            <li>• Transparent execution layers</li>
+                            <li>• Non-hierarchical memory structures</li>
+                            <li>• Accountability-first governance flows</li>
+                        </ul>
+                        <div class="border-t border-white/10 pt-4 mt-4">
+                            <p class="text-xs text-gray-500 mb-1"><strong class="text-white">Why It Matters:</strong> Institutions need blueprints to adopt technology safely.</p>
+                            <p class="text-xs text-gray-500"><strong class="text-white">Applications:</strong> Public infrastructure, central bank pilots.</p>
+                        </div>
+                    </div>
+
+                    <!-- 6. Non-Custodial Alignment Models -->
+                    <div class="glass-panel p-8 hover:bg-white/5 transition-colors border-t-2 border-t-orange-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-display text-2xl text-orange-300">06. Non-Custodial Alignment</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">Wallet-to-Wallet Execution</p>
+                        <p class="text-gray-300 text-sm mb-6">Conceptual models explaining how systems can execute transactions without holding assets, maintaining neutrality and compliance.</p>
+                        <ul class="grid grid-cols-1 gap-2 text-xs text-gray-400 font-mono mb-6">
+                            <li>• Compliance alignment without custody</li>
+                            <li>• Regulatory visibility layers</li>
+                            <li>• Risk segregation models</li>
+                        </ul>
+                        <div class="border-t border-white/10 pt-4 mt-4">
+                            <p class="text-xs text-gray-500 mb-1"><strong class="text-white">Why It Matters:</strong> Essential for safe public infrastructure like Lendler.</p>
+                            <p class="text-xs text-gray-500"><strong class="text-white">Applications:</strong> CBDC pilots, digital payments.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center max-w-2xl mx-auto border-t border-gray-800 pt-12">
+                    <h3 class="font-display text-2xl text-white mb-4">USAGE</h3>
+                    <p class="text-gray-400 text-sm mb-6">
+                        These frameworks are intended for universities, government agencies, financial institutions, and AI governance bodies.
+                    </p>
+                    <p class="text-cyan-400 font-mono text-xs tracking-widest uppercase">
+                        Safe for publication • Strengthening Academic Reputation
+                    </p>
+                </div>
+            </div>
+
+            <!-- FELLOWS PAGE -->
+            <div id="page-fellows" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">FELLOWS & CONTRIBUTORS</h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Global Research Initiative</p>
+                    <div class="glass-panel p-6 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
+                        <p class="text-gray-300 leading-relaxed font-light text-sm">
+                            SLI Lab welcomes thinkers, researchers, analysts, and innovators who are interested in structural intelligence, liquidity systems, and next-generation institutional design.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Current Members -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span> CURRENT MEMBERS
+                    </h3>
+                    <div class="glass-panel p-8 border-t-2 border-t-cyan-500">
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                            <div class="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center border border-gray-700">
+                                <span class="font-display text-2xl text-gray-500">SA</span>
+                            </div>
+                            <div>
+                                <h4 class="font-display text-xl text-white mb-1">SHOTA AOYAMA</h4>
+                                <p class="font-mono text-xs text-cyan-400 uppercase tracking-widest mb-4">Founder & Principal Researcher</p>
+                                <p class="text-gray-400 text-sm mb-4 leading-relaxed max-w-2xl">
+                                    Leading research on structural architectures across financial and public systems, liquidity dynamics beyond traditional finance, and cognitive liquidity.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">Institutional Systems</span>
+                                    <span class="px-2 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">Digital Infrastructure</span>
+                                    <span class="px-2 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">Cognitive Liquidity</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visiting & Advisors Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                    <!-- Visiting -->
+                    <div class="glass-panel p-8 border-t-2 border-t-gray-600 hover:bg-white/5 transition-colors">
+                        <h4 class="font-display text-xl text-gray-200 mb-4">Visiting Researchers</h4>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">(To be announced)</p>
+                        <p class="text-gray-400 text-sm mb-6">SLI Lab will open opportunities for short-term visiting fellows, cross-institutional collaborations, and joint research.</p>
+                        <ul class="space-y-2 text-xs text-gray-500 font-mono">
+                            <li>+ Academic Departments</li>
+                            <li>+ AI & Blockchain Sectors</li>
+                            <li>+ Public Policy Experts</li>
+                        </ul>
+                    </div>
+                    <!-- Advisors -->
+                    <div class="glass-panel p-8 border-t-2 border-t-gray-600 hover:bg-white/5 transition-colors">
+                        <h4 class="font-display text-xl text-gray-200 mb-4">Advisors</h4>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">(Coming Soon)</p>
+                        <p class="text-gray-400 text-sm mb-6">Developing an advisory circle to help shape research direction and support cross-industry dialogue.</p>
+                        <ul class="space-y-2 text-xs text-gray-500 font-mono">
+                            <li>+ Senior Technical Experts</li>
+                            <li>+ Institutional Practitioners</li>
+                            <li>+ Systems Design Academics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Open Invitations -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-yellow-500"></span> OPEN INVITATIONS
+                    </h3>
+                    <div class="glass-panel p-8 border border-yellow-500/20 bg-yellow-900/5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10">
+                            <span class="font-display text-9xl text-yellow-500 font-bold">OPEN</span>
+                        </div>
+                        <div class="relative z-10">
+                            <h4 class="font-display text-xl text-yellow-400 mb-2">SLI Research Fellowship</h4>
+                            <p class="font-mono text-xs text-yellow-600 uppercase tracking-widest mb-6">Opening Soon</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                                <div>
+                                    <p class="text-gray-300 text-sm mb-4 font-bold">Who We Welcome:</p>
+                                    <ul class="space-y-1 text-sm text-gray-400">
+                                        <li>• Systems Thinkers</li>
+                                        <li>• AI/ML Researchers</li>
+                                        <li>• Digital-Asset Specialists</li>
+                                        <li>• Policy Experts</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p class="text-gray-300 text-sm mb-4 font-bold">Focus Areas:</p>
+                                    <ul class="space-y-1 text-sm text-gray-400">
+                                        <li>• Structural Analysis Models</li>
+                                        <li>• Liquidity Frameworks</li>
+                                        <li>• Public-Systems Research</li>
+                                        <li>• Cognitive Liquidity Theory</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="border-t border-white/10 pt-6">
+                                <p class="text-sm text-gray-300 mb-2">How to Express Interest:</p>
+                                <p class="text-sm text-cyan-400 font-mono">📩 research@slilab.org <span class="text-gray-600 text-xs ml-2">(Placeholder)</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Join Network Footer -->
+                <div class="text-center max-w-2xl mx-auto border-t border-gray-800 pt-12">
+                    <h3 class="font-display text-2xl text-white mb-4">JOIN THE NETWORK</h3>
+                    <p class="text-gray-400 text-sm mb-6">
+                        SLI Lab aims to cultivate a global research community focused on understanding and redesigning the structures that shape modern institutions.
+                    </p>
+                    <p class="text-cyan-400 font-mono text-xs tracking-widest uppercase">
+                        We welcome early conversations with potential fellows & collaborators.
+                    </p>
+                </div>
+            </div>
+
+            <!-- JOIN PAGE -->
+            <div id="page-join" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">APPLY / JOIN</h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Building an International Research Community</p>
+                    <div class="glass-panel p-6 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
+                        <p class="text-gray-300 leading-relaxed font-light text-sm mb-4">
+                            SLI Lab welcomes individuals and institutions who want to participate in conceptual research, frameworks, publications, or collaborative projects.
+                        </p>
+                        <p class="text-gray-400 text-xs font-mono">
+                            You do not need to be an academic. You do not need prior affiliation. You only need curiosity, discipline, and a desire to understand complex systems at a structural level.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Who Can Join Grid -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4"><span class="w-8 h-[1px] bg-cyan-500"></span> WHO CAN JOIN?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t border-white/10"><h4 class="font-display text-lg text-cyan-300 mb-2">Researchers</h4><p class="text-gray-400 text-xs">Contribute to theoretical models and conceptual frameworks.</p></div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t border-white/10"><h4 class="font-display text-lg text-cyan-300 mb-2">Engineers</h4><p class="text-gray-400 text-xs">Support technical perspectives for structural models.</p></div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t border-white/10"><h4 class="font-display text-lg text-cyan-300 mb-2">Writers</h4><p class="text-gray-400 text-xs">Help translate complex ideas into clear publications.</p></div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t border-white/10 md:col-span-1.5"><h4 class="font-display text-lg text-cyan-300 mb-2">Policy Analysts</h4><p class="text-gray-400 text-xs">Collaborate on frameworks related to governance and public systems.</p></div>
+                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t border-white/10 md:col-span-1.5"><h4 class="font-display text-lg text-cyan-300 mb-2">Institutional Partners</h4><p class="text-gray-400 text-xs">Explore co-research, policy briefs, and advisory projects.</p></div>
+                    </div>
+                </div>
+
+                <!-- Participation & Contribution -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                    <div class="glass-panel p-8 border-l-2 border-l-purple-500">
+                        <h3 class="font-display text-xl text-purple-300 mb-6">How Participation Works</h3>
+                        <ul class="space-y-3 text-sm text-gray-300 font-mono">
+                            <li class="flex gap-3"><span class="text-purple-500">→</span> Access to open research discussions</li>
+                            <li class="flex gap-3"><span class="text-purple-500">→</span> Participation in selected conceptual projects</li>
+                            <li class="flex gap-3"><span class="text-purple-500">→</span> Contribution to non-confidential frameworks</li>
+                            <li class="flex gap-3"><span class="text-purple-500">→</span> Optional collaboration on institutional briefs</li>
+                        </ul>
+                        <p class="mt-6 text-xs text-gray-500 border-t border-white/10 pt-4">There is no cost to join during the early research phase.</p>
+                    </div>
+
+                    <div class="glass-panel p-8 border-l-2 border-l-green-500">
+                        <h3 class="font-display text-xl text-green-300 mb-6">What Members Can Contribute</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/5 text-xs text-gray-300 border border-white/10">Structural Liquidity Frameworks</span>
+                            <span class="px-3 py-1 bg-white/5 text-xs text-gray-300 border border-white/10">Multi-Axis Institutional Analysis</span>
+                            <span class="px-3 py-1 bg-white/5 text-xs text-gray-300 border border-white/10">Interoperability of Digital Value</span>
+                            <span class="px-3 py-1 bg-white/5 text-xs text-gray-300 border border-white/10">Transparent AI Memory</span>
+                            <span class="px-3 py-1 bg-white/5 text-xs text-gray-300 border border-white/10">Cognitive Liquidity Models</span>
+                        </div>
+                        <p class="mt-6 text-xs text-gray-500 border-t border-white/10 pt-4">Participation is flexible — you choose your involvement level.</p>
+                    </div>
+                </div>
+
+                <!-- How to Apply -->
+                <div class="glass-panel p-8 border border-yellow-500/30 bg-yellow-900/5 relative mb-16">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <div>
+                            <h4 class="font-display text-xl text-white mb-4">HOW TO APPLY</h4>
+                            <p class="text-gray-300 text-sm mb-6">To express interest, please submit the following information via email:</p>
+                            <ul class="space-y-4 text-sm text-gray-400 font-mono">
+                                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span> Name & Email</li>
+                                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span> Background or field</li>
+                                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span> Reason for joining (1-2 sentences)</li>
+                                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span> Optional Link (LinkedIn, Portfolio)</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-col justify-center items-center text-center border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0">
+                            <p class="text-xs text-gray-500 uppercase tracking-widest mb-4">Send Application To</p>
+                            <a href="mailto:apply@slilab.org" class="text-2xl md:text-3xl font-display text-yellow-400 hover:text-white transition-colors mb-4">apply@slilab.org</a>
+                            <p class="text-xs text-gray-600">(Placeholder — adjust when domain is final)</p>
+                            <p class="text-xs text-gray-500 mt-6">We typically respond within 5–7 days.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selection & Upcoming -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                    <div class="glass-panel p-8 col-span-1 lg:col-span-2">
+                        <h3 class="font-display text-xl text-white mb-4">Selection Philosophy</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                            <div>
+                                <p class="text-xs text-red-400 font-bold uppercase mb-2">We do not select based on:</p>
+                                <ul class="text-xs text-gray-500 space-y-1 font-mono">
+                                    <li>✕ Age or Degree</li>
+                                    <li>✕ Academic titles</li>
+                                    <li>✕ Institutional affiliation</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-xs text-green-400 font-bold uppercase mb-2">We select based on:</p>
+                                <ul class="text-xs text-gray-300 space-y-1 font-mono">
+                                    <li>✓ Clarity of thought</li>
+                                    <li>✓ Depth of curiosity</li>
+                                    <li>✓ Structural thinking ability</li>
+                                    <li>✓ Readiness to engage</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="mt-6 text-sm text-white italic">"Anyone with genuine interest can join."</p>
+                    </div>
+
+                    <div class="glass-panel p-8 border-t-2 border-t-gray-500">
+                        <h3 class="font-display text-xl text-gray-200 mb-4">Upcoming Programs</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-sm text-white font-bold mb-1">SLI Fellowship</h4>
+                                <span class="text-[10px] bg-yellow-900/30 text-yellow-500 px-2 py-0.5 rounded border border-yellow-500/20">Coming Soon</span>
+                                <p class="text-xs text-gray-500 mt-2">Structured research program with 1:1 discussions and collaborative groups.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-sm text-white font-bold mb-1">Institutional Collabs</h4>
+                                <p class="text-xs text-gray-500 mt-1">Partnerships for universities, policy bodies, and labs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer CTA -->
+                <div class="text-center max-w-2xl mx-auto border-t border-gray-800 pt-12">
+                    <h3 class="font-display text-3xl text-white mb-6">BUILD WITH US</h3>
+                    <p class="text-gray-400 text-sm mb-8 leading-relaxed">
+                        SLI Lab aims to redefine how institutions, societies, and technologies understand structure, liquidity, and intelligence. If you want to explore new analytical frameworks and future models—you belong here.
+                    </p>
+                    <button onclick="window.location.href='mailto:apply@slilab.org'" class="px-8 py-3 bg-white text-black font-display font-bold uppercase tracking-wider text-sm hover:bg-cyan-100 transition-colors clip-path-slant">
+                        Apply Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- FOUNDER PAGE -->
+            <!-- FOUNDER PAGE -->
+            <div id="page-founder" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                <div class="flex flex-col mb-12">
+                    <div class="inline-block px-3 py-1 border border-yellow-500/30 text-yellow-200 text-[10px] font-mono tracking-widest uppercase mb-4 bg-yellow-900/10 w-fit">Founder Profile</div>
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-2">SHOTA AOYAMA</h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Founder & Chief Research Architect, SLI Lab</p>
+                    <p class="font-mono text-gray-400 text-xs tracking-widest mb-8">Structural Systems & Liquidity Researcher</p>
+                    
+                    <div class="glass-panel p-8 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
+                        <p class="text-gray-300 leading-relaxed font-light text-lg mb-6">
+                            Shota is a systems architect and researcher focused on the structural foundations that govern value, information, and intelligence in modern digital societies. His work sits at the intersection of financial infrastructure, institutional design, and AI cognition.
+                        </p>
+                        <div class="border-t border-gray-700 pt-6 mt-6">
+                            <p class="text-xs text-gray-500 uppercase mb-2">Core Thesis</p>
+                            <p class="text-gray-300 italic leading-relaxed">
+                                "Most failures in finance, AI, and public governance are not caused by technology, but by structural misalignment. Fix the structure → liquidity returns → innovation becomes possible."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Founder Story -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span> FOUNDER STORY
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-8 italic">A structured journey toward Structure & Liquidity Intelligence</p>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="glass-panel p-8">
+                            <h4 class="font-display text-xl text-cyan-300 mb-4">Background</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                My work has always centered around systems — how they behave, how they break, and how people move within them. Across creative industries, technology workflows, and institutional environments, I consistently encountered the same problem: most failures are caused by structure.
+                            </p>
+                        </div>
+                        
+                        <div class="glass-panel p-8 border-t-2 border-t-cyan-500">
+                            <h4 class="font-display text-xl text-cyan-300 mb-4">Research Evolution</h4>
+                            <ul class="space-y-2 text-sm text-gray-400">
+                                <li><strong class="text-gray-300">Creative:</strong> Pattern & composition</li>
+                                <li><strong class="text-gray-300">Operational:</strong> Incentives & bottlenecks</li>
+                                <li><strong class="text-gray-300">Institutional:</strong> Rules & liability</li>
+                                <li><strong class="text-gray-300">Digital Assets:</strong> Structural gaps between DeFi and regulated systems</li>
+                                <li><strong class="text-gray-300">AI Cognition:</strong> Memory & reasoning flow</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="glass-panel p-8 border-l-2 border-l-purple-500">
+                            <h4 class="font-display text-lg text-purple-300 mb-4">Why the Lab Was Created</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                I founded SLI Lab because existing disciplines treat finance, AI, and regulation as separate fields.
+                            </p>
+                            <p class="text-white text-sm mb-4">They are not.</p>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                They are interdependent structural systems.
+                            </p>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                The lab provides a neutral place for multi-axis structural analysis — something that did not exist before.
+                            </p>
+                        </div>
+
+                        <div class="glass-panel p-8 border-l-2 border-l-blue-500">
+                            <h4 class="font-display text-lg text-blue-300 mb-4">How Structural Thinking Emerged</h4>
+                            <p class="text-gray-400 text-sm mb-4">Structural thinking emerged through repeated exposure to system failures:</p>
+                            <ul class="space-y-2 text-sm text-gray-400 mb-4">
+                                <li>• Systems collapse because connection logic is weak.</li>
+                                <li>• Regulation fails due to unclear responsibility.</li>
+                                <li>• AI hallucinates due to misaligned memory.</li>
+                            </ul>
+                            <p class="text-gray-400 text-sm italic">
+                                Understanding these failures required creating entirely new frameworks.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Philosophy -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-yellow-500"></span> PERSONAL PHILOSOPHY
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
+                            <div class="flex items-start gap-4">
+                                <div class="font-mono text-2xl text-cyan-400 shrink-0">01</div>
+                                <div>
+                                    <h4 class="font-display text-white text-lg mb-2">Structure determines outcome</h4>
+                                    <p class="text-gray-400 text-sm">If structure is wrong, execution fails — no matter how advanced the technology is.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
+                            <div class="flex items-start gap-4">
+                                <div class="font-mono text-2xl text-cyan-400 shrink-0">02</div>
+                                <div>
+                                    <h4 class="font-display text-white text-lg mb-2">Transparency is required</h4>
+                                    <p class="text-gray-400 text-sm">Systems cannot evolve without transparent flow of value, information, and reasoning.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
+                            <div class="flex items-start gap-4">
+                                <div class="font-mono text-2xl text-cyan-400 shrink-0">03</div>
+                                <div>
+                                    <h4 class="font-display text-white text-lg mb-2">Reduce institutional friction</h4>
+                                    <p class="text-gray-400 text-sm">Innovation becomes possible when structural drag is removed.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Timeline -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span> PROFESSIONAL TIMELINE
+                    </h3>
+                    <div class="relative border-l border-gray-800 ml-4 space-y-8 pb-4">
+                        <div class="relative pl-8">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-gray-600 rounded-full border-2 border-[#020408]"></span>
+                            <h4 class="font-display text-lg text-white mb-1">Phase 1 — Early Career</h4>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Foundation of structural thinking</p>
+                            <p class="text-sm text-gray-400">Pattern recognition in creative and cognitive systems.</p>
+                        </div>
+                        <div class="relative pl-8">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-gray-600 rounded-full border-2 border-[#020408]"></span>
+                            <h4 class="font-display text-lg text-white mb-1">Phase 2 — Technology Systems</h4>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Systems modeling</p>
+                            <p class="text-sm text-gray-400">Systems modeling and workflow optimization.</p>
+                        </div>
+                        <div class="relative pl-8">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-gray-600 rounded-full border-2 border-[#020408]"></span>
+                            <h4 class="font-display text-lg text-white mb-1">Phase 3 — Institutional Finance</h4>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Regulated industries</p>
+                            <p class="text-sm text-gray-400">Observed structural bottlenecks in risk, liquidity, and compliance.</p>
+                        </div>
+                        <div class="relative pl-8">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-cyan-500 rounded-full border-2 border-[#020408]"></span>
+                            <h4 class="font-display text-lg text-cyan-300 mb-1">Phase 4 — Digital Assets</h4>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Structural finance research</p>
+                            <p class="text-sm text-gray-400">Mapped structural mismatches across DeFi, stablecoins, and institutional rails.</p>
+                        </div>
+                        <div class="relative pl-8">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-gray-400 rounded-full border-2 border-[#020408]"></span>
+                            <h4 class="font-display text-lg text-white mb-1">Phase 5 — Government Interaction</h4>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Public sector constraints</p>
+                            <p class="text-sm text-gray-400">Studied legal definitions, responsibility structures, and policy execution friction.</p>
+                        </div>
+                        <div class="relative pl-8">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-[#020408]"></span>
+                            <h4 class="font-display text-lg text-blue-300 mb-1">Phase 6 — AI Research</h4>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Cognitive Liquidity</p>
+                            <p class="text-sm text-gray-400">Developed Cognitive Liquidity concepts: memory, reasoning flow, transparency.</p>
+                        </div>
+                        <div class="relative pl-8">
+                            <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-yellow-500 rounded-full border-2 border-[#020408]"></span>
+                            <h4 class="font-display text-lg text-yellow-300 mb-1">Phase 7 — SLI Lab Formation</h4>
+                            <p class="text-xs text-gray-500 font-mono mb-2">Unified discipline</p>
+                            <p class="text-sm text-gray-400">Unified these domains into a new interdisciplinary field: Structure & Liquidity Intelligence.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Areas of Expertise -->
+                <div class="mb-16">
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span> AREAS OF EXPERTISE
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="glass-panel p-8 hover:bg-white/5 transition-colors">
+                            <div class="font-mono text-4xl text-gray-700 font-bold mb-4 opacity-30">01</div>
+                            <h4 class="font-display text-xl text-cyan-300 mb-2 uppercase">Structural Liquidity Analysis</h4>
+                            <p class="text-gray-400 text-sm">Six-axis liquidity framework development.</p>
+                        </div>
+                        <div class="glass-panel p-8 hover:bg-white/5 transition-colors">
+                            <div class="font-mono text-4xl text-gray-700 font-bold mb-4 opacity-30">02</div>
+                            <h4 class="font-display text-xl text-cyan-300 mb-2 uppercase">Institutional Infrastructure Design</h4>
+                            <p class="text-gray-400 text-sm">Non-custodial execution, structural alignment, and compliance-safe architectures.</p>
+                        </div>
+                        <div class="glass-panel p-8 hover:bg-white/5 transition-colors">
+                            <div class="font-mono text-4xl text-gray-700 font-bold mb-4 opacity-30">03</div>
+                            <h4 class="font-display text-xl text-cyan-300 mb-2 uppercase">AI Behavior & Transparency</h4>
+                            <p class="text-gray-400 text-sm">Persistent memory layers and explainable reasoning models.</p>
+                        </div>
+                        <div class="glass-panel p-8 hover:bg-white/5 transition-colors">
+                            <div class="font-mono text-4xl text-gray-700 font-bold mb-4 opacity-30">04</div>
+                            <h4 class="font-display text-xl text-cyan-300 mb-2 uppercase">Cross-Sector Bridging</h4>
+                            <p class="text-gray-400 text-sm">Bringing together public institutions, private systems, and digital infrastructure.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vision Footer -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-gray-800 pt-12">
+                    <div class="md:col-span-1">
+                        <h3 class="font-display text-xl text-white mb-2">FOUNDER'S VISION</h3>
+                        <div class="w-12 h-1 bg-yellow-500 mb-4"></div>
+                    </div>
+                    <div class="md:col-span-2 text-gray-300 space-y-4">
+                        <p>To develop the analytical foundations that will guide the next 30 years of digital infrastructure: The future of public finance, regulated non-custodial systems, and transparent AI reasoning.</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Footer (Fixed Bottom) -->
+        <footer class="flex justify-between items-end fade-in-up delay-300 shrink-0 mt-4 pointer-events-none">
+            <div class="hidden md:block">
+                <div class="grid grid-cols-2 gap-x-8 gap-y-2 font-mono text-[10px] text-gray-500">
+                    <span>COORDS:</span> <span class="text-cyan-400">42.3601° N, 71.0942° W</span>
+                    <span>STATUS:</span> <span class="text-cyan-400">OPTIMAL</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6 pointer-events-auto">
+                <a href="https://www.linkedin.com/company/structure-liquidity-laboratory/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-cyan-400 transition-colors" title="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                    </svg>
+                </a>
+                <div class="h-[1px] w-24 bg-gray-700"></div>
+                <div class="font-mono text-[10px] text-gray-400">© 2025 SLI_LAB</div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- PAGE SWITCHING LOGIC ---
+        function switchPage(pageId) {
+            const pages = [
+                'page-home', 'page-research', 'page-what-we-study', 'page-projects', 
+                'page-founder', 'page-mission', 'page-publications', 'page-frameworks', 'page-fellows', 'page-join'
+            ];
+            
+            // Hide all pages
+            pages.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+            
+            // Reset Nav Active States
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+
+            // Show selected page
+            const targetEl = document.getElementById('page-' + pageId);
+            if (targetEl) {
+                targetEl.style.display = (pageId === 'home') ? 'flex' : 'block';
+                
+                // Reset Scroll to top of container
+                const scrollContainer = document.getElementById('content-scroll-container');
+                if(scrollContainer) scrollContainer.scrollTop = 0;
+            }
+
+            // Set Active Nav State
+            const navEl = document.getElementById('nav-' + pageId);
+            if (navEl) {
+                navEl.classList.add('active');
+            }
+        }
+
+        // --- THREE.JS CONFIGURATION ---
+        const sceneConfig = {
+            colors: {
+                background: 0x020408,
+                structure: 0x88ccff, 
+                liquidity: 0x00f0ff,
+                accent: 0xffd700
+            },
+            particleCount: 1200,
+            structureSize: 2.5
+        };
+
+        let scene, camera, renderer;
+        let structure, innerCore, flowParticles;
+        let mouseX = 0, mouseY = 0;
+        let targetRotationX = 0, targetRotationY = 0;
+
+        function init() {
+            const container = document.getElementById('canvas-container');
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(sceneConfig.colors.background, 0.035);
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.z = 12;
+            camera.position.y = 1;
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(sceneConfig.colors.liquidity, 1.5, 20);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+            const goldLight = new THREE.PointLight(sceneConfig.colors.accent, 0.8, 20);
+            goldLight.position.set(-5, -2, 2);
+            scene.add(goldLight);
+
+            createStructure();
+            createLiquidityField();
+            createGrid();
+
+            window.addEventListener('resize', onWindowResize, false);
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            setTimeout(() => { container.style.opacity = 1; }, 100);
+            animate();
+        }
+
+        function createStructure() {
+            const geometry = new THREE.IcosahedronGeometry(sceneConfig.structureSize, 1);
+            const material = new THREE.LineBasicMaterial({ color: sceneConfig.colors.structure, transparent: true, opacity: 0.15 });
+            structure = new THREE.LineSegments(new THREE.WireframeGeometry(geometry), material);
+            scene.add(structure);
+
+            const coreGeo = new THREE.IcosahedronGeometry(sceneConfig.structureSize * 0.4, 0);
+            const coreMat = new THREE.MeshPhongMaterial({ color: 0x001133, emissive: 0x002244, shininess: 100, transparent: true, opacity: 0.8 });
+            innerCore = new THREE.Mesh(coreGeo, coreMat);
+            const coreWireMat = new THREE.LineBasicMaterial({ color: sceneConfig.colors.accent, transparent: true, opacity: 0.3 });
+            innerCore.add(new THREE.LineSegments(new THREE.WireframeGeometry(coreGeo), coreWireMat));
+            scene.add(innerCore);
+        }
+
+        function createLiquidityField() {
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            for (let i = 0; i < sceneConfig.particleCount; i++) {
+                const r = (Math.random() * 8) + 3;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
+                positions.push(r * Math.sin(phi) * Math.cos(theta), (r * Math.sin(phi) * Math.sin(theta)) * 0.4, r * Math.cos(phi));
+            }
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            const particleMat = new THREE.PointsMaterial({ color: sceneConfig.colors.liquidity, size: 0.05, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending });
+            flowParticles = new THREE.Points(geometry, particleMat);
+            scene.add(flowParticles);
+        }
+
+        function createGrid() {
+            const gridHelper = new THREE.GridHelper(30, 30, 0x112233, 0x051020);
+            gridHelper.position.y = -3.5;
+            scene.add(gridHelper);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - window.innerWidth / 2) * 0.001;
+            mouseY = (event.clientY - window.innerHeight / 2) * 0.001;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.0005;
+            if (structure) {
+                structure.rotation.y += 0.001;
+                structure.rotation.x += 0.0005;
+                const scale = 1 + Math.sin(time) * 0.02;
+                structure.scale.set(scale, scale, scale);
+            }
+            if (innerCore) {
+                innerCore.rotation.y -= 0.004;
+                innerCore.rotation.z += 0.002;
+            }
+            if (flowParticles) {
+                flowParticles.rotation.y += 0.002;
+                const positions = flowParticles.geometry.attributes.position.array;
+                for (let i = 0; i < sceneConfig.particleCount; i++) {
+                    const i3 = i * 3;
+                    positions[i3 + 1] += Math.sin(time * 2 + positions[i3]) * 0.002;
+                }
+                flowParticles.geometry.attributes.position.needsUpdate = true;
+            }
+            targetRotationX = mouseX * 0.5;
+            targetRotationY = mouseY * 0.5;
+            scene.rotation.y += 0.05 * (targetRotationX - scene.rotation.y);
+            scene.rotation.x += 0.05 * (targetRotationY - scene.rotation.x);
+            renderer.render(scene, camera);
+        }
+
+        window.onload = function() {
+            // Check if Three.js loaded
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js failed to load');
+                const warning = document.createElement('div');
+                warning.style.position = 'fixed';
+                warning.style.top = '0';
+                warning.style.left = '0';
+                warning.style.width = '100%';
+                warning.style.backgroundColor = 'red';
+                warning.style.color = 'white';
+                warning.style.textAlign = 'center';
+                warning.style.padding = '10px';
+                warning.style.zIndex = '9999';
+                warning.innerText = 'Error: Three.js library failed to load. The 3D background will not appear.';
+                document.body.appendChild(warning);
+            } else {
+                init();
+            }
+
+            // Check if Tailwind loaded (simple check for a utility class)
+            const testEl = document.createElement('div');
+            testEl.className = 'hidden';
+            document.body.appendChild(testEl);
+            const computedStyle = window.getComputedStyle(testEl);
+            if (computedStyle.display !== 'none') {
+                console.warn('Tailwind CSS might not be loaded');
+            }
+            document.body.removeChild(testEl);
+            
+            // Force opacity to 1 after a delay just in case animation fails
+            setTimeout(() => {
+                const container = document.getElementById('canvas-container');
+                if (container) container.style.opacity = 1;
+                
+                // Also ensure content is visible
+                const uiLayer = document.querySelector('.ui-layer');
+                if (uiLayer) uiLayer.style.opacity = 1;
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
