@@ -121,7 +121,16 @@
             }
         }
 
-        /* Scrollbar Styling */
+        /* Language Visibility */
+        body.lang-en .lang-ja {
+            display: none !important;
+        }
+
+        body.lang-ja .lang-en {
+            display: none !important;
+        }
+
+        /* Custom Scrollbar Styling */
         .custom-scroll::-webkit-scrollbar {
             width: 6px;
         }
@@ -190,25 +199,50 @@
 
             <nav class="hidden md:flex gap-6 interactive pointer-events-auto">
                 <a onclick="switchPage('research')" id="nav-research"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Research</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                    <span class="lang-en">Research</span><span class="lang-ja">研究</span>
+                </a>
                 <a onclick="switchPage('what-we-study')" id="nav-what-we-study"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Scope</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                    <span class="lang-en">Scope</span><span class="lang-ja">領域</span>
+                </a>
                 <a onclick="switchPage('projects')" id="nav-projects"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Projects</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                    <span class="lang-en">Projects</span><span class="lang-ja">プロジェクト</span>
+                </a>
                 <a onclick="switchPage('mission')" id="nav-mission"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Mission</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                    <span class="lang-en">Mission</span><span class="lang-ja">ミッション</span>
+                </a>
                 <a onclick="switchPage('fellows')" id="nav-fellows"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Fellows</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                    <span class="lang-en">Fellows</span><span class="lang-ja">研究員</span>
+                </a>
                 <a onclick="switchPage('publications')" id="nav-publications"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Publications</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                    <span class="lang-en">Publications</span><span class="lang-ja">出版物</span>
+                </a>
                 <a onclick="switchPage('frameworks')" id="nav-frameworks"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Frameworks</a>
-                <a onclick="switchPage('join')" id="nav-join"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Join</a>
-                <a onclick="switchPage('faq')" id="nav-faq"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">FAQ</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                    <span class="lang-en">Frameworks</span><span class="lang-ja">フレームワーク</span>
+                </a>
+                <a onclick="switchPage('join')"
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer"
+                    id="nav-join">
+                    <span class="lang-en">Join</span><span class="lang-ja">参加</span>
+                </a>
+                <a onclick="switchPage('faq')"
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer"
+                    id="nav-faq">FAQ</a>
                 <a onclick="switchPage('founder')" id="nav-founder"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer">Founder</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer">
+                    <span class="lang-en">Founder</span><span class="lang-ja">創設者</span>
+                </a>
+                <!-- Language Toggle -->
+                <button onclick="toggleLanguage()"
+                    class="font-mono text-xs text-cyan-400 hover:text-white transition-colors border border-cyan-400 px-3 py-1 pointer-events-auto ml-4">
+                    <span class="lang-toggle-text">JP</span>
+                </button>
             </nav>
 
             <!-- Mobile Menu Button -->
@@ -237,25 +271,49 @@
                 </div>
                 <nav class="flex flex-col gap-4 pointer-events-auto">
                     <a onclick="switchPage('research'); toggleMobileMenu();"
-                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Research</a>
+                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                        <span class="lang-en">Research</span><span class="lang-ja">研究</span>
+                    </a>
                     <a onclick="switchPage('what-we-study'); toggleMobileMenu();"
-                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Scope</a>
+                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                        <span class="lang-en">Scope</span><span class="lang-ja">領域</span>
+                    </a>
                     <a onclick="switchPage('projects'); toggleMobileMenu();"
-                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Projects</a>
+                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                        <span class="lang-en">Projects</span><span class="lang-ja">プロジェクト</span>
+                    </a>
                     <a onclick="switchPage('mission'); toggleMobileMenu();"
-                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Mission</a>
+                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                        <span class="lang-en">Mission</span><span class="lang-ja">ミッション</span>
+                    </a>
                     <a onclick="switchPage('fellows'); toggleMobileMenu();"
-                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Fellows</a>
+                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                        <span class="lang-en">Fellows</span><span class="lang-ja">研究員</span>
+                    </a>
                     <a onclick="switchPage('publications'); toggleMobileMenu();"
-                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Publications</a>
+                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                        <span class="lang-en">Publications</span><span class="lang-ja">出版物</span>
+                    </a>
                     <a onclick="switchPage('frameworks'); toggleMobileMenu();"
-                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Frameworks</a>
+                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                        <span class="lang-en">Frameworks</span><span class="lang-ja">フレームワーク</span>
+                    </a>
                     <a onclick="switchPage('join'); toggleMobileMenu();"
-                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Join</a>
+                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">
+                        <span class="lang-en">Join</span><span class="lang-ja">参加</span>
+                    </a>
                     <a onclick="switchPage('faq'); toggleMobileMenu();"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">FAQ</a>
                     <a onclick="switchPage('founder'); toggleMobileMenu();"
-                        class="text-lg font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer">Founder</a>
+                        class="text-lg font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer">
+                        <span class="lang-en">Founder</span><span class="lang-ja">創設者</span>
+                    </a>
+
+                    <!-- Language Toggle (Mobile) -->
+                    <button onclick="toggleLanguage(); toggleMobileMenu();"
+                        class="text-lg font-mono text-cyan-400 hover:text-white transition-colors border border-cyan-400 px-4 py-2 w-max mt-4 pointer-events-auto">
+                        <span class="lang-toggle-text">JP</span>
+                    </button>
                 </nav>
             </div>
         </div>
@@ -275,90 +333,126 @@
                     <span class="font-mono text-xs text-cyan-100 tracking-widest">SYSTEM ONLINE // NODE VERIFIED</span>
                 </div>
 
-                <h2
-                    class="font-display text-5xl md:text-7xl lg:text-8xl font-light text-white leading-tight mb-6 fade-in-up delay-200">
-                    Cognitive <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-600 font-medium">Liquidity.</span><br>
-                    Architectural <span class="italic font-serif text-yellow-100 opacity-90">Structure.</span>
-                </h2>
-
-                <p
-                    class="text-gray-400 text-sm md:text-lg max-w-xl leading-relaxed mb-10 fade-in-up delay-300 border-l-2 border-cyan-900 pl-6">
-                    We engineer the intersection of fluid intelligence and rigid logic.
-                    Our research explores multi-axis reasoning models to build transparency in AI decision chains.
-                </p>
-
-                <div class="flex flex-wrap gap-4 fade-in-up delay-300 mb-24">
-                    <button onclick="switchPage('research')"
-                        class="px-8 py-3 bg-white text-black font-display font-bold uppercase tracking-wider text-sm hover:bg-cyan-100 transition-colors clip-path-slant">
-                        Explore Research
-                    </button>
-                    <button onclick="switchPage('projects')"
-                        class="px-8 py-3 border border-white/20 text-white font-display font-bold uppercase tracking-wider text-sm hover:border-cyan-400 hover:text-cyan-400 transition-colors glass-panel">
-                        View Projects
-                    </button>
-                </div>
-
-                <!-- NEW CONTENT: DEFINITIONS (Full Restored Version) -->
+                <div class="flex flex-col h-full justify-center max-w-4xl">
+                    <h2 class="font-display text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
+                        <span class="lang-en">The Architecture<br>of Flow.</span>
+                        <span class="lang-ja">フローの<br>アーキテクチャ。</span>
+                    </h2>
+                    <p class="font-mono text-cyan-400 text-lg md:text-xl mb-8 max-w-2xl leading-relaxed">
+                        <span class="lang-en">We study how structure determines liquidity, how institutions process
+                            information, and how systems fail.</span>
+                        <span class="lang-ja">私たちは、構造がどのように流動性を決定するか、組織がどのように情報を処理するか、そしてシステムがどのように失敗するかを研究しています。</span>
+                    </p>
+                    <div class="flex gap-4">
+                        <button onclick="switchPage('research')"
+                            class="border border-cyan-400 text-cyan-400 px-8 py-3 font-mono text-sm hover:bg-cyan-400/10 transition-all uppercase tracking-widest">
+                            <span class="lang-en">Explore Research</span>
+                            <span class="lang-ja">研究を見る</span>
+                        </button>
+                        <button onclick="switchPage('mission')"
+                            class="border border-white/20 text-gray-400 px-8 py-3 font-mono text-sm hover:border-white hover:text-white transition-all uppercase tracking-widest">
+                            <span class="lang-en">Our Mission</span>
+                            <span class="lang-ja">ミッション</span>
+                        </button>
+                    </div>
+                </div> <!-- NEW CONTENT: DEFINITIONS (Full Restored Version) -->
                 <div class="w-full fade-in-up delay-500 space-y-24">
 
                     <!-- STRUCTURAL INTELLIGENCE -->
                     <section>
                         <h3 class="font-display text-3xl text-white mb-8 flex items-center gap-4">
-                            <span class="w-8 h-[1px] bg-cyan-500"></span> STRUCTURAL INTELLIGENCE
+                            <span class="w-8 h-[1px] bg-cyan-500"></span>
+                            <span class="lang-en">STRUCTURAL INTELLIGENCE</span>
+                            <span class="lang-ja">構造的知能</span>
                         </h3>
 
                         <div class="glass-panel p-8 mb-8 border-l-2 border-cyan-500">
                             <p class="text-gray-300 text-lg font-light leading-relaxed mb-6">
-                                A meta-discipline that analyzes the forces, intentions, boundaries, constraints, and
-                                emergent patterns created by underlying structures across institutions, markets,
-                                technology, society, and cognition.
+                                <span class="lang-en">A meta-discipline that analyzes the forces, intentions,
+                                    boundaries, constraints, and
+                                    emergent patterns created by underlying structures across institutions, markets,
+                                    technology, society, and cognition.</span>
+                                <span
+                                    class="lang-ja">制度、市場、技術、社会、認知にまたがる根底にある構造によって生み出される力、意図、境界、制約、創発的パターンを分析するメタ学問分野。</span>
                             </p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-white/10 pt-6">
                                 <div>
-                                    <h4 class="text-xs font-mono text-gray-500 uppercase mb-2">Science Focuses On:</h4>
+                                    <h4 class="text-xs font-mono text-gray-500 uppercase mb-2">
+                                        <span class="lang-en">Science Focuses On:</span>
+                                        <span class="lang-ja">科学の焦点:</span>
+                                    </h4>
                                     <ul class="text-sm text-gray-400 space-y-1">
-                                        <li>• Observation</li>
-                                        <li>• Measurement</li>
-                                        <li>• Causal inference</li>
-                                        <li>• Reproducibility</li>
+                                        <li>• <span class="lang-en">Observation</span><span class="lang-ja">観察</span>
+                                        </li>
+                                        <li>• <span class="lang-en">Measurement</span><span class="lang-ja">測定</span>
+                                        </li>
+                                        <li>• <span class="lang-en">Causal inference</span><span
+                                                class="lang-ja">因果推論</span></li>
+                                        <li>• <span class="lang-en">Reproducibility</span><span
+                                                class="lang-ja">再現性</span></li>
                                     </ul>
                                 </div>
                                 <div>
-                                    <h4 class="text-xs font-mono text-cyan-500 uppercase mb-2">Structural Intelligence
-                                        Focuses On:</h4>
+                                    <h4 class="text-xs font-mono text-cyan-500 uppercase mb-2">
+                                        <span class="lang-en">Structural Intelligence Focuses On:</span>
+                                        <span class="lang-ja">構造的知能の焦点:</span>
+                                    </h4>
                                     <ul class="text-sm text-cyan-100 space-y-1">
-                                        <li>• Purpose & Incentives</li>
-                                        <li>• Hidden constraints</li>
-                                        <li>• Systemic forces</li>
-                                        <li>• Cross-domain relationships</li>
+                                        <li>• <span class="lang-en">Purpose & Incentives</span><span
+                                                class="lang-ja">目的とインセンティブ</span></li>
+                                        <li>• <span class="lang-en">Hidden constraints</span><span
+                                                class="lang-ja">隠された制約</span></li>
+                                        <li>• <span class="lang-en">Systemic forces</span><span
+                                                class="lang-ja">システム的な力</span></li>
+                                        <li>• <span class="lang-en">Cross-domain relationships</span><span
+                                                class="lang-ja">領域横断的な関係</span></li>
                                     </ul>
                                 </div>
                             </div>
-                            <p class="mt-6 text-center text-sm font-mono text-cyan-400">"Science explains. Structural
-                                Intelligence interprets and designs."</p>
+                            <p class="mt-6 text-center text-sm font-mono text-cyan-400">
+                                <span class="lang-en">"Science explains. Structural Intelligence interprets and
+                                    designs."</span>
+                                <span class="lang-ja">「科学は説明する。構造的知能は解釈し、設計する。」</span>
+                            </p>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                             <div class="p-6 border border-white/10 bg-white/5">
-                                <h4 class="text-cyan-300 font-display text-sm uppercase mb-4">Core Domains</h4>
+                                <h4 class="text-cyan-300 font-display text-sm uppercase mb-4">
+                                    <span class="lang-en">Core Domains</span>
+                                    <span class="lang-ja">コアドメイン</span>
+                                </h4>
                                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-gray-400">
-                                    <span class="hover:text-white transition-colors">Regulatory</span>
-                                    <span class="hover:text-white transition-colors">Market</span>
-                                    <span class="hover:text-white transition-colors">Organizational</span>
-                                    <span class="hover:text-white transition-colors">Social</span>
-                                    <span class="hover:text-white transition-colors">Cognitive</span>
-                                    <span class="hover:text-white transition-colors">Technological</span>
-                                    <span class="hover:text-white transition-colors">Information</span>
-                                    <span class="hover:text-white transition-colors">Liquidity</span>
+                                    <span class="hover:text-white transition-colors"><span
+                                            class="lang-en">Regulatory</span><span class="lang-ja">規制</span></span>
+                                    <span class="hover:text-white transition-colors"><span
+                                            class="lang-en">Market</span><span class="lang-ja">市場</span></span>
+                                    <span class="hover:text-white transition-colors"><span
+                                            class="lang-en">Organizational</span><span class="lang-ja">組織</span></span>
+                                    <span class="hover:text-white transition-colors"><span
+                                            class="lang-en">Social</span><span class="lang-ja">社会</span></span>
+                                    <span class="hover:text-white transition-colors"><span
+                                            class="lang-en">Cognitive</span><span class="lang-ja">認知</span></span>
+                                    <span class="hover:text-white transition-colors"><span
+                                            class="lang-en">Technological</span><span class="lang-ja">技術</span></span>
+                                    <span class="hover:text-white transition-colors"><span
+                                            class="lang-en">Information</span><span class="lang-ja">情報</span></span>
+                                    <span class="hover:text-white transition-colors"><span
+                                            class="lang-en">Liquidity</span><span class="lang-ja">流動性</span></span>
                                 </div>
                             </div>
                             <div class="p-6 border border-white/10 bg-white/5 flex flex-col justify-center">
-                                <h4 class="text-cyan-300 font-display text-sm uppercase mb-2">Purpose</h4>
+                                <h4 class="text-cyan-300 font-display text-sm uppercase mb-2">
+                                    <span class="lang-en">Purpose</span>
+                                    <span class="lang-ja">目的</span>
+                                </h4>
                                 <p class="text-xs text-gray-300 leading-relaxed">
-                                    To convert complex systems into interpretable structures, reveal invisible forces,
-                                    and provide a unified framework to design stable, adaptable institutions. It
-                                    develops "structural cognition."
+                                    <span class="lang-en">To convert complex systems into interpretable structures,
+                                        reveal invisible forces,
+                                        and provide a unified framework to design stable, adaptable institutions. It
+                                        develops "structural cognition."</span>
+                                    <span
+                                        class="lang-ja">複雑なシステムを解釈可能な構造に変換し、目に見えない力を明らかにし、安定した適応性のある組織を設計するための統一されたフレームワークを提供すること。「構造的認知」を発展させる。</span>
                                 </p>
                             </div>
                         </div>
@@ -367,84 +461,170 @@
                     <!-- LIQUIDITY INTELLIGENCE -->
                     <section>
                         <h3 class="font-display text-3xl text-white mb-8 flex items-center gap-4">
-                            <span class="w-8 h-[1px] bg-yellow-500"></span> LIQUIDITY INTELLIGENCE
+                            <span class="w-8 h-[1px] bg-yellow-500"></span>
+                            <span class="lang-en">LIQUIDITY INTELLIGENCE</span>
+                            <span class="lang-ja">流動性知能</span>
                         </h3>
 
                         <div class="glass-panel p-8 mb-8 border-l-2 border-yellow-500">
                             <p class="text-gray-300 text-lg font-light leading-relaxed mb-6">
-                                The study of how value, information, decisions, and influence flow through systems —
-                                where they accelerate, where they congest, and how structural constraints shape those
-                                flows.
+                                <span class="lang-en">The study of how value, information, decisions, and influence flow
+                                    through systems —
+                                    where they accelerate, where they congest, and how structural constraints shape
+                                    those
+                                    flows.</span>
+                                <span
+                                    class="lang-ja">価値、情報、意思決定、影響力がシステム内をどのように流れるか、どこで加速し、どこで渋滞し、構造的制約がどのようにそれらの流れを形成するかを研究する学問。</span>
                             </p>
                             <p class="text-sm text-yellow-100/80 border-t border-white/10 pt-4">
-                                It is a universal model of "flow dynamics," extending beyond finance to regulatory,
-                                organizational, and cognitive systems.
+                                <span class="lang-en">It is a universal model of "flow dynamics," extending beyond
+                                    finance to regulatory,
+                                    organizational, and cognitive systems.</span>
+                                <span class="lang-ja">それは、金融を超えて規制、組織、認知システムに拡張される「流動ダイナミクス」の普遍的なモデルです。</span>
                             </p>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                             <div class="md:col-span-2">
-                                <h4 class="font-mono text-xs text-yellow-500 uppercase mb-4">The Six Axes of Liquidity
+                                <h4 class="font-mono text-xs text-yellow-500 uppercase mb-4">
+                                    <span class="lang-en">The Six Axes of Liquidity</span>
+                                    <span class="lang-ja">流動性の6つの軸</span>
                                 </h4>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="border-l border-white/10 pl-3">
-                                        <span class="block text-white text-sm font-bold">Value</span>
-                                        <span class="text-xs text-gray-500">Assets, credit, capital, incentives.</span>
+                                        <span class="block text-white text-sm font-bold">
+                                            <span class="lang-en">Value</span><span class="lang-ja">価値</span>
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            <span class="lang-en">Assets, credit, capital, incentives.</span>
+                                            <span class="lang-ja">資産、信用、資本、インセンティブ。</span>
+                                        </span>
                                     </div>
                                     <div class="border-l border-white/10 pl-3">
-                                        <span class="block text-white text-sm font-bold">Information</span>
-                                        <span class="text-xs text-gray-500">Speed, transparency, distortion.</span>
+                                        <span class="block text-white text-sm font-bold">
+                                            <span class="lang-en">Information</span><span class="lang-ja">情報</span>
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            <span class="lang-en">Speed, transparency, distortion.</span>
+                                            <span class="lang-ja">速度、透明性、歪み。</span>
+                                        </span>
                                     </div>
                                     <div class="border-l border-white/10 pl-3">
-                                        <span class="block text-white text-sm font-bold">Decision</span>
-                                        <span class="text-xs text-gray-500">Circulation and resolution speed.</span>
+                                        <span class="block text-white text-sm font-bold">
+                                            <span class="lang-en">Decision</span><span class="lang-ja">意思決定</span>
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            <span class="lang-en">Circulation and resolution speed.</span>
+                                            <span class="lang-ja">循環と解決の速度。</span>
+                                        </span>
                                     </div>
                                     <div class="border-l border-white/10 pl-3">
-                                        <span class="block text-white text-sm font-bold">Organizational</span>
-                                        <span class="text-xs text-gray-500">Workflow fluidity, authority.</span>
+                                        <span class="block text-white text-sm font-bold">
+                                            <span class="lang-en">Organizational</span><span class="lang-ja">組織</span>
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            <span class="lang-en">Workflow fluidity, authority.</span>
+                                            <span class="lang-ja">ワークフローの流動性、権限。</span>
+                                        </span>
                                     </div>
                                     <div class="border-l border-white/10 pl-3">
-                                        <span class="block text-white text-sm font-bold">Regulatory</span>
-                                        <span class="text-xs text-gray-500">Flexibility, friction, adaptability.</span>
+                                        <span class="block text-white text-sm font-bold">
+                                            <span class="lang-en">Regulatory</span><span class="lang-ja">規制</span>
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            <span class="lang-en">Flexibility, friction, adaptability.</span>
+                                            <span class="lang-ja">柔軟性、摩擦、適応性。</span>
+                                        </span>
                                     </div>
                                     <div class="border-l border-white/10 pl-3">
-                                        <span class="block text-white text-sm font-bold">Cognitive</span>
-                                        <span class="text-xs text-gray-500">Memory, reasoning, knowledge flow.</span>
+                                        <span class="block text-white text-sm font-bold">
+                                            <span class="lang-en">Cognitive</span><span class="lang-ja">認知</span>
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            <span class="lang-en">Memory, reasoning, knowledge flow.</span>
+                                            <span class="lang-ja">記憶、推論、知識のフロー。</span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div
                                 class="glass-panel p-6 bg-yellow-900/10 border-t border-yellow-500/20 flex flex-col justify-center">
-                                <h4 class="font-mono text-xs text-yellow-500 uppercase mb-2">Purpose</h4>
-                                <p class="text-xs text-gray-300 mb-2">Most systemic failures come from friction.</p>
-                                <p class="text-sm text-white font-medium">Liquidity Intelligence identifies bottlenecks
-                                    to unlock flow.</p>
+                                <h4 class="font-mono text-xs text-yellow-500 uppercase mb-2">
+                                    <span class="lang-en">Purpose</span><span class="lang-ja">目的</span>
+                                </h4>
+                                <p class="text-xs text-gray-300 mb-2">
+                                    <span class="lang-en">Most systemic failures come from friction.</span>
+                                    <span class="lang-ja">ほとんどのシステム障害は摩擦から生じます。</span>
+                                </p>
+                                <p class="text-sm text-white font-medium">
+                                    <span class="lang-en">Liquidity Intelligence identifies bottlenecks to unlock
+                                        flow.</span>
+                                    <span class="lang-ja">流動性知能はボトルネックを特定し、フローを解放します。</span>
+                                </p>
                             </div>
                         </div>
                     </section>
+
+                    <!-- THE GAP -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 border-t border-white/10 pt-8 mb-12">
+                        <div class="md:col-span-4">
+                            <h3 class="font-display text-2xl text-white mb-2">
+                                <span class="lang-en">The Gap</span>
+                                <span class="lang-ja">ギャップ</span>
+                            </h3>
+                            <p class="font-mono text-xs text-gray-500 uppercase tracking-widest">
+                                <span class="lang-en">The Problem</span>
+                                <span class="lang-ja">問題</span>
+                            </p>
+                        </div>
+                        <div class="md:col-span-8 text-gray-400 space-y-4 leading-relaxed">
+                            <p>
+                                <span class="lang-en">Most failures in modern systems happen because Structure and
+                                    Liquidity are designed by
+                                    different people who do not speak the same language.</span>
+                                <span class="lang-ja">現代のシステムのほとんどの失敗は、構造と流動性が、同じ言語を話さない異なる人々によって設計されているために起こります。</span>
+                            </p>
+                            <p>
+                                <span class="lang-en">SLI Lab exists to bridge this gap.</span>
+                                <span class="lang-ja">SLI Labはこのギャップを埋めるために存在します。</span>
+                            </p>
+                        </div>
+                    </div>
 
                     <!-- RELATIONSHIP -->
                     <section class="border-t border-gray-800 pt-12 text-center">
                         <div class="inline-block p-8 glass-panel relative overflow-hidden">
                             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-yellow-500">
                             </div>
-                            <h3 class="font-display text-2xl text-white mb-6">CORE RESEARCH IDENTITY</h3>
+                            <h3 class="font-display text-2xl text-white mb-6">
+                                <span class="lang-en">CORE RESEARCH IDENTITY</span>
+                                <span class="lang-ja">コア研究アイデンティティ</span>
+                            </h3>
 
                             <div
                                 class="flex flex-col md:flex-row justify-center items-center gap-8 mb-8 font-mono text-sm">
                                 <div class="text-cyan-400">
-                                    <span class="block text-xs text-gray-500 mb-1">STRUCTURAL INTELLIGENCE</span>
-                                    How systems are shaped
+                                    <span class="block text-xs text-gray-500 mb-1">
+                                        <span class="lang-en">STRUCTURAL INTELLIGENCE</span>
+                                        <span class="lang-ja">構造的知能</span>
+                                    </span>
+                                    <span class="lang-en">How systems are shaped</span>
+                                    <span class="lang-ja">システムがどのように形成されるか</span>
                                 </div>
                                 <div class="text-2xl text-gray-600">+</div>
                                 <div class="text-yellow-400">
-                                    <span class="block text-xs text-gray-500 mb-1">LIQUIDITY INTELLIGENCE</span>
-                                    How systems move
+                                    <span class="block text-xs text-gray-500 mb-1">
+                                        <span class="lang-en">LIQUIDITY INTELLIGENCE</span>
+                                        <span class="lang-ja">流動性知能</span>
+                                    </span>
+                                    <span class="lang-en">How systems move</span>
+                                    <span class="lang-ja">システムがどのように動くか</span>
                                 </div>
                             </div>
 
                             <p class="text-xl md:text-2xl text-white font-light italic">
-                                "Structures create flows.<br>Flows reshape structures."
+                                <span class="lang-en">"Structures create flows.<br>Flows reshape structures."</span>
+                                <span class="lang-ja">「構造はフローを生み出す。<br>フローは構造を作り変える。」</span>
                             </p>
                         </div>
                     </section>
@@ -455,34 +635,53 @@
             <!-- RESEARCH PAGE -->
             <div id="page-research" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
                 <div class="flex flex-col mb-12">
-                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">RESEARCH AREAS</h1>
-                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Structure & Liquidity
-                        Intelligence Research</p>
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
+                        <span class="lang-en">RESEARCH AREAS</span>
+                        <span class="lang-ja">研究分野</span>
+                    </h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">
+                        <span class="lang-en">Structure & Liquidity Intelligence Research</span>
+                        <span class="lang-ja">構造と流動性インテリジェンス研究</span>
+                    </p>
                     <div class="glass-panel p-8 border-l-4 border-l-cyan-500 max-w-4xl">
                         <p class="text-gray-300 leading-relaxed font-light text-lg mb-4">
-                            SLI Lab is an interdisciplinary research lab that analyzes societies, organizations, and
-                            technologies through a unique framework called <span
-                                class="text-white font-medium">Structure & Liquidity Intelligence</span>.
+                            <span class="lang-en">SLI Lab is an interdisciplinary research lab that analyzes societies,
+                                organizations, and
+                                technologies through a unique framework called <span
+                                    class="text-white font-medium">Structure & Liquidity Intelligence</span>.</span>
+                            <span class="lang-ja">SLI Labは、<span
+                                    class="text-white font-medium">構造と流動性インテリジェンス</span>と呼ばれる独自のフレームワークを通じて、社会、組織、技術を分析する学際的な研究所です。</span>
                         </p>
                     </div>
                 </div>
                 <!-- 6 AXES GRID -->
                 <div class="mb-16">
-                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4"><span
-                            class="w-8 h-[1px] bg-cyan-500"></span> THE SLI FRAMEWORK</h3>
+                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan-500"></span>
+                        <span class="lang-en">THE SLI FRAMEWORK</span>
+                        <span class="lang-ja">SLIフレームワーク</span>
+                    </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                         <!-- 1 -->
                         <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
                             <h4
                                 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">
-                                Value Liquidity</h4>
-                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">The movement of economic value, credit,
-                                incentives, and assets.</p>
+                                <span class="lang-en">Value Liquidity</span>
+                                <span class="lang-ja">価値の流動性</span>
+                            </h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">
+                                <span class="lang-en">The movement of economic value, credit, incentives, and
+                                    assets.</span>
+                                <span class="lang-ja">経済的価値、信用、インセンティブ、資産の移動。</span>
+                            </p>
                             <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
-                                <li>> Stablecoins, CBDCs, tokenized assets</li>
-                                <li>> Non-custodial digital infrastructure</li>
-                                <li>> Capital efficiency and risk distribution</li>
+                                <li>> <span class="lang-en">Stablecoins, CBDCs, tokenized assets</span><span
+                                        class="lang-ja">ステーブルコイン、CBDC、トークン化資産</span></li>
+                                <li>> <span class="lang-en">Non-custodial digital infrastructure</span><span
+                                        class="lang-ja">ノンカストディアルデジタルインフラ</span></li>
+                                <li>> <span class="lang-en">Capital efficiency and risk distribution</span><span
+                                        class="lang-ja">資本効率とリスク分散</span></li>
                             </ul>
                         </div>
 
@@ -490,13 +689,21 @@
                         <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
                             <h4
                                 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">
-                                Information Liquidity</h4>
-                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">How information flows through society,
-                                institutions, and networks.</p>
+                                <span class="lang-en">Information Liquidity</span>
+                                <span class="lang-ja">情報の流動性</span>
+                            </h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">
+                                <span class="lang-en">How information flows through society, institutions, and
+                                    networks.</span>
+                                <span class="lang-ja">社会、組織、ネットワークを通じて情報がどのように流れるか。</span>
+                            </p>
                             <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
-                                <li>> Media bias and info bottlenecks</li>
-                                <li>> Transparency in public administration</li>
-                                <li>> AI agents optimizing real-time info</li>
+                                <li>> <span class="lang-en">Media bias and info bottlenecks</span><span
+                                        class="lang-ja">メディアバイアスと情報のボトルネック</span></li>
+                                <li>> <span class="lang-en">Transparency in public administration</span><span
+                                        class="lang-ja">行政における透明性</span></li>
+                                <li>> <span class="lang-en">AI agents optimizing real-time info</span><span
+                                        class="lang-ja">リアルタイム情報を最適化するAIエージェント</span></li>
                             </ul>
                         </div>
 
@@ -504,13 +711,21 @@
                         <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
                             <h4
                                 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">
-                                Decision Liquidity</h4>
-                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">The speed and clarity of decision-making
-                                in organizations or nations.</p>
+                                <span class="lang-en">Decision Liquidity</span>
+                                <span class="lang-ja">意思決定の流動性</span>
+                            </h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">
+                                <span class="lang-en">The speed and clarity of decision-making in organizations or
+                                    nations.</span>
+                                <span class="lang-ja">組織や国家における意思決定の速度と明確さ。</span>
+                            </p>
                             <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
-                                <li>> Government decision-making structures</li>
-                                <li>> Corporate hierarchy and decision delays</li>
-                                <li>> Human × AI joint decision models</li>
+                                <li>> <span class="lang-en">Government decision-making structures</span><span
+                                        class="lang-ja">政府の意思決定構造</span></li>
+                                <li>> <span class="lang-en">Corporate hierarchy and decision delays</span><span
+                                        class="lang-ja">企業の階層構造と意思決定の遅延</span></li>
+                                <li>> <span class="lang-en">Human × AI joint decision models</span><span
+                                        class="lang-ja">人間とAIの共同意思決定モデル</span></li>
                             </ul>
                         </div>
 
@@ -518,13 +733,20 @@
                         <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
                             <h4
                                 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">
-                                Organizational Liquidity</h4>
-                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">How flexible and adaptive an organization
-                                or system is.</p>
+                                <span class="lang-en">Organizational Liquidity</span>
+                                <span class="lang-ja">組織の流動性</span>
+                            </h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">
+                                <span class="lang-en">How flexible and adaptive an organization or system is.</span>
+                                <span class="lang-ja">組織やシステムがどれほど柔軟で適応性があるか。</span>
+                            </p>
                             <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
-                                <li>> Ministry-to-ministry bottleneck analysis</li>
-                                <li>> Public–private cooperation models</li>
-                                <li>> Decentralized governance (DAO) models</li>
+                                <li>> <span class="lang-en">Ministry-to-ministry bottleneck analysis</span><span
+                                        class="lang-ja">省庁間ボトルネック分析</span></li>
+                                <li>> <span class="lang-en">Public–private cooperation models</span><span
+                                        class="lang-ja">官民協力モデル</span></li>
+                                <li>> <span class="lang-en">Decentralized governance (DAO) models</span><span
+                                        class="lang-ja">分散型ガバナンス(DAO)モデル</span></li>
                             </ul>
                         </div>
 
@@ -532,13 +754,20 @@
                         <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
                             <h4
                                 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">
-                                Regulatory Liquidity</h4>
-                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">The adaptability of legal and regulatory
-                                systems.</p>
+                                <span class="lang-en">Regulatory Liquidity</span>
+                                <span class="lang-ja">規制の流動性</span>
+                            </h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">
+                                <span class="lang-en">The adaptability of laws and rules to technological change.</span>
+                                <span class="lang-ja">技術変化に対する法律やルールの適応性。</span>
+                            </p>
                             <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
-                                <li>> Cross-border regulatory policy mapping</li>
-                                <li>> Digital government architecture</li>
-                                <li>> Structural gaps between regulation and technology</li>
+                                <li>> <span class="lang-en">Dynamic regulation models</span><span
+                                        class="lang-ja">動的規制モデル</span></li>
+                                <li>> <span class="lang-en">Jurisdictional arbitrage</span><span
+                                        class="lang-ja">管轄権アービトラージ</span></li>
+                                <li>> <span class="lang-en">Compliance automation</span><span
+                                        class="lang-ja">コンプライアンス自動化</span></li>
                             </ul>
                         </div>
 
@@ -546,13 +775,21 @@
                         <div class="glass-panel p-6 hover:bg-white/5 transition-colors group">
                             <h4
                                 class="font-display text-xl text-white mb-4 group-hover:text-cyan-300 transition-colors">
-                                Cognitive Liquidity</h4>
-                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">How knowledge, memory, and intelligence
-                                flow across humans, AI, and institutions.</p>
+                                <span class="lang-en">Cognitive Liquidity</span>
+                                <span class="lang-ja">認知の流動性</span>
+                            </h4>
+                            <p class="text-gray-400 text-xs mb-4 min-h-[40px]">
+                                <span class="lang-en">The ability to learn, unlearn, and reason with new
+                                    information.</span>
+                                <span class="lang-ja">新しい情報を学習、忘却、推論する能力。</span>
+                            </p>
                             <ul class="text-[10px] text-gray-500 space-y-1 font-mono border-t border-gray-800 pt-2">
-                                <li>> Multi-axis thinking models</li>
-                                <li>> Memory-driven AI transparency concepts</li>
-                                <li>> Distributed cognition frameworks</li>
+                                <li>> <span class="lang-en">Institutional memory</span><span
+                                        class="lang-ja">組織の記憶</span></li>
+                                <li>> <span class="lang-en">Bias mitigation</span><span class="lang-ja">バイアス緩和</span>
+                                </li>
+                                <li>> <span class="lang-en">Adaptive learning systems</span><span
+                                        class="lang-ja">適応学習システム</span></li>
                             </ul>
                         </div>
 
@@ -562,31 +799,55 @@
                 <!-- RESEARCH GOALS -->
                 <div class="mb-16">
                     <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
-                        <span class="w-8 h-[1px] bg-cyan-500"></span> RESEARCH GOALS
+                        <span class="w-8 h-[1px] bg-cyan-500"></span>
+                        <span class="lang-en">RESEARCH GOALS</span>
+                        <span class="lang-ja">研究目標</span>
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div class="p-4 border-t border-cyan-500/30 bg-gradient-to-b from-cyan-900/10 to-transparent">
                             <div class="font-mono text-2xl text-cyan-400 mb-2">01</div>
-                            <h4 class="text-white font-bold text-sm mb-2">Make Inefficiencies Visible</h4>
-                            <p class="text-gray-500 text-xs">Mapping hidden structural friction in society and finance.
+                            <h4 class="text-white font-bold text-sm mb-2">
+                                <span class="lang-en">Make Inefficiencies Visible</span>
+                                <span class="lang-ja">非効率性の可視化</span>
+                            </h4>
+                            <p class="text-gray-500 text-xs">
+                                <span class="lang-en">Mapping hidden structural friction in society and finance.</span>
+                                <span class="lang-ja">社会や金融における隠れた構造的摩擦のマッピング。</span>
                             </p>
                         </div>
                         <div class="p-4 border-t border-cyan-500/30 bg-gradient-to-b from-cyan-900/10 to-transparent">
                             <div class="font-mono text-2xl text-cyan-400 mb-2">02</div>
-                            <h4 class="text-white font-bold text-sm mb-2">Propose Liquidity Models</h4>
-                            <p class="text-gray-500 text-xs">Designing principles for how value and decisions should
-                                flow.</p>
+                            <h4 class="text-white font-bold text-sm mb-2">
+                                <span class="lang-en">Propose Liquidity Models</span>
+                                <span class="lang-ja">流動性モデルの提案</span>
+                            </h4>
+                            <p class="text-gray-500 text-xs">
+                                <span class="lang-en">Designing principles for how value and decisions should
+                                    flow.</span>
+                                <span class="lang-ja">価値と意思決定がどのように流れるべきかの原則の設計。</span>
+                            </p>
                         </div>
                         <div class="p-4 border-t border-cyan-500/30 bg-gradient-to-b from-cyan-900/10 to-transparent">
                             <div class="font-mono text-2xl text-cyan-400 mb-2">03</div>
-                            <h4 class="text-white font-bold text-sm mb-2">Future Architecture</h4>
-                            <p class="text-gray-500 text-xs">System-level blueprints for finance, governance, and AI.
+                            <h4 class="text-white font-bold text-sm mb-2">
+                                <span class="lang-en">Future Architecture</span>
+                                <span class="lang-ja">未来のアーキテクチャ</span>
+                            </h4>
+                            <p class="text-gray-500 text-xs">
+                                <span class="lang-en">System-level blueprints for finance, governance, and AI.</span>
+                                <span class="lang-ja">金融、ガバナンス、AIのためのシステムレベルの青写真。</span>
                             </p>
                         </div>
                         <div class="p-4 border-t border-cyan-500/30 bg-gradient-to-b from-cyan-900/10 to-transparent">
                             <div class="font-mono text-2xl text-cyan-400 mb-2">04</div>
-                            <h4 class="text-white font-bold text-sm mb-2">Collaborative Intelligence</h4>
-                            <p class="text-gray-500 text-xs">Transparent AI reasoning and distributed memory.</p>
+                            <h4 class="text-white font-bold text-sm mb-2">
+                                <span class="lang-en">Collaborative Intelligence</span>
+                                <span class="lang-ja">協調的インテリジェンス</span>
+                            </h4>
+                            <p class="text-gray-500 text-xs">
+                                <span class="lang-en">Transparent AI reasoning and distributed memory.</span>
+                                <span class="lang-ja">透明なAI推論と分散型メモリ。</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -595,21 +856,36 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
                     <div class="glass-panel p-8 border-t-4 border-t-green-500/50">
                         <h3 class="font-display text-xl text-white mb-6 flex items-center gap-2">
-                            <span class="w-2 h-2 bg-green-500 rounded-full"></span> RESEARCH OUTPUTS
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span class="lang-en">RESEARCH OUTPUTS</span>
+                            <span class="lang-ja">研究成果</span>
                         </h3>
-                        <p class="text-gray-400 text-sm mb-4">SLI Lab releases only non-technical, non-confidential,
-                            structural research:</p>
+                        <p class="text-gray-400 text-sm mb-4">
+                            <span class="lang-en">SLI Lab releases only non-technical, non-confidential, structural
+                                research:</span>
+                            <span class="lang-ja">SLI Labは、非技術的、非機密の構造的研究のみを公開します。</span>
+                        </p>
                         <ul class="space-y-3 font-mono text-xs text-gray-300">
-                            <li class="flex gap-2"><span class="text-green-500">✓</span> Structural frameworks &
-                                Liquidity models</li>
-                            <li class="flex gap-2"><span class="text-green-500">✓</span> Cross-sector system analysis
+                            <li class="flex gap-2"><span class="text-green-500">✓</span>
+                                <span class="lang-en">Structural frameworks & Liquidity models</span>
+                                <span class="lang-ja">構造的フレームワークと流動性モデル</span>
                             </li>
-                            <li class="flex gap-2"><span class="text-green-500">✓</span> Institutional design proposals
+                            <li class="flex gap-2"><span class="text-green-500">✓</span>
+                                <span class="lang-en">Cross-sector system analysis</span>
+                                <span class="lang-ja">セクター横断的システム分析</span>
                             </li>
-                            <li class="flex gap-2"><span class="text-green-500">✓</span> Governance & regulatory
-                                insights</li>
-                            <li class="flex gap-2"><span class="text-green-500">✓</span> AI cognition models
-                                (non-technical)</li>
+                            <li class="flex gap-2"><span class="text-green-500">✓</span>
+                                <span class="lang-en">Institutional design proposals</span>
+                                <span class="lang-ja">制度設計の提案</span>
+                            </li>
+                            <li class="flex gap-2"><span class="text-green-500">✓</span>
+                                <span class="lang-en">Governance & regulatory insights</span>
+                                <span class="lang-ja">ガバナンスと規制の洞察</span>
+                            </li>
+                            <li class="flex gap-2"><span class="text-green-500">✓</span>
+                                <span class="lang-en">AI cognition models (non-technical)</span>
+                                <span class="lang-ja">AI認知モデル（非技術的）</span>
+                            </li>
                         </ul>
                     </div>
 
@@ -618,18 +894,34 @@
                             class="absolute -right-4 -top-4 text-red-900/10 font-black text-9xl pointer-events-none select-none">
                             Ø</div>
                         <h3 class="font-display text-xl text-white mb-6 flex items-center gap-2">
-                            <span class="w-2 h-2 bg-red-500 rounded-full"></span> RESTRICTED (CRITICAL SAFETY)
+                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                            <span class="lang-en">RESTRICTED (CRITICAL SAFETY)</span>
+                            <span class="lang-ja">制限付き（重要な安全性）</span>
                         </h3>
-                        <p class="text-gray-400 text-sm mb-4">SLI Lab does <span class="text-red-400">NOT</span>
-                            release:</p>
+                        <p class="text-gray-400 text-sm mb-4">
+                            <span class="lang-en">SLI Lab does <span class="text-red-400">NOT</span> release:</span>
+                            <span class="lang-ja">SLI Labは以下を<span class="text-red-400">公開しません</span>:</span>
+                        </p>
                         <ul class="space-y-3 font-mono text-xs text-gray-300 relative z-10">
-                            <li class="flex gap-2"><span class="text-red-500">✕</span> Protocol design or Algorithms
+                            <li class="flex gap-2"><span class="text-red-500">✕</span>
+                                <span class="lang-en">Protocol design or Algorithms</span>
+                                <span class="lang-ja">プロトコル設計またはアルゴリズム</span>
                             </li>
-                            <li class="flex gap-2"><span class="text-red-500">✕</span> Internal architecture or APIs
+                            <li class="flex gap-2"><span class="text-red-500">✕</span>
+                                <span class="lang-en">Internal architecture or APIs</span>
+                                <span class="lang-ja">内部アーキテクチャまたはAPI</span>
                             </li>
-                            <li class="flex gap-2"><span class="text-red-500">✕</span> Custody-sensitive logic</li>
-                            <li class="flex gap-2"><span class="text-red-500">✕</span> Identity systems</li>
-                            <li class="flex gap-2"><span class="text-red-500">✕</span> Business secrets or Lendler tech
+                            <li class="flex gap-2"><span class="text-red-500">✕</span>
+                                <span class="lang-en">Custody-sensitive logic</span>
+                                <span class="lang-ja">カストディに敏感なロジック</span>
+                            </li>
+                            <li class="flex gap-2"><span class="text-red-500">✕</span>
+                                <span class="lang-en">Identity systems</span>
+                                <span class="lang-ja">アイデンティティシステム</span>
+                            </li>
+                            <li class="flex gap-2"><span class="text-red-500">✕</span>
+                                <span class="lang-en">Business secrets or Lendler tech</span>
+                                <span class="lang-ja">企業秘密またはLendler技術</span>
                             </li>
                         </ul>
                     </div>
@@ -637,11 +929,18 @@
 
                 <!-- Footer Quote -->
                 <div class="text-center max-w-2xl mx-auto border-t border-gray-800 pt-12">
-                    <h3 class="font-display text-2xl text-white mb-4">Why This Research Matters</h3>
-                    <p class="text-gray-400 text-sm italic mb-6">"Governments move slowly, regulations lag, and AI
-                        becomes a black box. The world is becoming more complex."</p>
+                    <h3 class="font-display text-2xl text-white mb-4">
+                        <span class="lang-en">Why This Research Matters</span>
+                        <span class="lang-ja">なぜこの研究が重要なのか</span>
+                    </h3>
+                    <p class="text-gray-400 text-sm italic mb-6">
+                        <span class="lang-en">"Governments move slowly, regulations lag, and AI becomes a black box. The
+                            world is becoming more complex."</span>
+                        <span class="lang-ja">「政府の動きは遅く、規制は遅れ、AIはブラックボックス化しています。世界はより複雑になっています。」</span>
+                    </p>
                     <p class="text-cyan-400 font-mono text-sm tracking-widest uppercase">
-                        “How do we redesign societal systems so they flow smoothly?”
+                        <span class="lang-en">“How do we redesign societal systems so they flow smoothly?”</span>
+                        <span class="lang-ja">「社会システムがスムーズに流れるように再設計するにはどうすればよいか？」</span>
                     </p>
                 </div>
             </div>
@@ -650,25 +949,42 @@
             <div id="page-what-we-study" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
 
                 <div class="flex flex-col mb-12">
-                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">WHAT WE STUDY</h1>
-                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Forces Shaping Intelligent
-                        Systems</p>
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
+                        <span class="lang-en">WHAT WE STUDY</span>
+                        <span class="lang-ja">私たちが研究するもの</span>
+                    </h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">
+                        <span class="lang-en">Forces Shaping Intelligent Systems</span>
+                        <span class="lang-ja">知的システムを形成する力</span>
+                    </p>
 
                     <div class="glass-panel p-8 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
                         <p class="text-gray-300 leading-relaxed font-light text-lg mb-6">
-                            At SLI Lab, we study one of the most fundamental forces shaping societies, economies, and
-                            intelligent systems: <span class="text-white font-bold">Structure</span>. And the phenomenon
-                            that determines how well structures survive, evolve, and interact: <span
-                                class="text-white font-bold">Liquidity</span>.
+                            <span class="lang-en">At SLI Lab, we study one of the most fundamental forces shaping
+                                societies, economies, and
+                                intelligent systems: <span class="text-white font-bold">Structure</span>. And the
+                                phenomenon
+                                that determines how well structures survive, evolve, and interact: <span
+                                    class="text-white font-bold">Liquidity</span>.</span>
+                            <span class="lang-ja">SLI Labでは、社会、経済、知的システムを形成する最も基本的な力の1つである<span
+                                    class="text-white font-bold">構造</span>を研究しています。そして、構造がどれだけうまく生き残り、進化し、相互作用するかを決定する現象である<span
+                                    class="text-white font-bold">流動性</span>を研究しています。</span>
                         </p>
                         <p class="text-gray-400 text-sm leading-relaxed">
-                            We examine how value moves, how information moves, how decisions move, and how institutions
-                            adapt or fail under pressure. Our work bridges economics, AI research, governance design,
-                            and system architecture — because all complex systems break for similar structural reasons.
+                            <span class="lang-en">We examine how value moves, how information moves, how decisions move,
+                                and how institutions
+                                adapt or fail under pressure. Our work bridges economics, AI research, governance
+                                design,
+                                and system architecture — because all complex systems break for similar structural
+                                reasons.</span>
+                            <span
+                                class="lang-ja">私たちは、価値がどのように動き、情報がどのように動き、意思決定がどのように動き、組織が圧力の下でどのように適応または失敗するかを調査します。私たちの仕事は、経済学、AI研究、ガバナンス設計、システムアーキテクチャの架け橋となります。なぜなら、すべての複雑なシステムは、同様の構造的理由で壊れるからです。</span>
                         </p>
                         <p class="text-gray-400 text-sm leading-relaxed mt-4">
-                            We believe that the future will belong to institutions and technologies that understand
-                            structural liquidity at a deep level.
+                            <span class="lang-en">We believe that the future will belong to institutions and
+                                technologies that understand
+                                structural liquidity at a deep level.</span>
+                            <span class="lang-ja">私たちは、未来は構造的流動性を深いレベルで理解している組織と技術に属すると信じています。</span>
                         </p>
                     </div>
                 </div>
@@ -677,49 +993,72 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
                     <!-- Structure -->
                     <div class="glass-panel p-8 border-t-2 border-t-blue-500 hover:bg-white/5 transition-colors">
-                        <h3 class="font-display text-2xl text-blue-300 mb-4">Structures Shape Behavior</h3>
-                        <p class="text-gray-400 text-sm mb-6">Every system — financial, political, digital, or cognitive
-                            — behaves according to its structure.</p>
+                        <h3 class="font-display text-2xl text-blue-300 mb-4">
+                            <span class="lang-en">Structures Shape Behavior</span>
+                            <span class="lang-ja">構造は行動を形成する</span>
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-6">
+                            <span class="lang-en">Every system — financial, political, digital, or cognitive — behaves
+                                according to its structure.</span>
+                            <span class="lang-ja">すべてのシステム（金融、政治、デジタル、認知）は、その構造に従って振る舞います。</span>
+                        </p>
                         <div class="mb-6">
-                            <p class="text-xs text-gray-500 uppercase mb-2">A structure determines:</p>
-                            <ul class="text-sm text-gray-300 space-y-1 font-mono">
-                                <li>• What can move</li>
-                                <li>• What cannot move</li>
-                                <li>• How fast something moves</li>
-                                <li>• How much friction exists</li>
-                                <li>• How power, information, and value flow</li>
+                            <p class="text-xs text-gray-500 uppercase mb-2">
+                                <span class="lang-en">A structure determines:</span>
+                                <span class="lang-ja">構造が決定するもの:</span>
+                            </p>
+                            <ul class="text-sm text-gray-300 space-y-2 font-mono">
+                                <li>> <span class="lang-en">What is possible</span><span class="lang-ja">何が可能か</span>
+                                </li>
+                                <li>> <span class="lang-en">Who has power</span><span class="lang-ja">誰が権力を持つか</span>
+                                </li>
+                                <li>> <span class="lang-en">Where friction exists</span><span
+                                        class="lang-ja">どこに摩擦が存在するか</span></li>
+                                <li>> <span class="lang-en">How value is stored</span><span
+                                        class="lang-ja">価値がどのように保存されるか</span></li>
                             </ul>
                         </div>
-                        <p class="text-gray-300 text-sm mb-4">
-                            When the structure is wrong, no amount of strategy or technology can fix the outcomes.
-                        </p>
-                        <p class="text-gray-400 text-sm italic border-l border-blue-500/30 pl-3">
-                            Most failures we observe in the world — financial crises, policy failures, governance
-                            paralysis, ecosystem collapse, organizational stagnation — begin as structural failures long
-                            before they become visible. SLI Lab studies these invisible mechanics.
-                        </p>
                     </div>
 
                     <!-- Liquidity -->
                     <div class="glass-panel p-8 border-t-2 border-t-yellow-500 hover:bg-white/5 transition-colors">
-                        <h3 class="font-display text-2xl text-yellow-300 mb-4">Liquidity Determines Survival</h3>
-                        <p class="text-gray-400 text-sm mb-6">Liquidity is not just a financial term. It is a universal
-                            property of systems.</p>
-                        <p class="text-gray-300 text-sm mb-6">In SLI Lab’s research, liquidity refers to the ease with
-                            which any unit of value, information, intelligence, or decision-making can move through a
-                            structure.</p>
+                        <h3 class="font-display text-2xl text-yellow-300 mb-4">
+                            <span class="lang-en">Liquidity Determines Survival</span>
+                            <span class="lang-ja">流動性は生存を決定する</span>
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-6">
+                            <span class="lang-en">Liquidity is not just a financial term. It is a universal property of
+                                systems.</span>
+                            <span class="lang-ja">流動性は単なる金融用語ではありません。それはシステムの普遍的な特性です。</span>
+                        </p>
+                        <p class="text-gray-300 text-sm mb-6">
+                            <span class="lang-en">In SLI Lab’s research, liquidity refers to the ease with which any
+                                unit of value, information, intelligence, or decision-making can move through a
+                                structure.</span>
+                            <span class="lang-ja">SLI
+                                Labの研究において、流動性とは、価値、情報、知能、または意思決定の単位が構造を通じてどれだけ容易に移動できるかを指します。</span>
+                        </p>
                         <div class="mb-6">
-                            <p class="text-xs text-gray-500 uppercase mb-2">When liquidity disappears:</p>
+                            <p class="text-xs text-gray-500 uppercase mb-2">
+                                <span class="lang-en">When liquidity disappears:</span>
+                                <span class="lang-ja">流動性が失われると:</span>
+                            </p>
                             <ul class="text-sm text-gray-300 space-y-1 font-mono">
-                                <li>• Economies freeze</li>
-                                <li>• Governments lose responsiveness</li>
-                                <li>• Organizations become slow</li>
-                                <li>• Ecosystems break</li>
-                                <li>• AI systems collapse under complexity</li>
+                                <li>• <span class="lang-en">Economies freeze</span><span class="lang-ja">経済が凍結する</span>
+                                </li>
+                                <li>• <span class="lang-en">Governments lose responsiveness</span><span
+                                        class="lang-ja">政府は応答性を失う</span></li>
+                                <li>• <span class="lang-en">Organizations become slow</span><span
+                                        class="lang-ja">組織は遅くなる</span></li>
+                                <li>• <span class="lang-en">Ecosystems break</span><span
+                                        class="lang-ja">エコシステムが壊れる</span></li>
+                                <li>• <span class="lang-en">AI systems collapse under complexity</span><span
+                                        class="lang-ja">AIシステムは複雑さの下で崩壊する</span></li>
                             </ul>
                         </div>
                         <p class="text-gray-400 text-sm italic border-l border-yellow-500/30 pl-3">
-                            Liquidity is a structural health indicator across all domains.
+                            <span class="lang-en">Liquidity is a structural health indicator across all domains.</span>
+                            <span class="lang-ja">流動性は、すべての領域における構造的健全性の指標です。</span>
                         </p>
                     </div>
                 </div>
@@ -727,44 +1066,79 @@
                 <!-- Collapse & AI Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
                     <div class="glass-panel p-8 border-l-2 border-l-red-500">
-                        <h3 class="font-display text-xl text-red-300 mb-4">Why Structures Collapse</h3>
-                        <p class="text-gray-400 text-sm mb-4">Most institutions fail not because the people are
-                            incompetent, but because the system around them is too rigid.</p>
-                        <p class="text-xs text-gray-500 uppercase mb-2">We Study:</p>
+                        <h3 class="font-display text-xl text-red-300 mb-4">
+                            <span class="lang-en">Why Structures Collapse</span>
+                            <span class="lang-ja">なぜ構造は崩壊するのか</span>
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4">
+                            <span class="lang-en">Most institutions fail not because the people are incompetent, but
+                                because the system around them is too rigid.</span>
+                            <span class="lang-ja">ほとんどの組織が失敗するのは、人々が無能だからではなく、彼らを取り巻くシステムがあまりにも硬直的だからです。</span>
+                        </p>
+                        <p class="text-xs text-gray-500 uppercase mb-2">
+                            <span class="lang-en">We Study:</span>
+                            <span class="lang-ja">私たちは以下を研究します:</span>
+                        </p>
                         <ul class="text-sm text-gray-300 space-y-1 font-mono mb-6">
-                            <li>• Bottlenecks</li>
-                            <li>• Decision Friction</li>
-                            <li>• Conflicting Incentives</li>
-                            <li>• Overloaded Channels</li>
-                            <li>• Non-transparent Information Flows</li>
-                            <li>• Structural Debts Accumulated Over Decades</li>
+                            <li>• <span class="lang-en">Bottlenecks</span><span class="lang-ja">ボトルネック</span></li>
+                            <li>• <span class="lang-en">Decision Friction</span><span class="lang-ja">意思決定の摩擦</span>
+                            </li>
+                            <li>• <span class="lang-en">Conflicting Incentives</span><span
+                                    class="lang-ja">相反するインセンティブ</span></li>
+                            <li>• <span class="lang-en">Overloaded Channels</span><span class="lang-ja">過負荷のチャネル</span>
+                            </li>
+                            <li>• <span class="lang-en">Non-transparent Information Flows</span><span
+                                    class="lang-ja">不透明な情報の流れ</span></li>
+                            <li>• <span class="lang-en">Structural Debts Accumulated Over Decades</span><span
+                                    class="lang-ja">数十年かけて蓄積された構造的負債</span></li>
                         </ul>
                         <p class="text-gray-400 text-sm">
-                            Our research focuses on why institutions get stuck, and what kinds of structures restore
-                            fluidity without losing safety or control.
+                            <span class="lang-en">Our research focuses on why institutions get stuck, and what kinds of
+                                structures restore fluidity without losing safety or control.</span>
+                            <span
+                                class="lang-ja">私たちの研究は、なぜ組織が行き詰まるのか、そして安全性や制御を失うことなく流動性を回復させる構造とはどのようなものかに焦点を当てています。</span>
                         </p>
                     </div>
 
                     <div class="glass-panel p-8 border-l-2 border-l-fuchsia-500">
-                        <h3 class="font-display text-xl text-fuchsia-300 mb-4">Why AI Needs Structural Design</h3>
-                        <p class="text-gray-400 text-sm mb-4">Modern AI systems are powerful, but structurally fragile.
+                        <h3 class="font-display text-xl text-fuchsia-300 mb-4">
+                            <span class="lang-en">Why AI Needs Structural Design</span>
+                            <span class="lang-ja">なぜAIに構造設計が必要なのか</span>
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4">
+                            <span class="lang-en">Modern AI systems are powerful, but structurally fragile.</span>
+                            <span class="lang-ja">現代のAIシステムは強力ですが、構造的に脆弱です。</span>
                         </p>
-                        <p class="text-xs text-gray-500 uppercase mb-2">They Suffer From:</p>
+                        <p class="text-xs text-gray-500 uppercase mb-2">
+                            <span class="lang-en">They Suffer From:</span>
+                            <span class="lang-ja">それらは以下に苦しんでいます:</span>
+                        </p>
                         <ul class="text-sm text-gray-300 space-y-1 font-mono mb-6">
-                            <li>• Stateless Memory</li>
-                            <li>• Fragmented Reasoning</li>
-                            <li>• Non-persistent Knowledge</li>
-                            <li>• Non-transparent Cognition</li>
-                            <li>• Non-explainable Internal Flows</li>
+                            <li>• <span class="lang-en">Stateless Memory</span><span class="lang-ja">ステートレスメモリ</span>
+                            </li>
+                            <li>• <span class="lang-en">Fragmented Reasoning</span><span class="lang-ja">断片化された推論</span>
+                            </li>
+                            <li>• <span class="lang-en">Non-persistent Knowledge</span><span
+                                    class="lang-ja">非永続的な知識</span></li>
+                            <li>• <span class="lang-en">Non-transparent Cognition</span><span
+                                    class="lang-ja">不透明な認知</span></li>
+                            <li>• <span class="lang-en">Non-explainable Internal Flows</span><span
+                                    class="lang-ja">説明不可能な内部フロー</span></li>
                         </ul>
                         <p class="text-gray-400 text-sm mb-4">
-                            As AI grows more integrated into society, its <span class="text-fuchsia-400">structural
-                                liquidity</span> — memory, reasoning flow, constraint architecture — will determine
-                            whether it remains controllable, safe, and aligned.
+                            <span class="lang-en">As AI grows more integrated into society, its <span
+                                    class="text-fuchsia-400">structural liquidity</span> — memory, reasoning flow,
+                                constraint architecture — will determine whether it remains controllable, safe, and
+                                aligned.</span>
+                            <span class="lang-ja">AIが社会に統合されるにつれて、その<span
+                                    class="text-fuchsia-400">構造的流動性</span>（記憶、推論フロー、制約アーキテクチャ）が、AIが制御可能で、安全で、整合性を保てるかどうかを決定します。</span>
                         </p>
                         <p class="text-gray-400 text-sm">
-                            SLI Lab researches structural cognition, transparent memory concepts, and multi-axis
-                            frameworks for designing AI that works within human-governable structures.
+                            <span class="lang-en">SLI Lab researches structural cognition, transparent memory concepts,
+                                and multi-axis frameworks for designing AI that works within human-governable
+                                structures.</span>
+                            <span class="lang-ja">SLI
+                                Labは、人間が管理可能な構造内で機能するAIを設計するための、構造的認知、透明な記憶概念、および多軸フレームワークを研究しています。</span>
                         </p>
                     </div>
                 </div>
@@ -772,45 +1146,53 @@
                 <!-- Bridging Thesis -->
                 <div class="mb-16">
                     <div class="glass-panel p-8 border border-gray-700 bg-gray-900/30">
-                        <h3 class="font-display text-2xl text-white mb-6 text-center">BRIDGING VALUE, INTELLIGENCE, AND
-                            GOVERNANCE</h3>
+                        <h3 class="font-display text-2xl text-white mb-6 text-center">
+                            <span class="lang-en">BRIDGING VALUE, INTELLIGENCE, AND GOVERNANCE</span>
+                            <span class="lang-ja">価値、知能、ガバナンスの架け橋</span>
+                        </h3>
                         <p class="text-center text-gray-400 text-sm mb-8 max-w-2xl mx-auto">
-                            The central thesis of SLI Lab is simple: Value systems, intelligence systems, and governance
-                            systems share the same underlying structural laws.
+                            <span class="lang-en">The central thesis of SLI Lab is simple: Value systems, intelligence
+                                systems, and governance systems share the same underlying structural laws.</span>
+                            <span class="lang-ja">SLI
+                                Labの中心的なテーゼは単純です。価値システム、知能システム、ガバナンスシステムは、同じ根本的な構造法則を共有しています。</span>
                         </p>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                             <div class="text-right space-y-2">
-                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Whether we are
-                                    analyzing:</p>
+                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">
+                                    <span class="lang-en">Whether we are analyzing:</span>
+                                    <span class="lang-ja">私たちが分析しているのが以下であっても:</span>
+                                </p>
                                 <ul class="text-cyan-300 font-mono text-sm space-y-2">
-                                    <li>A Financial Network</li>
-                                    <li>A Public Institution</li>
-                                    <li>A Multi-Agent AI System</li>
-                                    <li>A Digital Economy</li>
-                                    <li>A Liquidity Mechanism</li>
-                                    <li>A Decision-Making Framework</li>
+                                    <li><span class="lang-en">A Financial Network</span><span
+                                            class="lang-ja">金融ネットワーク</span></li>
+                                    <li><span class="lang-en">A Public Institution</span><span
+                                            class="lang-ja">公的機関</span></li>
+                                    <li><span class="lang-en">A Multi-Agent AI System</span><span
+                                            class="lang-ja">マルチエージェントAIシステム</span></li>
+                                    <li><span class="lang-en">A Digital Economy</span><span
+                                            class="lang-ja">デジタル経済</span></li>
+                                    <li><span class="lang-en">A Liquidity Mechanism</span><span
+                                            class="lang-ja">流動性メカニズム</span></li>
+                                    <li><span class="lang-en">A Decision-Making Framework</span><span
+                                            class="lang-ja">意思決定フレームワーク</span></li>
                                 </ul>
                             </div>
 
-                            <div
-                                class="hidden md:block w-[1px] h-full bg-gray-700 mx-auto absolute left-1/2 top-0 bottom-0 transform -translate-x-1/2">
-                            </div>
-
-                            <div class="text-left space-y-2">
-                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Each is governed by:</p>
+                            <div class="text-left space-y-2 border-l border-gray-700 pl-12">
+                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">
+                                    <span class="lang-en">The questions are the same:</span>
+                                    <span class="lang-ja">問いは同じです:</span>
+                                </p>
                                 <ul class="text-yellow-300 font-mono text-sm space-y-2">
-                                    <li>Where information sits</li>
-                                    <li>How fast it moves</li>
-                                    <li>How it is constrained</li>
-                                    <li>Who can act</li>
                                     <li>What incentives shape the flow</li>
                                 </ul>
                             </div>
                         </div>
                         <p class="text-center text-gray-400 text-sm mt-8 max-w-2xl mx-auto">
-                            This unified structural view allows us to generate insights that traditional disciplines
-                            cannot see.
+                            <span class="lang-en">This unified structural view allows us to generate insights that
+                                traditional disciplines cannot see.</span>
+                            <span class="lang-ja">この統一された構造的視点により、従来の学問分野では見ることのできない洞察を生み出すことができます。</span>
                         </p>
                     </div>
                 </div>
@@ -818,32 +1200,49 @@
                 <!-- Unique & Question -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
                     <div class="lg:col-span-1 glass-panel p-8">
-                        <h4 class="font-display text-lg text-white mb-4">Why SLI Lab Is Unique</h4>
+                        <h4 class="font-display text-lg text-white mb-4">
+                            <span class="lang-en">Why SLI Lab Is Unique</span>
+                            <span class="lang-ja">なぜSLI Labはユニークなのか</span>
+                        </h4>
                         <p class="text-xs text-gray-400 leading-relaxed mb-4">
-                            Most research institutions specialize in one domain (economics, policy, AI, finance,
-                            sociology, systems engineering). SLI Lab does not separate them.
+                            <span class="lang-en">Most research institutions specialize in one domain (economics,
+                                policy, AI, finance, sociology, systems engineering). SLI Lab does not separate
+                                them.</span>
+                            <span class="lang-ja">ほとんどの研究機関は1つの領域（経済学、政策、AI、金融、社会学、システム工学）に特化しています。SLI
+                                Labはそれらを分離しません。</span>
                         </p>
                         <p class="text-xs text-gray-300 mb-4">
-                            We look at the structural blueprint behind all of them — the <span
-                                class="text-white">"source code"</span> of institutional reality.
+                            <span class="lang-en">We look at the structural blueprint behind all of them — the <span
+                                    class="text-white">"source code"</span> of institutional reality.</span>
+                            <span class="lang-ja">私たちは、それらすべての背後にある構造的な青写真、つまり制度的現実の<span
+                                    class="text-white">「ソースコード」</span>を見ています。</span>
                         </p>
                         <p class="text-xs text-gray-400">
-                            This cross-domain structural intelligence is what enables new analytical frameworks,
-                            system-level innovation, better governance design, safer AI architecture, and more
-                            transparent financial infrastructure.
+                            <span class="lang-en">This cross-domain structural intelligence is what enables new
+                                analytical frameworks, system-level innovation, better governance design, safer AI
+                                architecture, and more transparent financial infrastructure.</span>
+                            <span
+                                class="lang-ja">この領域横断的な構造的インテリジェンスこそが、新しい分析フレームワーク、システムレベルのイノベーション、より良いガバナンス設計、より安全なAIアーキテクチャ、そしてより透明な金融インフラを可能にするものです。</span>
                         </p>
                     </div>
 
                     <div class="lg:col-span-2 glass-panel p-8 border-t-2 border-t-cyan-500">
-                        <h4 class="font-display text-lg text-cyan-300 mb-4">Our Guiding Question</h4>
+                        <h4 class="font-display text-lg text-cyan-300 mb-4">
+                            <span class="lang-en">Our Guiding Question</span>
+                            <span class="lang-ja">私たちの指針となる問い</span>
+                        </h4>
                         <p class="text-xl text-white font-light leading-relaxed italic">
-                            "What structural form allows value, intelligence, and governance to move freely, safely, and
-                            transparently across human and digital systems?"
+                            <span class="lang-en">"What structural form allows value, intelligence, and governance to
+                                move freely, safely, and transparently across human and digital systems?"</span>
+                            <span
+                                class="lang-ja">「価値、知能、ガバナンスが、人間とデジタルのシステム全体で、自由かつ安全に、そして透明性を持って移動できるようにする構造的形態とは何か？」</span>
                         </p>
                         <p class="text-xs text-gray-500 mt-6">
-                            We pursue this question through theory, frameworks, institutional briefs, and conceptual
-                            models — always with the goal of supporting a more transparent, adaptive, and structurally
-                            sound global future.
+                            <span class="lang-en">We pursue this question through theory, frameworks, institutional
+                                briefs, and conceptual models — always with the goal of supporting a more transparent,
+                                adaptive, and structurally sound global future.</span>
+                            <span
+                                class="lang-ja">私たちは、理論、フレームワーク、制度的ブリーフ、概念モデルを通じてこの問いを追求し、常により透明で、適応性があり、構造的に健全なグローバルな未来を支援することを目標としています。</span>
                         </p>
                     </div>
                 </div>
@@ -853,13 +1252,21 @@
             <!-- PROJECTS PAGE -->
             <div id="page-projects" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
                 <div class="flex flex-col mb-12">
-                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">RESEARCH PROJECTS</h1>
-                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Full Public Version</p>
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
+                        <span class="lang-en">RESEARCH PROJECTS</span>
+                        <span class="lang-ja">研究プロジェクト</span>
+                    </h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">
+                        <span class="lang-en">Full Public Version</span>
+                        <span class="lang-ja">完全公開版</span>
+                    </p>
                     <div class="glass-panel p-6 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
                         <p class="text-gray-300 leading-relaxed font-light text-sm">
-                            Below is the complete list of concept-level, non-confidential research projects carried out
-                            by SLI Lab. These projects cover cognitive models, public systems, interoperability, and
-                            institutional design.
+                            <span class="lang-en">Below is the complete list of concept-level, non-confidential research
+                                projects carried out by SLI Lab. These projects cover cognitive models, public systems,
+                                interoperability, and institutional design.</span>
+                            <span class="lang-ja">以下は、SLI
+                                Labによって実施された概念レベルの非機密研究プロジェクトの完全なリストです。これらのプロジェクトは、認知モデル、公共システム、相互運用性、および制度設計をカバーしています。</span>
                         </p>
                     </div>
                 </div>
@@ -868,18 +1275,39 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-blue-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-blue-300">01. Cognitive Liquidity</h3>
+                            <h3 class="font-display text-lg text-blue-300">
+                                <span class="lang-en">01. Cognitive Liquidity</span>
+                                <span class="lang-ja">01. 認知の流動性</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-blue-500/30 text-blue-400 px-2 py-1 rounded">Research</span>
+                                class="text-[9px] font-mono border border-blue-500/30 text-blue-400 px-2 py-1 rounded">
+                                <span class="lang-en">Research</span>
+                                <span class="lang-ja">研究</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A conceptual framework studying
-                            how memory, reasoning, and knowledge flow within humans, institutions, and AI systems.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">A conceptual framework studying how memory, reasoning, and knowledge
+                                flow within humans, institutions, and AI systems.</span>
+                            <span class="lang-ja">人間、組織、AIシステム内で、記憶、推論、知識がどのように流れるかを研究する概念的フレームワーク。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-blue-400">Problem:</strong> AI
-                                and institutions lack interpretable, shared reasoning structures.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-blue-400">Impact:</strong>
-                                Blueprints for cognition that enable oversight, transparency, and safe coordination.
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-blue-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">AI and institutions lack interpretable, shared reasoning
+                                    structures.</span>
+                                <span class="lang-ja">AIと組織には、解釈可能で共有された推論構造が欠けています。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-blue-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Blueprints for cognition that enable oversight, transparency, and
+                                    safe coordination.</span>
+                                <span class="lang-ja">監視、透明性、安全な調整を可能にする認知の青写真。</span>
                             </div>
                         </div>
                     </div>
@@ -888,19 +1316,40 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-purple-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-purple-300">02. Public System Mapping</h3>
+                            <h3 class="font-display text-lg text-purple-300">
+                                <span class="lang-en">02. Public System Mapping</span>
+                                <span class="lang-ja">02. 公共システムマッピング</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-purple-500/30 text-purple-400 px-2 py-1 rounded">Drafting</span>
+                                class="text-[9px] font-mono border border-purple-500/30 text-purple-400 px-2 py-1 rounded">
+                                <span class="lang-en">Drafting</span>
+                                <span class="lang-ja">ドラフト作成中</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A structural framework to
-                            identify bottlenecks in value, information, and decision flows across ministries and public
-                            infrastructure.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">A structural framework to identify bottlenecks in value, information,
+                                and decision flows across ministries and public infrastructure.</span>
+                            <span class="lang-ja">省庁や公共インフラ全体での価値、情報、意思決定の流れにおけるボトルネックを特定するための構造的フレームワーク。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-purple-400">Problem:</strong>
-                                Administrative friction reduces execution speed and policy impact.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-purple-400">Impact:</strong>
-                                Improved government efficiency and inter-agency coordination.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-purple-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Administrative friction reduces execution speed and policy
+                                    impact.</span>
+                                <span class="lang-ja">行政の摩擦が実行速度と政策の影響を低下させます。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-purple-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Improved government efficiency and inter-agency
+                                    coordination.</span>
+                                <span class="lang-ja">政府の効率性と省庁間の調整の改善。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -908,18 +1357,38 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-green-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-green-300">03. Digital Interoperability</h3>
+                            <h3 class="font-display text-lg text-green-300">
+                                <span class="lang-en">03. Digital Interoperability</span>
+                                <span class="lang-ja">03. デジタル相互運用性</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-green-500/30 text-green-400 px-2 py-1 rounded">Research</span>
+                                class="text-[9px] font-mono border border-green-500/30 text-green-400 px-2 py-1 rounded">
+                                <span class="lang-en">Research</span>
+                                <span class="lang-ja">研究</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">High-level frameworks for how
-                            stablecoins, CBDCs, and tokenized assets can interoperate structurally across borders.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">High-level frameworks for how stablecoins, CBDCs, and tokenized assets
+                                can interoperate structurally across borders.</span>
+                            <span class="lang-ja">ステーブルコイン、CBDC、トークン化された資産が国境を越えて構造的に相互運用する方法に関する高レベルのフレームワーク。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-green-400">Problem:</strong>
-                                Digital value systems remain siloed and non-coordinated.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-green-400">Impact:</strong>
-                                Enables global liquidity and cross-national cooperation.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-green-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Digital value systems remain siloed and non-coordinated.</span>
+                                <span class="lang-ja">デジタル価値システムはサイロ化されたままであり、調整されていません。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-green-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Enables global liquidity and cross-national cooperation.</span>
+                                <span class="lang-ja">グローバルな流動性と国家間の協力を可能にします。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -927,18 +1396,39 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-yellow-400 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-yellow-300">04. Transparent AI Memory</h3>
+                            <h3 class="font-display text-lg text-yellow-300">
+                                <span class="lang-en">04. Transparent AI Memory</span>
+                                <span class="lang-ja">04. 透明なAIメモリ</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-yellow-400/30 text-yellow-400 px-2 py-1 rounded">Concept</span>
+                                class="text-[9px] font-mono border border-yellow-400/30 text-yellow-400 px-2 py-1 rounded">
+                                <span class="lang-en">Concept</span>
+                                <span class="lang-ja">コンセプト</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A conceptual model for AI
-                            systems with transparent, auditable memory and reasoning.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">A conceptual model for AI systems with transparent, auditable memory
+                                and reasoning.</span>
+                            <span class="lang-ja">透明で監査可能な記憶と推論を持つAIシステムのための概念モデル。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-400">Problem:</strong> AI
-                                remains a black box with no structural accountability.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-400">Impact:</strong>
-                                Governance-friendly AI architecture for public and institutional use.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-yellow-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">AI remains a black box with no structural accountability.</span>
+                                <span class="lang-ja">AIは構造的な説明責任のないブラックボックスのままです。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-yellow-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Governance-friendly AI architecture for public and institutional
+                                    use.</span>
+                                <span class="lang-ja">公共および組織での使用に適したガバナンスフレンドリーなAIアーキテクチャ。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -946,18 +1436,38 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-orange-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-orange-300">05. Coordination Patterns</h3>
+                            <h3 class="font-display text-lg text-orange-300">
+                                <span class="lang-en">05. Coordination Patterns</span>
+                                <span class="lang-ja">05. 調整パターン</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-orange-500/30 text-orange-400 px-2 py-1 rounded">Research</span>
+                                class="text-[9px] font-mono border border-orange-500/30 text-orange-400 px-2 py-1 rounded">
+                                <span class="lang-en">Research</span>
+                                <span class="lang-ja">研究</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">Structural models of how
-                            ministries, corporations, and institutions coordinate across boundaries.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">Structural models of how ministries, corporations, and institutions
+                                coordinate across boundaries.</span>
+                            <span class="lang-ja">省庁、企業、組織が境界を越えてどのように調整するかについての構造モデル。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-orange-400">Problem:</strong>
-                                Coordination capacity lags behind system complexity.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-orange-400">Impact:</strong>
-                                Faster cross-sector workflows and improved policy delivery.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-orange-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Coordination capacity lags behind system complexity.</span>
+                                <span class="lang-ja">調整能力がシステムの複雑さに遅れをとっています。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-orange-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Faster cross-sector workflows and improved policy delivery.</span>
+                                <span class="lang-ja">セクター横断的なワークフローの高速化と政策提供の改善。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -965,18 +1475,37 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-red-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-red-300">06. Multi-Axis Framework</h3>
-                            <span
-                                class="text-[9px] font-mono border border-red-500/30 text-red-400 px-2 py-1 rounded">Writing</span>
+                            <h3 class="font-display text-lg text-red-300">
+                                <span class="lang-en">06. Multi-Axis Framework</span>
+                                <span class="lang-ja">06. 多軸フレームワーク</span>
+                            </h3>
+                            <span class="text-[9px] font-mono border border-red-500/30 text-red-400 px-2 py-1 rounded">
+                                <span class="lang-en">Writing</span>
+                                <span class="lang-ja">執筆中</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A structural analysis framework
-                            that extends beyond traditional SWOT/PEST by capturing multi-axis system dynamics.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">A structural analysis framework that extends beyond traditional
+                                SWOT/PEST by capturing multi-axis system dynamics.</span>
+                            <span class="lang-ja">多軸システムダイナミクスを捉えることで、従来のSWOT/PESTを超えた構造分析フレームワーク。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-red-400">Problem:</strong>
-                                Existing frameworks oversimplify real-world complexity.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-red-400">Impact:</strong> Sharper
-                                strategic insight for governments and enterprises.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-red-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Existing frameworks oversimplify real-world complexity.</span>
+                                <span class="lang-ja">既存のフレームワークは現実世界の複雑さを過度に単純化しています。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-red-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Sharper strategic insight for governments and enterprises.</span>
+                                <span class="lang-ja">政府や企業のためのより鋭い戦略的洞察。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -984,18 +1513,38 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-amber-700 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-amber-500">07. Financial Failure Modes</h3>
+                            <h3 class="font-display text-lg text-amber-500">
+                                <span class="lang-en">07. Financial Failure Modes</span>
+                                <span class="lang-ja">07. 金融システムの故障モード</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-amber-700/30 text-amber-600 px-2 py-1 rounded">Research</span>
+                                class="text-[9px] font-mono border border-amber-700/30 text-amber-600 px-2 py-1 rounded">
+                                <span class="lang-en">Research</span>
+                                <span class="lang-ja">研究</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A taxonomy of structural failure
-                            modes in financial systems: incentive gaps, opacity, misaligned flows.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">A taxonomy of structural failure modes in financial systems: incentive
+                                gaps, opacity, misaligned flows.</span>
+                            <span class="lang-ja">金融システムにおける構造的故障モードの分類：インセンティブのギャップ、不透明性、不整合なフロー。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-amber-600">Problem:</strong>
-                                Crises originate from structural design, not volatility.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-amber-600">Impact:</strong> Tools
-                                for crisis prevention and systemic risk reduction.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-amber-600"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Crises originate from structural design, not volatility.</span>
+                                <span class="lang-ja">危機はボラティリティではなく、構造設計から発生します。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-amber-600"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Tools for crisis prevention and systemic risk reduction.</span>
+                                <span class="lang-ja">危機予防とシステミックリスク削減のためのツール。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1003,18 +1552,39 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-gray-400 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-gray-300">08. Regulatory Liquidity</h3>
+                            <h3 class="font-display text-lg text-gray-300">
+                                <span class="lang-en">08. Regulatory Liquidity</span>
+                                <span class="lang-ja">08. 規制の流動性</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-gray-400/30 text-gray-400 px-2 py-1 rounded">Concept</span>
+                                class="text-[9px] font-mono border border-gray-400/30 text-gray-400 px-2 py-1 rounded">
+                                <span class="lang-en">Concept</span>
+                                <span class="lang-ja">コンセプト</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A model analyzing how regulatory
-                            structures affect economic speed, innovation, and compliance flow.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">A model analyzing how regulatory structures affect economic speed,
+                                innovation, and compliance flow.</span>
+                            <span class="lang-ja">規制構造が経済速度、イノベーション、コンプライアンスフローにどのように影響するかを分析するモデル。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-gray-300">Problem:</strong>
-                                Regulation is viewed as binary rather than fluid.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-gray-300">Impact:</strong>
-                                Reduction of regulatory friction while maintaining oversight.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-gray-300"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Regulation is viewed as binary rather than fluid.</span>
+                                <span class="lang-ja">規制は流動的ではなく、二項対立的に見られています。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-gray-300"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Reduction of regulatory friction while maintaining
+                                    oversight.</span>
+                                <span class="lang-ja">監視を維持しながら規制摩擦を削減します。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1022,18 +1592,38 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-emerald-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-emerald-400">09. Global Value Flow</h3>
+                            <h3 class="font-display text-lg text-emerald-400">
+                                <span class="lang-en">09. Global Value Flow</span>
+                                <span class="lang-ja">09. グローバルバリューフロー</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-emerald-500/30 text-emerald-400 px-2 py-1 rounded">Writing</span>
+                                class="text-[9px] font-mono border border-emerald-500/30 text-emerald-400 px-2 py-1 rounded">
+                                <span class="lang-en">Writing</span>
+                                <span class="lang-ja">執筆中</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">High-level structural
-                            architecture for enabling frictionless cross-border digital value movement.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">High-level structural architecture for enabling frictionless
+                                cross-border digital value movement.</span>
+                            <span class="lang-ja">摩擦のない国境を越えたデジタル価値移動を可能にするための高レベルの構造アーキテクチャ。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-emerald-400">Problem:</strong>
-                                Global value flow is fragmented and opaque.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-emerald-400">Impact:</strong>
-                                Improves international policy alignment and infrastructure.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-emerald-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Global value flow is fragmented and opaque.</span>
+                                <span class="lang-ja">グローバルな価値の流れは断片化され、不透明です。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-emerald-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Improves international policy alignment and infrastructure.</span>
+                                <span class="lang-ja">国際的な政策調整とインフラを改善します。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1041,18 +1631,38 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-fuchsia-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-fuchsia-400">10. Human-AI Symbiosis</h3>
+                            <h3 class="font-display text-lg text-fuchsia-300">
+                                <span class="lang-en">10. Human-AI Symbiosis</span>
+                                <span class="lang-ja">10. 人間とAIの共生</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-fuchsia-500/30 text-fuchsia-400 px-2 py-1 rounded">Research</span>
+                                class="text-[9px] font-mono border border-fuchsia-500/30 text-fuchsia-400 px-2 py-1 rounded">
+                                <span class="lang-en">Concept</span>
+                                <span class="lang-ja">コンセプト</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A conceptual framework on how
-                            humans and AI can share reasoning while preserving human agency.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">Structural design for how AI augments human capability without
+                                replacing agency.</span>
+                            <span class="lang-ja">人間の主体性を維持しながら、AIが人間の能力をどのように拡張するかについての構造設計。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-fuchsia-400">Problem:</strong> AI
-                                automates tasks without protecting responsibility.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-fuchsia-400">Impact:</strong>
-                                Ethical and functional human-AI collaboration.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-fuchsia-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">AI threatens human autonomy.</span>
+                                <span class="lang-ja">AIは人間の自律性を脅かす可能性があります。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-fuchsia-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Design principles for harmonious co-existence.</span>
+                                <span class="lang-ja">人間とAIの調和のとれた共存のための設計原則。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1060,18 +1670,38 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-stone-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-stone-400">11. Organizational Memory</h3>
+                            <h3 class="font-display text-lg text-stone-400">
+                                <span class="lang-en">11. Organizational Memory</span>
+                                <span class="lang-ja">11. 組織の記憶</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-stone-500/30 text-stone-400 px-2 py-1 rounded">Drafting</span>
+                                class="text-[9px] font-mono border border-stone-500/30 text-stone-400 px-2 py-1 rounded">
+                                <span class="lang-en">Drafting</span>
+                                <span class="lang-ja">ドラフト作成中</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A structural model for
-                            preserving institutional memory with traceability.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">A structural model for preserving institutional memory with
+                                traceability.</span>
+                            <span class="lang-ja">追跡可能性を備えた制度的記憶を保存するための構造モデル。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-stone-400">Problem:</strong>
-                                Organizations forget faster than they learn.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-stone-400">Impact:</strong>
-                                Stabilizes long-term governance and decision continuity.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-stone-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Organizations forget faster than they learn.</span>
+                                <span class="lang-ja">組織は学ぶよりも早く忘れてしまいます。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-stone-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Stabilizes long-term governance and decision continuity.</span>
+                                <span class="lang-ja">長期的なガバナンスと意思決定の継続性を安定させます。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1079,19 +1709,38 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-rose-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-rose-400">12. Liquidity Policy Design</h3>
+                            <h3 class="font-display text-lg text-rose-400">
+                                <span class="lang-en">12. Liquidity Policy Design</span>
+                                <span class="lang-ja">12. 流動性政策設計</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-rose-500/30 text-rose-400 px-2 py-1 rounded">Early
-                                Research</span>
+                                class="text-[9px] font-mono border border-rose-500/30 text-rose-400 px-2 py-1 rounded">
+                                <span class="lang-en">Early Research</span>
+                                <span class="lang-ja">初期研究</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A policy framework that treats
-                            legislation as a dynamic flow system, not a static rulebook.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">A policy framework that treats legislation as a dynamic flow system,
+                                not a static rulebook.</span>
+                            <span class="lang-ja">法律を静的なルールブックではなく、動的なフローシステムとして扱う政策フレームワーク。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-rose-400">Problem:</strong>
-                                Policies restrict flow instead of enabling adaptability.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-rose-400">Impact:</strong> More
-                                flexible, responsive governance models.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-rose-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Policies restrict flow instead of enabling adaptability.</span>
+                                <span class="lang-ja">政策は適応性を可能にするのではなく、流れを制限します。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-rose-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">More flexible, responsive governance models.</span>
+                                <span class="lang-ja">より柔軟で応答性の高いガバナンスモデル。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1099,18 +1748,37 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-sky-500 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-sky-400">13. Public-Private Interop</h3>
-                            <span
-                                class="text-[9px] font-mono border border-sky-500/30 text-sky-400 px-2 py-1 rounded">Research</span>
+                            <h3 class="font-display text-lg text-sky-400">
+                                <span class="lang-en">13. Public-Private Interop</span>
+                                <span class="lang-ja">13. 官民相互運用性</span>
+                            </h3>
+                            <span class="text-[9px] font-mono border border-sky-500/30 text-sky-400 px-2 py-1 rounded">
+                                <span class="lang-en">Research</span>
+                                <span class="lang-ja">研究</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">Models describing how
-                            governments and private-sector systems exchange authority, value, and trust.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">Models describing how governments and private-sector systems exchange
+                                authority, value, and trust.</span>
+                            <span class="lang-ja">政府と民間セクターのシステムが権限、価値、信頼をどのように交換するかを記述するモデル。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-sky-400">Problem:</strong> Silos
-                                create unnecessary friction.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-sky-400">Impact:</strong> Unified
-                                digital trust across sectors.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-sky-400"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Silos create unnecessary friction.</span>
+                                <span class="lang-ja">サイロは不必要な摩擦を生み出します。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-sky-400"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Unified digital trust across sectors.</span>
+                                <span class="lang-ja">セクターを超えた統一されたデジタル信頼。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1118,18 +1786,38 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-orange-600 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-orange-500">14. Structural Integrity</h3>
+                            <h3 class="font-display text-lg text-orange-500">
+                                <span class="lang-en">14. Structural Integrity</span>
+                                <span class="lang-ja">14. 構造的整合性</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-orange-600/30 text-orange-500 px-2 py-1 rounded">Draft</span>
+                                class="text-[9px] font-mono border border-orange-600/30 text-orange-500 px-2 py-1 rounded">
+                                <span class="lang-en">Draft</span>
+                                <span class="lang-ja">ドラフト</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">A conceptual study on how
-                            digital financial ecosystems maintain resilience and trust.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">A conceptual study on how digital financial ecosystems maintain
+                                resilience and trust.</span>
+                            <span class="lang-ja">デジタル金融エコシステムがどのように回復力と信頼を維持するかに関する概念的研究。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-orange-500">Problem:</strong>
-                                Lack of shared standards for digital integrity.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-orange-500">Impact:</strong>
-                                Reduced systemic fragility in digital economies.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-orange-500"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Lack of shared standards for digital integrity.</span>
+                                <span class="lang-ja">デジタル整合性のための共有基準の欠如。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-orange-500"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Reduced systemic fragility in digital economies.</span>
+                                <span class="lang-ja">デジタル経済におけるシステミックな脆弱性の低減。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1137,18 +1825,38 @@
                     <div
                         class="glass-panel p-6 border-t-2 border-t-yellow-800 hover:bg-white/5 transition-colors flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-display text-lg text-yellow-700">15. National Strategy</h3>
+                            <h3 class="font-display text-lg text-yellow-700">
+                                <span class="lang-en">15. National Strategy</span>
+                                <span class="lang-ja">15. 国家戦略</span>
+                            </h3>
                             <span
-                                class="text-[9px] font-mono border border-yellow-800/30 text-yellow-700 px-2 py-1 rounded">Concept</span>
+                                class="text-[9px] font-mono border border-yellow-800/30 text-yellow-700 px-2 py-1 rounded">
+                                <span class="lang-en">Research</span>
+                                <span class="lang-ja">研究</span>
+                            </span>
                         </div>
-                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">Abstract</p>
-                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">Research on how countries
-                            structure data, intelligence, and strategic memory.</p>
+                        <p class="text-xs text-gray-500 font-mono mb-2 uppercase tracking-widest">
+                            <span class="lang-en">Abstract</span>
+                            <span class="lang-ja">概要</span>
+                        </p>
+                        <p class="text-gray-300 text-xs mb-4 leading-relaxed flex-grow">
+                            <span class="lang-en">Frameworks for aligning national technical infrastructure with
+                                long-term economic goals.</span>
+                            <span class="lang-ja">国家の技術インフラを長期的な経済目標と整合させるためのフレームワーク。</span>
+                        </p>
                         <div class="space-y-2 pt-3 border-t border-white/5">
-                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-700">Problem:</strong>
-                                National strategies lack coherent cognitive systems.</div>
-                            <div class="text-[10px] text-gray-400"><strong class="text-yellow-700">Impact:</strong>
-                                Better long-term planning across ministries.</div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-yellow-700"><span class="lang-en">Problem:</span><span
+                                        class="lang-ja">問題:</span></strong>
+                                <span class="lang-en">Strategy is disconnected from execution.</span>
+                                <span class="lang-ja">戦略は実行から切り離されています。</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400">
+                                <strong class="text-yellow-700"><span class="lang-en">Impact:</span><span
+                                        class="lang-ja">インパクト:</span></strong>
+                                <span class="lang-en">Coherent national technology policy.</span>
+                                <span class="lang-ja">一貫した国家技術政策。</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1291,218 +1999,75 @@
             </div>
 
             <!-- MISSION PAGE -->
-            <div id="page-mission" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
-                <div class="flex flex-col mb-12">
-                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">MISSION & VISION</h1>
-                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">FOUNDER EDITION</p>
-                </div>
-
-                <!-- OUR MISSION -->
-                <div class="mb-16">
-                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
-                        <span class="w-8 h-[1px] bg-cyan-500"></span> OUR MISSION
-                    </h3>
-                    <div class="glass-panel p-8 border-l-4 border-l-cyan-500 max-w-4xl">
-                        <p class="text-gray-300 leading-relaxed font-light text-lg mb-4">
-                            SLI Lab exists to understand and redesign the structural logic that governs value,
-                            information, organizations, and intelligence in the digital age.
+            <div id="page-mission" class="hidden-page w-full max-w-4xl mx-auto pt-4 pb-24 fade-in-up">
+                <div class="mb-16 text-center">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
+                        <span class="lang-en">OUR MISSION</span>
+                        <span class="lang-ja">私たちの使命</span>
+                    </h1>
+                    <p class="font-mono text-cyan-400 text-lg tracking-widest mb-8 uppercase">
+                        <span class="lang-en">To Restore Structural Liquidity</span>
+                        <span class="lang-ja">構造的流動性を回復する</span>
+                    </p>
+                    <div class="glass-panel p-8 md:p-12 border-l-4 border-l-cyan-500 text-left">
+                        <p class="text-xl md:text-2xl text-gray-200 font-light leading-relaxed mb-6">
+                            <span class="lang-en">The world is stuck.</span>
+                            <span class="lang-ja">世界は行き詰まっています。</span>
                         </p>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            Our mission is to create transparent, scalable, human-aligned systems that allow societies,
-                            institutions, and technologies to operate with higher liquidity—meaning faster, safer, and
-                            more adaptable flows of value, decisions, knowledge, and coordination.
+                        <p class="text-gray-400 leading-relaxed mb-6">
+                            <span class="lang-en">Institutions built for the 20th century — financial, governmental, and
+                                educational — are collapsing under the complexity of the 21st. They are rigid, opaque,
+                                and slow.</span>
+                            <span
+                                class="lang-ja">20世紀のために作られた制度（金融、政府、教育）は、21世紀の複雑さの下で崩壊しつつあります。それらは硬直的で、不透明で、遅いです。</span>
+                        </p>
+                        <p class="text-gray-400 leading-relaxed">
+                            <span class="lang-en">Our mission is to design new structures that restore liquidity to
+                                social, economic, and technical systems.</span>
+                            <span class="lang-ja">私たちの使命は、社会、経済、技術システムにおける流動性を回復するための新しい構造を設計することです。</span>
                         </p>
                     </div>
                 </div>
 
-                <!-- THE VISION -->
-                <div class="mb-16">
-                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
-                        <span class="w-8 h-[1px] bg-cyan-500"></span> THE VISION
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
-                            <div class="font-mono text-3xl text-cyan-400 mb-3">01</div>
-                            <p class="text-gray-300 text-sm">Reveal hidden structures shaping economic & social systems.
-                            </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div class="glass-panel p-8 text-center">
+                        <div class="text-cyan-400 text-4xl mb-4">
+                            <i class="fas fa-cube"></i>
                         </div>
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
-                            <div class="font-mono text-3xl text-cyan-400 mb-3">02</div>
-                            <p class="text-gray-300 text-sm">Provide analytical frameworks transcending traditional
-                                silos.</p>
-                        </div>
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
-                            <div class="font-mono text-3xl text-cyan-400 mb-3">03</div>
-                            <p class="text-gray-300 text-sm">Enable governments to design safer, adaptive digital
-                                infrastructures.</p>
-                        </div>
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
-                            <div class="font-mono text-3xl text-cyan-400 mb-3">04</div>
-                            <p class="text-gray-300 text-sm">Advance a paradigm where structure + liquidity are core
-                                tools.</p>
-                        </div>
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors border-t-2 border-t-cyan-500">
-                            <div class="font-mono text-3xl text-cyan-400 mb-3">05</div>
-                            <p class="text-gray-300 text-sm">Build bridges between academia, industry, and public
-                                institutions.</p>
-                        </div>
+                        <h3 class="font-display text-xl text-white mb-4">
+                            <span class="lang-en">Structural Integrity</span>
+                            <span class="lang-ja">構造的整合性</span>
+                        </h3>
+                        <p class="text-sm text-gray-400">
+                            <span class="lang-en">We design systems that can adapt without breaking.</span>
+                            <span class="lang-ja">私たちは、壊れることなく適応できるシステムを設計します。</span>
+                        </p>
                     </div>
-                </div>
-
-                <!-- STRUCTURAL PROBLEMS WE STUDY -->
-                <div class="mb-16">
-                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
-                        <span class="w-8 h-[1px] bg-cyan-500"></span> STRUCTURAL PROBLEMS WE STUDY
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
-                            <h4 class="font-display text-lg text-white mb-3">Fragmented Infrastructure</h4>
-                            <p class="text-gray-400 text-sm">Different asset classes and regulations operate in
-                                isolation, limiting global interoperability.</p>
+                    <div class="glass-panel p-8 text-center">
+                        <div class="text-cyan-400 text-4xl mb-4">
+                            <i class="fas fa-eye"></i>
                         </div>
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
-                            <h4 class="font-display text-lg text-white mb-3">Institutional Slow-Flow</h4>
-                            <p class="text-gray-400 text-sm">Legacy architectures in governments and banks cannot adapt
-                                to modern speed.</p>
-                        </div>
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
-                            <h4 class="font-display text-lg text-white mb-3">Cognitive Bottlenecks</h4>
-                            <p class="text-gray-400 text-sm">AI and humans operate on different timescales, creating
-                                inefficiency and risk.</p>
-                        </div>
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
-                            <h4 class="font-display text-lg text-white mb-3">Low-Liquidity Structures</h4>
-                            <p class="text-gray-400 text-sm">Inflexible hierarchies and opaque decision flows slow
-                                innovation.</p>
-                        </div>
-                        <div class="glass-panel p-6 hover:bg-white/5 transition-colors">
-                            <h4 class="font-display text-lg text-white mb-3">Non-Transparent Systems</h4>
-                            <p class="text-gray-400 text-sm">Users struggle to understand how digital systems behave,
-                                leading to misalignment and mistrust.</p>
-                        </div>
+                        <h3 class="font-display text-xl text-white mb-4">
+                            <span class="lang-en">Radical Transparency</span>
+                            <span class="lang-ja">徹底的な透明性</span>
+                        </h3>
+                        <p class="text-sm text-gray-400">
+                            <span class="lang-en">Information must flow freely for trust to exist.</span>
+                            <span class="lang-ja">信頼が存在するためには、情報は自由に流れなければなりません。</span>
+                        </p>
                     </div>
-                </div>
-
-                <!-- STRUCTURE + LIQUIDITY GRID -->
-                <div class="mb-16">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="glass-panel p-8 border-t-2 border-t-blue-500">
-                            <h3 class="font-display text-2xl text-blue-300 mb-4">STRUCTURE</h3>
-                            <p class="text-xs text-gray-500 uppercase mb-6">THE DEEP ARCHITECTURE</p>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="text-gray-300 text-sm">Rules</div>
-                                <div class="text-gray-300 text-sm">Flows</div>
-                                <div class="text-gray-300 text-sm">Constraints</div>
-                                <div class="text-gray-300 text-sm">Hierarchies</div>
-                                <div class="text-gray-300 text-sm">Interfaces</div>
-                                <div class="text-gray-300 text-sm">Memory</div>
-                            </div>
+                    <div class="glass-panel p-8 text-center">
+                        <div class="text-cyan-400 text-4xl mb-4">
+                            <i class="fas fa-users"></i>
                         </div>
-                        <div class="glass-panel p-8 border-t-2 border-t-yellow-500">
-                            <h3 class="font-display text-2xl text-yellow-300 mb-4">LIQUIDITY</h3>
-                            <p class="text-xs text-gray-500 uppercase mb-6">THE EASE OF MOVEMENT</p>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="text-gray-300 text-sm">Value</div>
-                                <div class="text-gray-300 text-sm">Information</div>
-                                <div class="text-gray-300 text-sm">Decisions</div>
-                                <div class="text-gray-300 text-sm">Rights</div>
-                                <div class="text-gray-300 text-sm">Agency</div>
-                                <div class="text-gray-300 text-sm">Intelligence</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LONG-TERM SOCIETAL VALUE -->
-                <div class="mb-16">
-                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
-                        <span class="w-8 h-[1px] bg-cyan-500"></span> LONG-TERM SOCIETAL VALUE
-                    </h3>
-                    <p class="text-gray-400 text-sm mb-8">SLI Lab contributes to society in four major ways:</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="glass-panel p-8 border-l-2 border-l-green-500">
-                            <h4 class="font-display text-xl text-green-300 mb-4">1. Safer Infrastructures</h4>
-                            <p class="text-gray-400 text-sm">By developing structural frameworks, we help governments
-                                and institutions evaluate and design future-proof systems.</p>
-                        </div>
-                        <div class="glass-panel p-8 border-l-2 border-l-blue-500">
-                            <h4 class="font-display text-xl text-blue-300 mb-4">2. Higher Transparency</h4>
-                            <p class="text-gray-400 text-sm">SLI models make complex processes observable,
-                                understandable, and auditable across critical systems.</p>
-                        </div>
-                        <div class="glass-panel p-8 border-l-2 border-l-purple-500">
-                            <h4 class="font-display text-xl text-purple-300 mb-4">3. AI-Society Alignment</h4>
-                            <p class="text-gray-400 text-sm">Our work on cognitive liquidity and structural safety
-                                contributes to responsible AI-human coordination.</p>
-                        </div>
-                        <div class="glass-panel p-8 border-l-2 border-l-orange-500">
-                            <h4 class="font-display text-xl text-orange-300 mb-4">4. New Structural Thinkers</h4>
-                            <p class="text-gray-400 text-sm">Through research and collaborations, SLI Lab cultivates
-                                talent capable of solving the next era of systemic challenges.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- INNOVATION PHILOSOPHY -->
-                <div class="mb-16">
-                    <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
-                        <span class="w-8 h-[1px] bg-yellow-500"></span> INNOVATION PHILOSOPHY
-                    </h3>
-                    <div class="space-y-6">
-                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
-                            <div class="flex items-start gap-4">
-                                <div class="font-mono text-2xl text-cyan-400 shrink-0">01</div>
-                                <div>
-                                    <h4 class="font-display text-white text-lg mb-2">Structure precedes behavior</h4>
-                                    <p class="text-gray-400 text-sm">Systems do what they are designed to do—Not what we
-                                        wish they would do.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
-                            <div class="flex items-start gap-4">
-                                <div class="font-mono text-2xl text-cyan-400 shrink-0">02</div>
-                                <div>
-                                    <h4 class="font-display text-white text-lg mb-2">Liquidity determines adaptability
-                                    </h4>
-                                    <p class="text-gray-400 text-sm">Systems with higher liquidity respond faster, fail
-                                        more gracefully, and innovate more naturally.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
-                            <div class="flex items-start gap-4">
-                                <div class="font-mono text-2xl text-cyan-400 shrink-0">03</div>
-                                <div>
-                                    <h4 class="font-display text-white text-lg mb-2">Transparency reduces systemic risk
-                                    </h4>
-                                    <p class="text-gray-400 text-sm">Hidden structures fail silently. Visible structures
-                                        evolve intelligently.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
-                            <div class="flex items-start gap-4">
-                                <div class="font-mono text-2xl text-cyan-400 shrink-0">04</div>
-                                <div>
-                                    <h4 class="font-display text-white text-lg mb-2">Interdisciplinarity is the new
-                                        frontier</h4>
-                                    <p class="text-gray-400 text-sm">The biggest breakthroughs emerge between
-                                        disciplines, not within them.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="glass-panel p-6 border-l-2 border-l-cyan-500">
-                            <div class="flex items-start gap-4">
-                                <div class="font-mono text-2xl text-cyan-400 shrink-0">05</div>
-                                <div>
-                                    <h4 class="font-display text-white text-lg mb-2">Innovation must be structural, not
-                                        cosmetic</h4>
-                                    <p class="text-gray-400 text-sm">Real progress is not a "feature." It is the
-                                        redesign of the system that makes all future features possible.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <h3 class="font-display text-xl text-white mb-4">
+                            <span class="lang-en">Human-Centric AI</span>
+                            <span class="lang-ja">人間中心のAI</span>
+                        </h3>
+                        <p class="text-sm text-gray-400">
+                            <span class="lang-en">AI must serve to augment human agency, not replace it.</span>
+                            <span class="lang-ja">AIは人間の主体性を高めるものでなければなりません、取って代わるものではありません。</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1670,13 +2235,19 @@
             <!-- FELLOWS PAGE -->
             <div id="page-fellows" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
                 <div class="flex flex-col mb-12">
-                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">FELLOWS & CONTRIBUTORS</h1>
-                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Global Research Initiative
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
+                        <span class="lang-en">RESEARCH FELLOWS</span>
+                        <span class="lang-ja">研究フェロー</span>
+                    </h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">
+                        <span class="lang-en">Network of Thinkers</span>
+                        <span class="lang-ja">思想家のネットワーク</span>
                     </p>
                     <div class="glass-panel p-6 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
                         <p class="text-gray-300 leading-relaxed font-light text-sm">
-                            SLI Lab welcomes thinkers, researchers, analysts, and innovators who are interested in
-                            structural intelligence, liquidity systems, and next-generation institutional design.
+                            <span class="lang-en">SLI Lab is a distributed network of structural thinkers, system
+                                architects, and institutional designers.</span>
+                            <span class="lang-ja">SLI Labは、構造的思考者、システムアーキテクト、および制度設計者の分散型ネットワークです。</span>
                         </p>
                     </div>
                 </div>
@@ -1684,7 +2255,9 @@
                 <!-- Current Members -->
                 <div class="mb-16">
                     <h3 class="font-display text-2xl text-white mb-8 flex items-center gap-4">
-                        <span class="w-8 h-[1px] bg-cyan-500"></span> CURRENT MEMBERS
+                        <span class="w-8 h-[1px] bg-cyan-500"></span>
+                        <span class="lang-en">CURRENT MEMBERS</span>
+                        <span class="lang-ja">現在のメンバー</span>
                     </h3>
                     <div class="glass-panel p-8 border-t-2 border-t-cyan-500">
                         <div class="flex flex-col md:flex-row gap-8 items-start">
@@ -1694,22 +2267,30 @@
                             </div>
                             <div>
                                 <h4 class="font-display text-xl text-white mb-1">SHOTA AOYAMA</h4>
-                                <p class="font-mono text-xs text-cyan-400 uppercase tracking-widest mb-4">Founder &
-                                    Principal Researcher</p>
+                                <p class="font-mono text-xs text-cyan-400 uppercase tracking-widest mb-4">
+                                    <span class="lang-en">Founder & Principal Researcher</span>
+                                    <span class="lang-ja">創設者・主任研究員</span>
+                                </p>
                                 <p class="text-gray-400 text-sm mb-4 leading-relaxed max-w-2xl">
-                                    Leading research on structural architectures across financial and public systems,
-                                    liquidity dynamics beyond traditional finance, and cognitive liquidity.
+                                    <span class="lang-en">Leading research on structural architectures across financial
+                                        and public systems, liquidity dynamics beyond traditional finance, and cognitive
+                                        liquidity.</span>
+                                    <span
+                                        class="lang-ja">金融および公共システム全体の構造アーキテクチャ、従来の金融を超えた流動性のダイナミクス、および認知流動性に関する研究をリードしています。</span>
                                 </p>
                                 <div class="flex flex-wrap gap-2">
-                                    <span
-                                        class="px-2 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">Institutional
-                                        Systems</span>
-                                    <span
-                                        class="px-2 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">Digital
-                                        Infrastructure</span>
-                                    <span
-                                        class="px-2 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">Cognitive
-                                        Liquidity</span>
+                                    <span class="px-2 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">
+                                        <span class="lang-en">Institutional Systems</span>
+                                        <span class="lang-ja">制度システム</span>
+                                    </span>
+                                    <span class="px-2 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">
+                                        <span class="lang-en">Digital Infrastructure</span>
+                                        <span class="lang-ja">デジタルインフラ</span>
+                                    </span>
+                                    <span class="px-2 py-1 border border-white/10 text-[10px] text-gray-400 uppercase">
+                                        <span class="lang-en">Cognitive Liquidity</span>
+                                        <span class="lang-ja">認知流動性</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -1720,26 +2301,50 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
                     <!-- Visiting -->
                     <div class="glass-panel p-8 border-t-2 border-t-gray-600 hover:bg-white/5 transition-colors">
-                        <h4 class="font-display text-xl text-gray-200 mb-4">Visiting Researchers</h4>
-                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">(To be announced)</p>
-                        <p class="text-gray-400 text-sm mb-6">SLI Lab will open opportunities for short-term visiting
-                            fellows, cross-institutional collaborations, and joint research.</p>
+                        <h4 class="font-display text-xl text-gray-200 mb-4">
+                            <span class="lang-en">Visiting Researchers</span>
+                            <span class="lang-ja">客員研究員</span>
+                        </h4>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">
+                            <span class="lang-en">(To be announced)</span>
+                            <span class="lang-ja">(発表予定)</span>
+                        </p>
+                        <p class="text-gray-400 text-sm mb-6">
+                            <span class="lang-en">SLI Lab will open opportunities for short-term visiting fellows,
+                                cross-institutional collaborations, and joint research.</span>
+                            <span class="lang-ja">SLI Labは、短期客員フェロー、機関横断的な協力、共同研究の機会を開きます。</span>
+                        </p>
                         <ul class="space-y-2 text-xs text-gray-500 font-mono">
-                            <li>+ Academic Departments</li>
-                            <li>+ AI & Blockchain Sectors</li>
-                            <li>+ Public Policy Experts</li>
+                            <li><span class="lang-en">+ Academic Departments</span><span class="lang-ja">+ 学術部門</span>
+                            </li>
+                            <li><span class="lang-en">+ AI & Blockchain Sectors</span><span class="lang-ja">+
+                                    AI・ブロックチェーンセクター</span></li>
+                            <li><span class="lang-en">+ Public Policy Experts</span><span class="lang-ja">+
+                                    公共政策専門家</span></li>
                         </ul>
                     </div>
                     <!-- Advisors -->
                     <div class="glass-panel p-8 border-t-2 border-t-gray-600 hover:bg-white/5 transition-colors">
-                        <h4 class="font-display text-xl text-gray-200 mb-4">Advisors</h4>
-                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">(Coming Soon)</p>
-                        <p class="text-gray-400 text-sm mb-6">Developing an advisory circle to help shape research
-                            direction and support cross-industry dialogue.</p>
+                        <h4 class="font-display text-xl text-gray-200 mb-4">
+                            <span class="lang-en">Advisors</span>
+                            <span class="lang-ja">アドバイザー</span>
+                        </h4>
+                        <p class="text-xs text-gray-500 font-mono mb-4 uppercase tracking-widest">
+                            <span class="lang-en">(Coming Soon)</span>
+                            <span class="lang-ja">(近日公開)</span>
+                        </p>
+                        <p class="text-gray-400 text-sm mb-6">
+                            <span class="lang-en">Developing an advisory circle to help shape research direction and
+                                support cross-industry dialogue.</span>
+                            <span class="lang-ja">研究の方向性を形成し、業界横断的な対話を支援するためのアドバイザリーサークルを開発中です。</span>
+                        </p>
                         <ul class="space-y-2 text-xs text-gray-500 font-mono">
-                            <li>+ Senior Technical Experts</li>
-                            <li>+ Institutional Practitioners</li>
-                            <li>+ Systems Design Academics</li>
+                            <li><span class="lang-en">+ Senior Technical Experts</span><span class="lang-ja">+
+                                    上級技術専門家</span></li>
+                            <li><span class="lang-en">+ Institutional Practitioners</span><span class="lang-ja">+
+                                    機関実務者</span></li>
+                            <li><span class="lang-en">+ Systems Design Academics</span><span class="lang-ja">+
+                                    システム設計学者</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1787,8 +2392,8 @@
 
                 <!-- Join Network Footer -->
                 <div class="text-center max-w-2xl mx-auto border-t border-gray-800 pt-12">
-                    <h3 class="font-display text-2xl text-white mb-4">JOIN THE NETWORK</h3>
-                    <p class="text-gray-400 text-sm mb-6">
+                    <h3 class="font-display text-3xl text-white mb-6">JOIN THE NETWORK</h3>
+                    <p class="text-gray-400 text-sm mb-8 leading-relaxed">
                         SLI Lab aims to cultivate a global research community focused on understanding and redesigning
                         the structures that shape modern institutions.
                     </p>
@@ -2065,6 +2670,87 @@
                             <ul class="space-y-2 text-sm text-gray-400 mb-4">
                                 <li>• Systems collapse because connection logic is weak.</li>
                                 <li>• Regulation fails due to unclear responsibility.</li>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- Fellow 1 -->
+                                    <div
+                                        class="glass-panel p-6 flex items-center gap-6 hover:bg-white/5 transition-colors">
+                                        <div
+                                            class="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center shrink-0">
+                                            <i class="fas fa-user text-gray-500 text-2xl"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-display text-lg text-white">Dr. Aris K.</h3>
+                                            <p class="text-cyan-400 text-xs uppercase tracking-widest mb-1">
+                                                <span class="lang-en">Principal Investigator</span>
+                                                <span class="lang-ja">主任研究員</span>
+                                            </p>
+                                            <p class="text-gray-500 text-xs">
+                                                <span class="lang-en">Focus: Structural Liquidity</span>
+                                                <span class="lang-ja">焦点: 構造的流動性</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Fellow 2 -->
+                                    <div
+                                        class="glass-panel p-6 flex items-center gap-6 hover:bg-white/5 transition-colors">
+                                        <div
+                                            class="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center shrink-0">
+                                            <i class="fas fa-user text-gray-500 text-2xl"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-display text-lg text-white">Sarah L.</h3>
+                                            <p class="text-cyan-400 text-xs uppercase tracking-widest mb-1">
+                                                <span class="lang-en">Senior Research Fellow</span>
+                                                <span class="lang-ja">上級研究員</span>
+                                            </p>
+                                            <p class="text-gray-500 text-xs">
+                                                <span class="lang-en">Focus: Cognitive Systems</span>
+                                                <span class="lang-ja">焦点: 認知システム</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Fellow 3 -->
+                                    <div
+                                        class="glass-panel p-6 flex items-center gap-6 hover:bg-white/5 transition-colors">
+                                        <div
+                                            class="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center shrink-0">
+                                            <i class="fas fa-user text-gray-500 text-2xl"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-display text-lg text-white">James T.</h3>
+                                            <p class="text-cyan-400 text-xs uppercase tracking-widest mb-1">
+                                                <span class="lang-en">Research Fellow</span>
+                                                <span class="lang-ja">研究員</span>
+                                            </p>
+                                            <p class="text-gray-500 text-xs">
+                                                <span class="lang-en">Focus: Digital Economics</span>
+                                                <span class="lang-ja">焦点: デジタル経済</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Fellow 4 -->
+                                    <div
+                                        class="glass-panel p-6 flex items-center gap-6 hover:bg-white/5 transition-colors">
+                                        <div
+                                            class="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center shrink-0">
+                                            <i class="fas fa-user text-gray-500 text-2xl"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-display text-lg text-white">Elena R.</h3>
+                                            <p class="text-cyan-400 text-xs uppercase tracking-widest mb-1">
+                                                <span class="lang-en">Visiting Fellow</span>
+                                                <span class="lang-ja">客員研究員</span>
+                                            </p>
+                                            <p class="text-gray-500 text-xs">
+                                                <span class="lang-en">Focus: Public Policy</span>
+                                                <span class="lang-ja">焦点: 公共政策</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <li>• AI hallucinates due to misaligned memory.</li>
                             </ul>
                             <p class="text-gray-400 text-sm italic">
@@ -2211,16 +2897,33 @@
                     </div>
                 </div>
 
-                <!-- Vision Footer -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-gray-800 pt-12">
-                    <div class="md:col-span-1">
-                        <h3 class="font-display text-xl text-white mb-2">FOUNDER'S VISION</h3>
-                        <div class="w-12 h-1 bg-yellow-500 mb-4"></div>
+                <!-- STRUCTURAL INTELLIGENCE -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 border-t border-white/10 pt-8">
+                    <div class="md:col-span-4">
+                        <h3 class="font-display text-2xl text-white mb-2">
+                            <span class="lang-en">Structural Intelligence</span>
+                            <span class="lang-ja">構造的知能</span>
+                        </h3>
+                        <p class="font-mono text-xs text-gray-500 uppercase tracking-widest">
+                            <span class="lang-en">The Container</span>
+                            <span class="lang-ja">コンテナ</span>
+                        </p>
                     </div>
-                    <div class="md:col-span-2 text-gray-300 space-y-4">
-                        <p>To develop the analytical foundations that will guide the next 30 years of digital
-                            infrastructure: The future of public finance, regulated non-custodial systems, and
-                            transparent AI reasoning.</p>
+                    <div class="md:col-span-8 text-gray-400 space-y-4 leading-relaxed">
+                        <p>
+                            <span class="lang-en">Structure is the set of rules, constraints, and pathways that define a
+                                system. It is the
+                                "container" through which value and information must flow.</span>
+                            <span class="lang-ja">構造とは、システムを定義するルール、制約、経路の集合体です。それは、価値と情報が流れなければならない「コンテナ」です。</span>
+                        </p>
+                        <p>
+                            <span class="lang-en">In finance, this is regulation and settlement layers. In AI, this is
+                                the model architecture
+                                and safety guardrails. In institutions, this is the hierarchy and decision
+                                matrix.</span>
+                            <span
+                                class="lang-ja">金融においては、これは規制と決済レイヤーです。AIにおいては、モデルアーキテクチャと安全ガードレールです。組織においては、階層と意思決定マトリックスです。</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -2465,6 +3168,45 @@
                 menu.classList.add('hidden');
             }
         }
+
+        // --- LANGUAGE SWITCHING LOGIC ---
+        function toggleLanguage(lang) {
+            const body = document.body;
+            if (lang) {
+                if (lang === 'ja') {
+                    body.classList.remove('lang-en');
+                    body.classList.add('lang-ja');
+                } else {
+                    body.classList.remove('lang-ja');
+                    body.classList.add('lang-en');
+                }
+            } else {
+                if (body.classList.contains('lang-en')) {
+                    body.classList.remove('lang-en');
+                    body.classList.add('lang-ja');
+                    lang = 'ja';
+                } else {
+                    body.classList.remove('lang-ja');
+                    body.classList.add('lang-en');
+                    lang = 'en';
+                }
+            }
+            localStorage.setItem('sli-lab-lang', lang);
+            updateLanguageToggles();
+        }
+
+        function updateLanguageToggles() {
+            const currentLang = document.body.classList.contains('lang-ja') ? 'ja' : 'en';
+            document.querySelectorAll('.lang-toggle-text').forEach(el => {
+                el.textContent = currentLang === 'en' ? 'JP' : 'EN';
+            });
+        }
+
+        // Initialize Language
+        (function initLanguage() {
+            const savedLang = localStorage.getItem('sli-lab-lang') || 'en';
+            toggleLanguage(savedLang);
+        })();
 
         // --- PAGE SWITCHING LOGIC ---
         function switchPage(pageId) {
