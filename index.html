@@ -564,8 +564,124 @@
                 </div>
             </main>
 
-            <!-- RESEARCH PAGE -->
+            <!-- RESEARCH HUB PAGE -->
             <div id="page-research" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
+                        <span class="lang-en">RESEARCH</span>
+                        <span class="lang-ja">研究</span>
+                    </h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">
+                        <span class="lang-en">Structure & Liquidity Intelligence</span>
+                        <span class="lang-ja">構造・流動性知性</span>
+                    </p>
+                    <div class="glass-panel p-8 border-l-4 border-l-cyan-500 max-w-4xl">
+                        <p class="text-gray-300 leading-relaxed font-light text-lg">
+                            <span class="lang-en">Explore our research across different formats: foundational
+                                frameworks, academic papers, institutional whitepapers, and insights.</span>
+                            <span class="lang-ja">さまざまな形式の研究を探索：基礎的フレームワーク、学術論文、制度的ホワイトペーパー、インサイト。</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Research Navigation Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+
+                    <!-- Research Areas Card -->
+                    <div onclick="switchPage('research-areas')"
+                        class="glass-panel p-8 border-l-2 border-l-cyan-500 hover:bg-white/5 transition-colors cursor-pointer group">
+                        <div class="flex items-start justify-between mb-4">
+                            <h2 class="font-display text-2xl text-cyan-300 group-hover:text-cyan-200 transition-colors">
+                                <span class="lang-en">Research Areas</span>
+                                <span class="lang-ja">研究領域</span>
+                            </h2>
+                            <span class="text-cyan-400 text-2xl group-hover:translate-x-1 transition-transform">→</span>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            <span class="lang-en">Core frameworks and theoretical foundations: the SLI model, structural
+                                liquidity, and multi-axis analysis.</span>
+                            <span class="lang-ja">コアフレームワークと理論的基礎：SLIモデル、構造的流動性、多軸分析。</span>
+                        </p>
+                        <span class="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                            <span class="lang-en">Framework · Theory</span>
+                            <span class="lang-ja">フレームワーク・理論</span>
+                        </span>
+                    </div>
+
+                    <!-- Research Papers Card -->
+                    <div onclick="switchPage('research-papers')"
+                        class="glass-panel p-8 border-l-2 border-l-fuchsia-500 hover:bg-white/5 transition-colors cursor-pointer group">
+                        <div class="flex items-start justify-between mb-4">
+                            <h2
+                                class="font-display text-2xl text-fuchsia-300 group-hover:text-fuchsia-200 transition-colors">
+                                <span class="lang-en">Research Papers</span>
+                                <span class="lang-ja">研究論文</span>
+                            </h2>
+                            <span
+                                class="text-fuchsia-400 text-2xl group-hover:translate-x-1 transition-transform">→</span>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            <span class="lang-en">Academic research papers exploring structural phenomena in cognition,
+                                systems, and institutions.</span>
+                            <span class="lang-ja">認知、システム、制度における構造的現象を探求する学術研究論文。</span>
+                        </p>
+                        <span class="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                            <span class="lang-en">Academic · Peer-Review</span>
+                            <span class="lang-ja">学術・査読</span>
+                        </span>
+                    </div>
+
+                    <!-- Whitepapers Card -->
+                    <div onclick="switchPage('whitepapers')"
+                        class="glass-panel p-8 border-l-2 border-l-yellow-500 hover:bg-white/5 transition-colors cursor-pointer group">
+                        <div class="flex items-start justify-between mb-4">
+                            <h2
+                                class="font-display text-2xl text-yellow-300 group-hover:text-yellow-200 transition-colors">
+                                <span class="lang-en">Whitepapers</span>
+                                <span class="lang-ja">ホワイトペーパー</span>
+                            </h2>
+                            <span
+                                class="text-yellow-400 text-2xl group-hover:translate-x-1 transition-transform">→</span>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            <span class="lang-en">Policy briefs and institutional analyses for governments, agencies,
+                                and organizations.</span>
+                            <span class="lang-ja">政府、機関、組織向けの政策ブリーフと制度的分析。</span>
+                        </p>
+                        <span class="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                            <span class="lang-en">Policy · Institutional</span>
+                            <span class="lang-ja">政策・制度的</span>
+                        </span>
+                    </div>
+
+                    <!-- Insights Card -->
+                    <div onclick="switchPage('insights')"
+                        class="glass-panel p-8 border-l-2 border-l-emerald-500 hover:bg-white/5 transition-colors cursor-pointer group">
+                        <div class="flex items-start justify-between mb-4">
+                            <h2
+                                class="font-display text-2xl text-emerald-300 group-hover:text-emerald-200 transition-colors">
+                                <span class="lang-en">Insights</span>
+                                <span class="lang-ja">インサイト</span>
+                            </h2>
+                            <span
+                                class="text-emerald-400 text-2xl group-hover:translate-x-1 transition-transform">→</span>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            <span class="lang-en">Long-form thought leadership on structural trends, governance, and
+                                system intelligence.</span>
+                            <span class="lang-ja">構造的トレンド、ガバナンス、システムインテリジェンスに関する長文のソートリーダーシップ。</span>
+                        </p>
+                        <span class="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                            <span class="lang-en">Analysis · Commentary</span>
+                            <span class="lang-ja">分析・解説</span>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RESEARCH AREAS PAGE (formerly Research Page) -->
+            <div id="page-research-areas" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
                 <div class="flex flex-col mb-12">
                     <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
                         <span class="lang-en">RESEARCH AREAS</span>
