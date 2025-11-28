@@ -200,6 +200,8 @@
             <nav class="hidden md:flex gap-6 interactive pointer-events-auto">
                 <a onclick="switchPage('research')" id="nav-research"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Research</a>
+                <a onclick="switchPage('insights')" id="nav-insights"
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Insights</a>
                 <a onclick="switchPage('what-we-study')" id="nav-what-we-study"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Scope</a>
                 <a onclick="switchPage('projects')" id="nav-projects"
@@ -252,6 +254,8 @@
                 <nav class="flex flex-col gap-4 pointer-events-auto">
                     <a onclick="switchPage('research'); toggleMobileMenu();"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Research</a>
+                    <a onclick="switchPage('insights'); toggleMobileMenu();"
+                        class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Insights</a>
                     <a onclick="switchPage('what-we-study'); toggleMobileMenu();"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Scope</a>
                     <a onclick="switchPage('projects'); toggleMobileMenu();"
@@ -864,6 +868,143 @@
                     <p class="text-cyan-400 font-mono text-sm tracking-widest uppercase">
                         <span class="lang-en">"HOW DO WE REDESIGN SOCIETAL SYSTEMS SO THEY FLOW SMOOTHLY?"</span>
                         <span class="lang-ja">「社会システムをどのように再設計してスムーズに流れるようにするか？」</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- INSIGHTS PAGE -->
+            <div id="page-insights" class="hidden-page w-full max-w-6xl mx-auto pt-4 pb-24 fade-in-up">
+                <div class="flex flex-col mb-12">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
+                        <span class="lang-en">INSIGHTS</span>
+                        <span class="lang-ja">インサイト</span>
+                    </h1>
+                    <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">
+                        <span class="lang-en">Research Updates & Structural Analysis</span>
+                        <span class="lang-ja">研究アップデート＆構造分析</span>
+                    </p>
+                    <div class="glass-panel p-6 border-l-4 border-l-cyan-500 max-w-4xl mb-8">
+                        <p class="text-gray-300 leading-relaxed font-light text-sm">
+                            <span class="lang-en">Institutional perspectives on structural liquidity, governance design,
+                                AI architecture, and systemic intelligence. Updated as research evolves.</span>
+                            <span class="lang-ja">構造的流動性、ガバナンス設計、AIアーキテクチャ、システム的知性に関する制度的視点。研究の進展に応じて更新されます。</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Insights Grid -->
+                <div class="space-y-8">
+
+                    <!-- Insight Post 1 -->
+                    <article class="glass-panel p-8 border-l-2 border-l-cyan-500 hover:bg-white/5 transition-colors">
+                        <div class="flex flex-wrap items-center gap-4 mb-4">
+                            <span class="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                                <span class="lang-en">Dec 2024</span>
+                                <span class="lang-ja">2024年12月</span>
+                            </span>
+                            <span
+                                class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono rounded">
+                                <span class="lang-en">Structural Analysis</span>
+                                <span class="lang-ja">構造分析</span>
+                            </span>
+                        </div>
+                        <h2 class="font-display text-2xl text-white mb-4 hover:text-cyan-300 transition-colors">
+                            <span class="lang-en">Why Liquidity Extends Beyond Finance</span>
+                            <span class="lang-ja">流動性が金融を超える理由</span>
+                        </h2>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            <span class="lang-en">Liquidity is not just a financial concept — it describes the speed,
+                                friction, and flow of value, information, and decisions across any system. From
+                                government agencies to AI reasoning chains, understanding structural liquidity reveals
+                                where systems break down and where they scale. This insight explores how liquidity
+                                manifests across institutional, cognitive, and digital domains.</span>
+                            <span
+                                class="lang-ja">流動性は単なる金融概念ではありません。あらゆるシステムにおける価値、情報、意思決定の速度、摩擦、流れを記述します。政府機関からAI推論チェーンまで、構造的流動性を理解することで、システムがどこで崩壊し、どこでスケールするかが明らかになります。このインサイトは、流動性が制度的、認知的、デジタル領域でどのように現れるかを探求します。</span>
+                        </p>
+                        <div
+                            class="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-widest hover:text-cyan-300 transition-colors cursor-pointer">
+                            <span class="lang-en">Read full analysis</span>
+                            <span class="lang-ja">全文を読む</span>
+                            <span>→</span>
+                        </div>
+                    </article>
+
+                    <!-- Insight Post 2 -->
+                    <article class="glass-panel p-8 border-l-2 border-l-fuchsia-500 hover:bg-white/5 transition-colors">
+                        <div class="flex flex-wrap items-center gap-4 mb-4">
+                            <span class="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                                <span class="lang-en">Nov 2024</span>
+                                <span class="lang-ja">2024年11月</span>
+                            </span>
+                            <span
+                                class="px-3 py-1 bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-400 text-xs font-mono rounded">
+                                <span class="lang-en">AI Architecture</span>
+                                <span class="lang-ja">AIアーキテクチャ</span>
+                            </span>
+                        </div>
+                        <h2 class="font-display text-2xl text-white mb-4 hover:text-cyan-300 transition-colors">
+                            <span class="lang-en">Transparent Memory: The Missing Layer in AI Safety</span>
+                            <span class="lang-ja">透明なメモリ：AI安全性の欠けている層</span>
+                        </h2>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            <span class="lang-en">Most AI safety research focuses on alignment, but structural safety
+                                requires transparent memory. When AI systems cannot explain how they arrived at
+                                decisions, oversight becomes impossible. We propose a conceptual framework for memory
+                                systems that are auditable, traceable, and governable — enabling institutional trust
+                                without sacrificing intelligence.</span>
+                            <span
+                                class="lang-ja">ほとんどのAI安全性研究はアライメントに焦点を当てていますが、構造的安全性には透明なメモリが必要です。AIシステムが決定に至った経緯を説明できない場合、監視は不可能になります。監査可能で、追跡可能で、統治可能なメモリシステムの概念的フレームワークを提案します。これにより、知性を犠牲にすることなく制度的信頼が可能になります。</span>
+                        </p>
+                        <div
+                            class="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-widest hover:text-cyan-300 transition-colors cursor-pointer">
+                            <span class="lang-en">Read full analysis</span>
+                            <span class="lang-ja">全文を読む</span>
+                            <span>→</span>
+                        </div>
+                    </article>
+
+                    <!-- Insight Post 3 -->
+                    <article class="glass-panel p-8 border-l-2 border-l-yellow-500 hover:bg-white/5 transition-colors">
+                        <div class="flex flex-wrap items-center gap-4 mb-4">
+                            <span class="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                                <span class="lang-en">Oct 2024</span>
+                                <span class="lang-ja">2024年10月</span>
+                            </span>
+                            <span
+                                class="px-3 py-1 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-mono rounded">
+                                <span class="lang-en">Policy Brief</span>
+                                <span class="lang-ja">政策ブリーフ</span>
+                            </span>
+                        </div>
+                        <h2 class="font-display text-2xl text-white mb-4 hover:text-cyan-300 transition-colors">
+                            <span class="lang-en">Institutional Friction: Why Governments Move Slowly</span>
+                            <span class="lang-ja">制度的摩擦：政府が緩慢に動く理由</span>
+                        </h2>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            <span class="lang-en">Policy execution is often blamed on bureaucracy, but the real
+                                bottleneck is structural. Ministries operate as independent silos, value flows fragment
+                                across agencies, and information cannot move freely. This brief examines how
+                                institutional liquidity principles can diagnose and redesign governmental workflows for
+                                faster, safer, and more transparent execution.</span>
+                            <span
+                                class="lang-ja">政策実行はしばしば官僚制のせいにされますが、真のボトルネックは構造的なものです。省庁は独立したサイロとして機能し、価値の流れは機関間で断片化され、情報は自由に移動できません。このブリーフは、制度的流動性原則が政府ワークフローをより速く、より安全に、より透明に診断し再設計する方法を検討します。</span>
+                        </p>
+                        <div
+                            class="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-widest hover:text-cyan-300 transition-colors cursor-pointer">
+                            <span class="lang-en">Read full analysis</span>
+                            <span class="lang-ja">全文を読む</span>
+                            <span>→</span>
+                        </div>
+                    </article>
+
+                </div>
+
+                <!-- Footer Note -->
+                <div class="mt-16 text-center glass-panel p-6 max-w-2xl mx-auto">
+                    <p class="text-gray-500 text-xs font-mono">
+                        <span class="lang-en">New insights are published as research progresses. All content represents
+                            institutional analysis, not implementation guidance.</span>
+                        <span class="lang-ja">研究の進展に応じて新しいインサイトが公開されます。すべてのコンテンツは制度的分析を表し、実装ガイダンスではありません。</span>
                     </p>
                 </div>
             </div>
@@ -3022,7 +3163,7 @@
         // --- PAGE SWITCHING LOGIC ---
         function switchPage(pageId) {
             const pages = [
-                'page-home', 'page-research', 'page-what-we-study', 'page-projects',
+                'page-home', 'page-research', 'page-insights', 'page-what-we-study', 'page-projects',
                 'page-founder', 'page-mission', 'page-publications', 'page-frameworks', 'page-fellows', 'page-join', 'page-faq'
             ];
 
