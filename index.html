@@ -197,7 +197,8 @@
                 </div>
             </div>
 
-            <nav class="hidden md:flex gap-6 interactive pointer-events-auto">
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex gap-3 lg:gap-6 items-center interactive pointer-events-auto flex-wrap">
                 <a onclick="switchPage('research')" id="nav-research"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Research</a>
                 <a onclick="switchPage('insights')" id="nav-insights"
@@ -207,22 +208,22 @@
                 <a onclick="switchPage('projects')" id="nav-projects"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Projects</a>
                 <a onclick="switchPage('mission')" id="nav-mission"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Mission</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Mission</a>
                 <a onclick="switchPage('fellows')" id="nav-fellows"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Fellows</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Fellows</a>
                 <a onclick="switchPage('publications')" id="nav-publications"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Publications</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Publications</a>
                 <a onclick="switchPage('frameworks')" id="nav-frameworks"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Frameworks</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Frameworks</a>
                 <a onclick="switchPage('join')" id="nav-join"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Join</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Join</a>
                 <a onclick="switchPage('faq')" id="nav-faq"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">FAQ</a>
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">FAQ</a>
                 <a onclick="switchPage('founder')" id="nav-founder"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer">Founder</a>
-                <!-- Language Toggle - Homepage Only -->
+                    class="nav-link text-xs font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Founder</a>
+                <!-- Language Toggle - Always Visible -->
                 <button onclick="toggleLanguage()"
-                    class="font-mono text-xs text-cyan-400 hover:text-white transition-colors border border-cyan-400 px-3 py-1 pointer-events-auto ml-4 rounded">
+                    class="font-mono text-xs text-cyan-400 hover:text-white transition-colors border border-cyan-400 px-3 py-1 pointer-events-auto rounded flex-shrink-0">
                     <span class="lang-toggle-text">JP</span>
                 </button>
             </nav>
