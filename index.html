@@ -122,11 +122,14 @@
         }
 
         /* Language Visibility - Homepage Only */
-        body.lang-en .lang-ja {
+        /* Language Visibility - Homepage Only */
+        body.lang-en .lang-ja,
+        html.lang-en .lang-ja {
             display: none !important;
         }
 
-        body.lang-ja .lang-en {
+        body.lang-ja .lang-en,
+        html.lang-ja .lang-en {
             display: none !important;
         }
 
@@ -172,17 +175,26 @@
 
 <body>
 
+    <script>
+        // Immediate Language Initialization to prevent FOUC/Mixed Content
+        (function () {
+            const savedLang = localStorage.getItem('slilab-language') || 'en';
+            document.documentElement.classList.add('lang-' + savedLang);
+            document.body.classList.add('lang-' + savedLang);
+        })();
+    </script>
+
     <!-- 3D Scene Container -->
     <div id="canvas-container"></div>
 
     <!-- CRT/Holo Overlay Effect -->
-    <div class="scanline-overlay"></div>
+    <div class="scanline-overlay pointer-events-none"></div>
 
     <!-- Main UI Layout Container (Fixed to Viewport) -->
     <div class="ui-layer fixed inset-0 flex flex-col p-6 md:p-12 box-border">
 
         <!-- Header (Fixed Top) -->
-        <header class="flex justify-between items-start fade-in-up shrink-0 mb-6 z-50 pointer-events-none">
+        <header class="flex justify-between items-start fade-in-up shrink-0 mb-6 z-[60] pointer-events-none">
             <div class="flex flex-col interactive pointer-events-auto cursor-pointer" onclick="switchPage('home')">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 border border-cyan-400 flex items-center justify-center relative">
