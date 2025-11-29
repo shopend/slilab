@@ -171,10 +171,17 @@
             display: none;
         }
     </style>
-</head>
-
-<body>
-
+    <script>
+        // Immediate Language Initialization to prevent FOUC/Mixed Content
+        (function () {
+            try {
+                const savedLang = localStorage.getItem('slilab-language') || 'en';
+                document.documentElement.classList.add('lang-' + savedLang);
+            } catch (e) {
+                console.error('Language init error:', e);
+            }
+        })();
+    </script>
     <script>
         // Immediate Language Initialization to prevent FOUC/Mixed Content
         (function () {
@@ -183,6 +190,9 @@
             document.body.classList.add('lang-' + savedLang);
         })();
     </script>
+</head>
+
+<body>
 
     <!-- 3D Scene Container -->
     <div id="canvas-container"></div>
