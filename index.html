@@ -3389,7 +3389,7 @@
                 requestAnimationFrame(() => {
                     const scrollContainer = document.getElementById('content-scroll-container');
                     if (scrollContainer) {
-                        scrollContainer.scrollTo(0, 0);
+                        targetEl.scrollIntoView({ behavior: "instant", block: "start" });
                     }
 
                     // Show homepage footer on all pages
