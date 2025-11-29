@@ -221,25 +221,25 @@
 
             <!-- Desktop Navigation -->
             <nav class="hidden md:flex gap-3 lg:gap-6 items-center interactive pointer-events-auto flex-wrap">
-                <a onclick="switchPage('research')" id="nav-research"
+                <a href="#research" onclick="switchPage('research'); return false;" id="nav-research"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Research</a>
-                <a onclick="switchPage('what-we-study')" id="nav-what-we-study"
+                <a href="#what-we-study" onclick="switchPage('what-we-study'); return false;" id="nav-what-we-study"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Scope</a>
-                <a onclick="switchPage('projects')" id="nav-projects"
+                <a href="#projects" onclick="switchPage('projects'); return false;" id="nav-projects"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Projects</a>
-                <a onclick="switchPage('mission')" id="nav-mission"
+                <a href="#mission" onclick="switchPage('mission'); return false;" id="nav-mission"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Mission</a>
-                <a onclick="switchPage('fellows')" id="nav-fellows"
+                <a href="#fellows" onclick="switchPage('fellows'); return false;" id="nav-fellows"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Fellows</a>
-                <a onclick="switchPage('publications')" id="nav-publications"
+                <a href="#publications" onclick="switchPage('publications'); return false;" id="nav-publications"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Publications</a>
-                <a onclick="switchPage('frameworks')" id="nav-frameworks"
+                <a href="#frameworks" onclick="switchPage('frameworks'); return false;" id="nav-frameworks"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Frameworks</a>
-                <a onclick="switchPage('join')" id="nav-join"
+                <a href="#join" onclick="switchPage('join'); return false;" id="nav-join"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Join</a>
-                <a onclick="switchPage('faq')" id="nav-faq"
+                <a href="#faq" onclick="switchPage('faq'); return false;" id="nav-faq"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">FAQ</a>
-                <a onclick="switchPage('founder')" id="nav-founder"
+                <a href="#founder" onclick="switchPage('founder'); return false;" id="nav-founder"
                     class="nav-link text-xs font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Founder</a>
                 <!-- Language Toggle - Always Visible -->
                 <button onclick="toggleLanguage()"
@@ -273,25 +273,25 @@
                     </button>
                 </div>
                 <nav class="flex flex-col gap-4 pointer-events-auto">
-                    <a onclick="switchPage('research'); toggleMobileMenu();"
+                    <a href="#research" onclick="switchPage('research'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Research</a>
-                    <a onclick="switchPage('what-we-study'); toggleMobileMenu();"
+                    <a href="#what-we-study" onclick="switchPage('what-we-study'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Scope</a>
-                    <a onclick="switchPage('projects'); toggleMobileMenu();"
+                    <a href="#projects" onclick="switchPage('projects'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Projects</a>
-                    <a onclick="switchPage('mission'); toggleMobileMenu();"
+                    <a href="#mission" onclick="switchPage('mission'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Mission</a>
-                    <a onclick="switchPage('fellows'); toggleMobileMenu();"
+                    <a href="#fellows" onclick="switchPage('fellows'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Fellows</a>
-                    <a onclick="switchPage('publications'); toggleMobileMenu();"
+                    <a href="#publications" onclick="switchPage('publications'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Publications</a>
-                    <a onclick="switchPage('frameworks'); toggleMobileMenu();"
+                    <a href="#frameworks" onclick="switchPage('frameworks'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Frameworks</a>
-                    <a onclick="switchPage('join'); toggleMobileMenu();"
+                    <a href="#join" onclick="switchPage('join'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Join</a>
-                    <a onclick="switchPage('faq'); toggleMobileMenu();"
+                    <a href="#faq" onclick="switchPage('faq'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">FAQ</a>
-                    <a onclick="switchPage('founder'); toggleMobileMenu();"
+                    <a href="#founder" onclick="switchPage('founder'); toggleMobileMenu(); return false;"
                         class="text-lg font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer">Founder</a>
                     <!-- Language Toggle -->
                     <button onclick="toggleLanguage()"
@@ -3397,13 +3397,12 @@
                     homepageFooter.classList.add('flex');
                 }
             }
-        }
 
-        // Set Active Nav State
-        const navEl = document.getElementById('nav-' + pageId);
-        if (navEl) {
-            navEl.classList.add('active');
-        }
+            // Set Active Nav State
+            const navEl = document.getElementById('nav-' + pageId);
+            if (navEl) {
+                navEl.classList.add('active');
+            }
         }
 
         // --- THREE.JS CONFIGURATION ---
