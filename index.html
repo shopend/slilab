@@ -3320,6 +3320,13 @@
             if (toggleText) {
                 toggleText.textContent = savedLang === 'en' ? 'JP' : 'EN';
             }
+
+            // Show homepage footer on initial load
+            const homepageFooter = document.getElementById('homepage-footer');
+            if (homepageFooter) {
+                homepageFooter.classList.remove('hidden');
+                homepageFooter.classList.add('flex');
+            }
         });
 
         // --- MOBILE MENU TOGGLE ---
