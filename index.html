@@ -3368,24 +3368,20 @@
                 const scrollContainer = document.getElementById('content-scroll-container');
                 if (scrollContainer) scrollContainer.scrollTop = 0;
 
-                // Show/hide homepage footer
+                // Show homepage footer on all pages
                 const homepageFooter = document.getElementById('homepage-footer');
                 if (homepageFooter) {
-                    if (pageId === 'home') {
-                        homepageFooter.classList.remove('hidden');
-                        homepageFooter.classList.add('flex');
-                    } else {
-                        homepageFooter.classList.add('hidden');
-                        homepageFooter.classList.remove('flex');
-                    }
+                    homepageFooter.classList.remove('hidden');
+                    homepageFooter.classList.add('flex');
                 }
             }
+        }
 
-            // Set Active Nav State
-            const navEl = document.getElementById('nav-' + pageId);
-            if (navEl) {
-                navEl.classList.add('active');
-            }
+        // Set Active Nav State
+        const navEl = document.getElementById('nav-' + pageId);
+        if (navEl) {
+            navEl.classList.add('active');
+        }
         }
 
         // --- THREE.JS CONFIGURATION ---
