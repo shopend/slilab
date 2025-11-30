@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Navigation Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #020408;
+            color: #fff;
+        }
+
+        .hidden-page {
+            display: none;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .page {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #00f0ff;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Navigation Test</h1>
+    <p>Click buttons to test switchPage function:</p>
+
+    <button onclick="switchPage('home')">Home</button>
+    <button onclick="switchPage('research')">Research</button>
+    <button onclick="switchPage('what-we-study')">Scope</button>
+    <button onclick="switchPage('mission')">Mission</button>
+    <button onclick="switchPage('fellows')">Fellows</button>
+    <button onclick="switchPage('publications')">Publications</button>
+    <button onclick="switchPage('frameworks')">Frameworks</button>
+    <button onclick="switchPage('join')">Join</button>
+    <button onclick="switchPage('faq')">FAQ</button>
+    <button onclick="switchPage('founder')">Founder</button>
+
+    <div id="console-log"
+        style="margin-top: 20px; padding: 10px; background: #000; border: 1px solid #333; max-height: 200px; overflow-y: auto;">
+    </div>
+
+    <div id="page-home" class="page">HOME PAGE</div>
+    <div id="page-research" class="hidden-page page">RESEARCH PAGE</div>
+    <div id="page-what-we-study" class="hidden-page page">SCOPE PAGE</div>
+    <div id="page-mission" class="hidden-page page">MISSION PAGE</div>
+    <div id="page-fellows" class="hidden-page page">FELLOWS PAGE</div>
+    <div id="page-publications" class="hidden-page page">PUBLICATIONS PAGE</div>
+    <div id="page-frameworks" class="hidden-page page">FRAMEWORKS PAGE</div>
+    <div id="page-join" class="hidden-page page">JOIN PAGE</div>
+    <div id="page-faq" class="hidden-page page">FAQ PAGE</div>
+    <div id="page-founder" class="hidden-page page">FOUNDER PAGE</div>
+
+    <script>
+        function log(msg) {
+            const consoleEl = document.getElementById('console-log');
+            consoleEl.innerHTML += '<div>' + new Date().toLocaleTimeString() + ': ' + msg + '</div>';
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        function switchPage(pageId) {
+            log('switchPage called with: ' + pageId);
+
+            const pages = [
+                'page-home', 'page-research', 'page-research-papers', 'page-whitepapers', 'page-insights', 'page-technical-notes', 'page-what-we-study', 'page-projects',
+                'page-founder', 'page-mission', 'page-publications', 'page-frameworks', 'page-fellows', 'page-join', 'page-faq'
+            ];
+
+            // Hide all pages
+            pages.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.display = 'none';
+                    log('Hidden: ' + id);
+                }
+            });
+
+            // Show selected page
+            const targetEl = document.getElementById('page-' + pageId);
+            if (targetEl) {
+                targetEl.style.display = (pageId === 'home') ? 'flex' : 'block';
+                log('Showing: page-' + pageId + ' with display: ' + targetEl.style.display);
+            } else {
+                log('ERROR: page-' + pageId + ' not found!');
+            }
+        }
+    </script>
+</body>
+
+</html>

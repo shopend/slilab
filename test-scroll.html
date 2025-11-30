@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Scope Page Scroll Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #020408;
+            color: #ffffff;
+            font-family: sans-serif;
+        }
+
+        .ui-layer {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 48px;
+            box-sizing: border-box;
+        }
+
+        header {
+            flex-shrink: 0;
+            margin-bottom: 24px;
+            padding: 20px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+        }
+
+        #content-scroll-container {
+            flex: 1;
+            overflow-y: auto;
+            position: relative;
+            padding-right: 8px;
+            border: 2px solid yellow;
+            /* Visual indicator */
+        }
+
+        #content-scroll-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #content-scroll-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        #content-scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 240, 255, 0.5);
+            border-radius: 3px;
+        }
+
+        .page-content {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 0 96px 0;
+        }
+
+        .content-block {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 2px solid cyan;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui-layer">
+        <header>
+            <h1>HEADER (Fixed, No Scroll)</h1>
+            <p>This header should stay at the top</p>
+        </header>
+
+        <div id="content-scroll-container">
+            <div class="page-content">
+                <h2>SCOPE PAGE CONTENT (Should Scroll)</h2>
+                <p style="color: yellow;">Yellow border = scroll container. If content exceeds viewport, you should be
+                    able to scroll.</p>
+
+                <div class="content-block">Block 1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                <div class="content-block">Block 2</div>
+                <div class="content-block">Block 3</div>
+                <div class="content-block">Block 4</div>
+                <div class="content-block">Block 5</div>
+                <div class="content-block">Block 6</div>
+                <div class="content-block">Block 7</div>
+                <div class="content-block">Block 8</div>
+                <div class="content-block">Block 9</div>
+                <div class="content-block">Block 10</div>
+                <div class="content-block">Block 11</div>
+                <div class="content-block">Block 12</div>
+                <div class="content-block">Block 13</div>
+                <div class="content-block">Block 14</div>
+                <div class="content-block">Block 15</div>
+                <div class="content-block">Block 16</div>
+                <div class="content-block">Block 17</div>
+                <div class="content-block">Block 18</div>
+                <div class="content-block">Block 19</div>
+                <div class="content-block">Block 20 - END (You should be able to scroll to see this)</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('Scroll container height:', document.getElementById('content-scroll-container').clientHeight);
+        console.log('Scroll container scroll height:', document.getElementById('content-scroll-container').scrollHeight);
+        console.log('Is scrollable?', document.getElementById('content-scroll-container').scrollHeight > document.getElementById('content-scroll-container').clientHeight);
+    </script>
+</body>
+
+</html>

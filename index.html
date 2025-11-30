@@ -14,9 +14,10 @@
     <style>
         body {
             margin: 0;
-            overflow: hidden;
-            background-color: #020408;
-            /* Deepest Navy */
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #000000;
+            /* Pure Black */
             color: #ffffff;
             font-family: 'Inter', sans-serif;
         }
@@ -33,9 +34,8 @@
         }
 
         .ui-layer {
-            position: relative;
+            position: static;
             z-index: 10;
-            pointer-events: none;
         }
 
         .interactive {
@@ -123,12 +123,23 @@
 
         /* Language Visibility - Homepage Only */
         /* Language Visibility - Homepage Only */
-        
+
         /* Simple Language Visibility */
-        .lang-ja { display: none !important; }
-        .lang-en { display: inline !important; }
-        body.lang-ja .lang-en { display: none !important; }
-        body.lang-ja .lang-ja { display: inline !important; }
+        .lang-ja {
+            display: none !important;
+        }
+
+        .lang-en {
+            display: inline !important;
+        }
+
+        body.lang-ja .lang-en {
+            display: none !important;
+        }
+
+        body.lang-ja .lang-ja {
+            display: inline !important;
+        }
 
 
         body.lang-ja .lang-en,
@@ -170,31 +181,34 @@
             box-shadow: 0 0 8px #00f0ff;
         }
 
-        .hidden-page {
+        /* Page Visibility and Layout */
+        [id^="page-"] {
             display: none;
-        }
-
-        )();
-    </script>
-
-    <style>
-        /* FAILSAFE VISIBILITY */
-        #page-home {
-            display: block !important;
-            opacity: 1 !important;
-            visibility: visible !important;
+            padding-top: 140px;
+            /* Space for fixed header */
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            padding-bottom: 6rem;
             min-height: 100vh;
         }
-        body {
-            background-color: #051020; /* Fallback background */
-            color: white;
+
+        @media (min-width: 768px) {
+            [id^="page-"] {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
+        }
+
+        #page-home {
+            display: block;
+        }
+
+        .hidden-page {
+            display: none !important;
         }
 
         .visible-page {
             display: block !important;
-            min-height: 100vh;
-            padding-bottom: 200px;
-            /* Force extra space for scrolling */
         }
     </style>
 </head>
@@ -207,11 +221,12 @@
     <!-- CRT/Holo Overlay Effect -->
     <div class="scanline-overlay pointer-events-none"></div>
 
-    <!-- Main UI Layout Container (Fixed to Viewport) -->
-    <div class="ui-layer fixed inset-0 flex flex-col p-6 md:p-12 box-border">
+    <!-- Main UI Layout Container -->
+    <div class="ui-layer w-full">
 
         <!-- Header (Fixed Top) -->
-        <header class="flex justify-between items-start shrink-0 mb-6 z-[60] pointer-events-none">
+        <header
+            class="fixed top-0 left-0 right-0 flex justify-between items-start p-6 md:p-12 z-[60] bg-gradient-to-b from-black via-black/80 to-transparent backdrop-blur-sm">
             <div class="flex flex-col interactive pointer-events-auto cursor-pointer" onclick="switchPage('home')">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 border border-cyan-400 flex items-center justify-center relative">
@@ -309,11 +324,11 @@
             </div>
         </div>
 
-        <!-- Scrollable Content Area (Flex Child) -->
-        <div id="content-scroll-container" class="flex-1 overflow-y-auto custom-scroll interactive relative pr-2">
+        <!-- Content Container -->
+        <div id="content-container" class="relative w-full">
 
             <!-- HOME PAGE -->
-            <main id="page-home" class="flex flex-col items-start w-full max-w-7xl mt-12 relative min-h-[60vh] pb-24">
+            <main id="page-home" class="flex flex-col items-start w-full max-w-7xl mx-auto min-h-screen">
                 <div
                     class="h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-500 to-transparent absolute -left-8 top-0 hidden md:block opacity-30">
                 </div>
@@ -589,7 +604,7 @@
             </main>
 
             <!-- RESEARCH PAGE -->
-            <div id="page-research" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+            <div id="page-research" class="hidden-page w-full max-w-7xl mx-auto">
                 <div class="flex flex-col mb-12">
                     <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
                         <span class="lang-en">RESEARCH AREAS</span>
@@ -989,7 +1004,7 @@
             </div>
 
             <!-- RESEARCH PAPERS PAGE -->
-            <div id="page-research-papers" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+            <div id="page-research-papers" class="hidden-page w-full max-w-7xl mx-auto">
                 <div class="flex flex-col mb-12">
                     <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
                         <span class="lang-en">RESEARCH PAPERS</span>
@@ -1024,7 +1039,7 @@
         </div>
 
         <!-- WHITEPAPERS PAGE -->
-        <div id="page-whitepapers" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+        <div id="page-whitepapers" class="hidden-page w-full max-w-7xl mx-auto">
             <div class="flex flex-col mb-12">
                 <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
                     <span class="lang-en">WHITEPAPERS</span>
@@ -1073,7 +1088,7 @@
         </div>
 
         <!-- TECHNICAL NOTES PAGE -->
-        <div id="page-technical-notes" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+        <div id="page-technical-notes" class="hidden-page w-full max-w-7xl mx-auto">
             <div class="flex flex-col mb-12">
                 <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
                     <span class="lang-en">TECHNICAL NOTES</span>
@@ -1103,7 +1118,7 @@
     </div>
 
     <!-- INSIGHTS PAGE -->
-    <div id="page-insights" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-insights" class="hidden-page w-full max-w-7xl mx-auto">
         <div class="flex flex-col mb-12">
             <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
                 <span class="lang-en">INSIGHTS</span>
@@ -1240,7 +1255,7 @@
     </div>
 
     <!-- WHAT WE STUDY PAGE (Scope) -->
-    <div id="page-what-we-study" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-what-we-study" class="hidden-page w-full max-w-7xl mx-auto">
 
         <div class="flex flex-col mb-12">
             <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
@@ -1578,7 +1593,7 @@
     </div>
 
     <!-- PROJECTS PAGE -->
-    <div id="page-projects" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-projects" class="hidden-page w-full max-w-7xl mx-auto">
         <div class="flex flex-col mb-12">
             <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">
                 <span class="lang-en">RESEARCH PROJECTS</span>
@@ -2066,7 +2081,7 @@
     </div>
 
     <!-- PUBLICATIONS PAGE -->
-    <div id="page-publications" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-publications" class="hidden-page w-full max-w-7xl mx-auto">
         <div class="flex flex-col mb-12">
             <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">PUBLICATIONS</h1>
             <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Research Papers,
@@ -2162,7 +2177,7 @@
     </div>
 
     <!-- MISSION PAGE -->
-    <div id="page-mission" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-mission" class="hidden-page w-full max-w-7xl mx-auto">
         <div class="flex flex-col mb-12">
             <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">MISSION & VISION</h1>
             <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">FOUNDER EDITION</p>
@@ -2379,7 +2394,7 @@
     </div>
 
     <!-- FRAMEWORKS PAGE (NEW) -->
-    <div id="page-frameworks" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-frameworks" class="hidden-page w-full max-w-7xl mx-auto">
         <div class="flex flex-col mb-12">
             <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">FRAMEWORK LIBRARY</h1>
             <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Public Conceptual
@@ -2539,7 +2554,7 @@
     </div>
 
     <!-- FELLOWS PAGE -->
-    <div id="page-fellows" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-fellows" class="hidden-page w-full max-w-7xl mx-auto">
         <div class="flex flex-col mb-12">
             <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">FELLOWS & CONTRIBUTORS</h1>
             <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Global Research Initiative
@@ -2668,7 +2683,7 @@
     </div>
 
     <!-- JOIN PAGE -->
-    <div id="page-join" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-join" class="hidden-page w-full max-w-7xl mx-auto">
         <div class="flex flex-col mb-12">
             <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">APPLY / JOIN</h1>
             <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Building an International
@@ -2849,7 +2864,7 @@
 
     <!-- FOUNDER PAGE -->
     <!-- FOUNDER PAGE -->
-    <div id="page-founder" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-founder" class="hidden-page w-full max-w-7xl mx-auto">
         <div class="flex flex-col mb-12">
             <div
                 class="inline-block px-3 py-1 border border-yellow-500/30 text-yellow-200 text-[10px] font-mono tracking-widest uppercase mb-4 bg-yellow-900/10 w-fit">
@@ -3095,7 +3110,7 @@
 
 
     <!-- FAQ PAGE -->
-    <div id="page-faq" class="hidden-page w-full max-w-7xl mx-auto pt-32 pb-24">
+    <div id="page-faq" class="hidden-page w-full max-w-7xl mx-auto">
         <div class="flex flex-col mb-12">
             <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6">FAQ</h1>
             <p class="font-mono text-cyan-400 text-sm tracking-widest mb-8 uppercase">Public Version</p>
@@ -3336,11 +3351,11 @@
             // FORCE ENGLISH
             document.body.classList.remove('lang-ja');
             document.body.classList.add('lang-en');
-            
+
             // Hide toggle button manually
             const toggles = document.querySelectorAll('button[onclick="toggleLanguage()"]');
             toggles.forEach(btn => btn.style.display = 'none');
-            
+
 
             // Show homepage footer on initial load
             const homepageFooter = document.getElementById('homepage-footer');
@@ -3371,9 +3386,8 @@
             pages.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
-                    el.classList.remove('visible-page');
                     el.classList.add('hidden-page');
-                    el.classList.remove('fade-in-up'); // Ensure clean state
+                    el.classList.remove('visible-page');
                 }
             });
 
@@ -3386,31 +3400,23 @@
                 targetEl.classList.remove('hidden-page');
                 targetEl.classList.add('visible-page');
 
-                // Removed animation to ensure scrollability
-                // requestAnimationFrame(() => {
-                //    targetEl.classList.add('fade-in-up');
-                // });
-
-                // Reset scroll position and force layout
-                const scrollContainer = document.getElementById('content-scroll-container');
-                if (scrollContainer) {
-                    scrollContainer.scrollTo(0, 0);
-                    // Force reflow
-                    void scrollContainer.offsetHeight;
-                }
-
-                // Show homepage footer on all pages
-                const homepageFooter = document.getElementById('homepage-footer');
-                if (homepageFooter) {
-                    homepageFooter.classList.remove('hidden');
-                    homepageFooter.classList.add('flex');
-                }
+                // Scroll to top of page using browser scroll
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'instant'
+                });
             }
 
             // Set Active Nav State
             const navEl = document.getElementById('nav-' + pageId);
             if (navEl) {
                 navEl.classList.add('active');
+            }
+
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
             }
         }
 
@@ -3537,7 +3543,42 @@
             renderer.render(scene, camera);
         }
 
+        // Detect WebGL support
+        function detectWebGLSupport() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+                if (!gl) {
+                    console.log('WebGL not supported by browser');
+                    return false;
+                }
+
+                // Check for mobile/iOS devices - they may struggle with complex 3D
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                const isMobile = /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+                // On mobile, do a more conservative check
+                if (isIOS || isMobile) {
+                    // Check if device might be in low power mode or has limited resources
+                    const renderer = gl.getParameter(gl.RENDERER);
+                    console.log('Mobile device detected, renderer:', renderer);
+
+                    // Allow WebGL on mobile but with awareness
+                    return true;
+                }
+
+                return true;
+            } catch (e) {
+                console.error('WebGL detection error:', e);
+                return false;
+            }
+        }
+
         window.onload = function () {
+            // Check WebGL support first
+            const hasWebGL = detectWebGLSupport();
+
             // Check if Three.js loaded
             if (typeof THREE === 'undefined') {
                 console.error('Three.js failed to load');
@@ -3553,8 +3594,24 @@
                 warning.style.zIndex = '9999';
                 warning.innerText = 'Error: Three.js library failed to load. The 3D background will not appear.';
                 document.body.appendChild(warning);
+            } else if (!hasWebGL) {
+                console.log('WebGL not supported, using fallback background');
+                const container = document.getElementById('canvas-container');
+                if (container) {
+                    container.style.display = 'none';
+                }
+                // Background remains pure black from CSS
             } else {
-                init();
+                // WebGL supported and Three.js loaded - initialize
+                try {
+                    init();
+                } catch (e) {
+                    console.error('WebGL initialization failed:', e);
+                    const container = document.getElementById('canvas-container');
+                    if (container) {
+                        container.style.display = 'none';
+                    }
+                }
             }
 
             // Check if Tailwind loaded (simple check for a utility class)
@@ -3570,7 +3627,9 @@
             // Force opacity to 1 after a delay just in case animation fails
             setTimeout(() => {
                 const container = document.getElementById('canvas-container');
-                if (container) container.style.opacity = 1;
+                if (container && container.style.display !== 'none') {
+                    container.style.opacity = 1;
+                }
 
                 // Also ensure content is visible
                 const uiLayer = document.querySelector('.ui-layer');
@@ -3581,7 +3640,7 @@
 
     <script>
         // EMERGENCY FAILSAFE
-        (function() {
+        (function () {
             setTimeout(() => {
                 console.log("Running Failsafe...");
                 const home = document.getElementById('page-home');
@@ -3591,7 +3650,7 @@
                     home.style.visibility = 'visible';
                 }
                 document.body.style.opacity = '1';
-                
+
                 // Force scroll container to be visible
                 const scrollContainer = document.getElementById('content-scroll-container');
                 if (scrollContainer) {
