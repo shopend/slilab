@@ -178,22 +178,15 @@
         }
     </style>
     <script>
-        // Immediate Language Initialization to prevent FOUC/Mixed Content
+        // Immediate Language Initialization (FORCED ENGLISH)
         (function () {
             try {
-                const savedLang = localStorage.getItem('slilab-language') || 'en';
-                document.documentElement.classList.add('lang-' + savedLang);
+                // Force English, ignore localStorage
+                document.documentElement.classList.remove('lang-ja');
+                document.documentElement.classList.add('lang-en');
             } catch (e) {
                 console.error('Language init error:', e);
             }
-        })();
-    </script>
-    <script>
-        // Immediate Language Initialization to prevent FOUC/Mixed Content
-        (function () {
-            const savedLang = localStorage.getItem('slilab-language') || 'en';
-            document.documentElement.classList.add('lang-' + savedLang);
-            document.body.classList.add('lang-' + savedLang);
         })();
     </script>
 </head>
@@ -3334,7 +3327,13 @@
         // Initialize language on page load (FORCED TO ENGLISH)
         window.addEventListener('DOMContentLoaded', () => {
             const savedLang = 'en'; // FORCE ENGLISH ONLY
-            document.body.classList.add(`lang-${savedLang}`);
+            // Remove ANY existing language classes to prevent conflicts
+            document.body.classList.remove('lang-ja', 'lang-en');
+            document.documentElement.classList.remove('lang-ja');
+            
+            // Add forced English class
+            document.body.classList.add('lang-en');
+            document.documentElement.classList.add('lang-en');
             const toggleText = document.querySelector('.lang-toggle-text');
             if (toggleText) {
                 toggleText.textContent = savedLang === 'en' ? 'JP' : 'EN';
