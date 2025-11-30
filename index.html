@@ -210,6 +210,15 @@
         .visible-page {
             display: block !important;
         }
+
+        /* Footer visibility - controlled by JavaScript */
+        #homepage-footer {
+            display: none;
+        }
+
+        #homepage-footer.show {
+            display: flex !important;
+        }
     </style>
 </head>
 
@@ -3311,7 +3320,7 @@
 
         <!-- Homepage Footer (Fixed Bottom) -->
         <footer id="homepage-footer"
-            class="flex justify-between items-end delay-300 pointer-events-none absolute bottom-0 left-0 right-0 px-6 md:px-12 pb-6 z-50">
+            class="fixed bottom-0 left-0 right-0 flex justify-between items-end delay-300 pointer-events-none px-6 md:px-12 pb-6 z-50">
             <div class="hidden md:block">
                 <div class="grid grid-cols-2 gap-x-8 gap-y-2 font-mono text-[10px] text-gray-500">
                     <span>COORDS:</span> <span class="text-cyan-400">42.3601° N, 71.0942° W</span>
@@ -3357,11 +3366,10 @@
             toggles.forEach(btn => btn.style.display = 'none');
 
 
-            // Show homepage footer on initial load
+            // Show homepage footer on initial load (homepage is displayed by default)
             const homepageFooter = document.getElementById('homepage-footer');
             if (homepageFooter) {
-                homepageFooter.classList.remove('hidden');
-                homepageFooter.classList.add('flex');
+                homepageFooter.classList.add('show');
             }
         });
 
@@ -3417,6 +3425,16 @@
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                 mobileMenu.classList.add('hidden');
+            }
+
+            // Show/hide footer - only visible on homepage
+            const footer = document.getElementById('homepage-footer');
+            if (footer) {
+                if (pageId === 'home') {
+                    footer.classList.add('show');
+                } else {
+                    footer.classList.remove('show');
+                }
             }
         }
 
