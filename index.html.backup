@@ -123,13 +123,10 @@
 
         /* Language Visibility - Homepage Only */
         /* Language Visibility - Homepage Only */
-        
-        /* Simple Language Visibility */
-        .lang-ja { display: none !important; }
-        .lang-en { display: inline !important; }
-        body.lang-ja .lang-en { display: none !important; }
-        body.lang-ja .lang-ja { display: inline !important; }
-
+        body.lang-en .lang-ja,
+        html.lang-en .lang-ja {
+            display: none !important;
+        }
 
         body.lang-ja .lang-en,
         html.lang-ja .lang-en {
@@ -173,23 +170,26 @@
         .hidden-page {
             display: none;
         }
-
-        )();
-    </script>
-
-    <style>
-        /* FAILSAFE VISIBILITY */
-        #page-home {
-            display: block !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            min-height: 100vh;
-        }
-        body {
-            background-color: #051020; /* Fallback background */
-            color: white;
-        }
     </style>
+    <script>
+        // Immediate Language Initialization to prevent FOUC/Mixed Content
+        (function () {
+            try {
+                const savedLang = localStorage.getItem('slilab-language') || 'en';
+                document.documentElement.classList.add('lang-' + savedLang);
+            } catch (e) {
+                console.error('Language init error:', e);
+            }
+        })();
+    </script>
+    <script>
+        // Immediate Language Initialization to prevent FOUC/Mixed Content
+        (function () {
+            const savedLang = localStorage.getItem('slilab-language') || 'en';
+            document.documentElement.classList.add('lang-' + savedLang);
+            document.body.classList.add('lang-' + savedLang);
+        })();
+    </script>
 </head>
 
 <body>
@@ -3321,20 +3321,30 @@
     <script>
         // --- LANGUAGE TOGGLE (Homepage Only) ---
         function toggleLanguage() {
-            // DISABLED - English only mode
-            return false;
+            const currentLang = document.body.classList.contains('lang-ja') ? 'ja' : 'en';
+            const newLang = currentLang === 'en' ? 'ja' : 'en';
+
+            document.body.classList.remove('lang-en', 'lang-ja');
+            document.body.classList.add(`lang-${newLang}`);
+
+            // Update toggle button text
+            const toggleText = document.querySelector('.lang-toggle-text');
+            if (toggleText) {
+                toggleText.textContent = newLang === 'en' ? 'JP' : 'EN';
+            }
+
+            // Save preference
+            localStorage.setItem('slilab-language', newLang);
         }
 
-        // Initialize language on page load (FORCED TO ENGLISH)
+        // Initialize language on page load
         window.addEventListener('DOMContentLoaded', () => {
-            // FORCE ENGLISH
-            document.body.classList.remove('lang-ja');
-            document.body.classList.add('lang-en');
-            
-            // Hide toggle button manually
-            const toggles = document.querySelectorAll('button[onclick="toggleLanguage()"]');
-            toggles.forEach(btn => btn.style.display = 'none');
-            
+            const savedLang = localStorage.getItem('slilab-language') || 'en';
+            document.body.classList.add(`lang-${savedLang}`);
+            const toggleText = document.querySelector('.lang-toggle-text');
+            if (toggleText) {
+                toggleText.textContent = savedLang === 'en' ? 'JP' : 'EN';
+            }
 
             // Show homepage footer on initial load
             const homepageFooter = document.getElementById('homepage-footer');
@@ -3375,11 +3385,11 @@
             if (targetEl) {
                 targetEl.style.display = (pageId === 'home') ? 'flex' : 'block';
 
-                // Use setTimeout to ensure DOM updates before scrolling
-                setTimeout(() => {
+                // Use requestAnimationFrame to ensure DOM updates before scrolling
+                requestAnimationFrame(() => {
                     const scrollContainer = document.getElementById('content-scroll-container');
                     if (scrollContainer) {
-                        scrollContainer.scrollTop = 0;
+                        scrollContainer.scrollTo(0, 0);
                     }
 
                     // Show homepage footer on all pages
@@ -3388,7 +3398,7 @@
                         homepageFooter.classList.remove('hidden');
                         homepageFooter.classList.add('flex');
                     }
-                }, 10);
+                });
             }
 
             // Set Active Nav State
@@ -3561,29 +3571,6 @@
                 if (uiLayer) uiLayer.style.opacity = 1;
             }, 1000);
         };
-    </script>
-
-    <script>
-        // EMERGENCY FAILSAFE
-        (function() {
-            setTimeout(() => {
-                console.log("Running Failsafe...");
-                const home = document.getElementById('page-home');
-                if (home) {
-                    home.style.display = 'flex';
-                    home.style.opacity = '1';
-                    home.style.visibility = 'visible';
-                }
-                document.body.style.opacity = '1';
-                
-                // Force scroll container to be visible
-                const scrollContainer = document.getElementById('content-scroll-container');
-                if (scrollContainer) {
-                    scrollContainer.style.opacity = '1';
-                    scrollContainer.style.visibility = 'visible';
-                }
-            }, 500);
-        })();
     </script>
 </body>
 
