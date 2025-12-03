@@ -276,44 +276,48 @@
                 </div>
             </div>
 
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex gap-3 lg:gap-6 items-center interactive pointer-events-auto flex-wrap">
-                <a href="#research" onclick="switchPage('research'); return false;" id="nav-research"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Research</a>
-                <a href="#what-we-study" onclick="switchPage('what-we-study'); return false;" id="nav-what-we-study"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Scope</a>
-                <a href="#projects" onclick="switchPage('projects'); return false;" id="nav-projects"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Projects</a>
-                <a href="#mission" onclick="switchPage('mission'); return false;" id="nav-mission"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Mission</a>
-                <a href="#fellows" onclick="switchPage('fellows'); return false;" id="nav-fellows"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Fellows</a>
-                <a href="#publications" onclick="switchPage('publications'); return false;" id="nav-publications"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Publications</a>
-                <a href="#frameworks" onclick="switchPage('frameworks'); return false;" id="nav-frameworks"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Frameworks</a>
-                <a href="#join" onclick="switchPage('join'); return false;" id="nav-join"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Join</a>
-                <a href="#faq" onclick="switchPage('faq'); return false;" id="nav-faq"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">FAQ</a>
-                <a href="#founder" onclick="switchPage('founder'); return false;" id="nav-founder"
-                    class="nav-link text-xs font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Founder</a>
-                <!-- Language Toggle - Always Visible -->
-                <button onclick="toggleLanguage()"
-                    class="font-mono text-xs text-cyan-400 hover:text-white transition-colors border border-cyan-400 px-3 py-1 pointer-events-auto rounded flex-shrink-0">
-                    <span class="lang-toggle-text">JP</span>
-                </button>
-            </nav>
+            <!-- Navigation Container (Desktop nav + Mobile button) -->
+            <div class="flex items-center gap-4">
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex gap-3 lg:gap-6 items-center interactive pointer-events-auto flex-wrap">
+                    <a href="#research" onclick="switchPage('research'); return false;" id="nav-research"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Research</a>
+                    <a href="#what-we-study" onclick="switchPage('what-we-study'); return false;" id="nav-what-we-study"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Scope</a>
+                    <a href="#projects" onclick="switchPage('projects'); return false;" id="nav-projects"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer">Projects</a>
+                    <a href="#mission" onclick="switchPage('mission'); return false;" id="nav-mission"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Mission</a>
+                    <a href="#fellows" onclick="switchPage('fellows'); return false;" id="nav-fellows"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Fellows</a>
+                    <a href="#publications" onclick="switchPage('publications'); return false;" id="nav-publications"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Publications</a>
+                    <a href="#frameworks" onclick="switchPage('frameworks'); return false;" id="nav-frameworks"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Frameworks</a>
+                    <a href="#join" onclick="switchPage('join'); return false;" id="nav-join"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden xl:inline">Join</a>
+                    <a href="#faq" onclick="switchPage('faq'); return false;" id="nav-faq"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-cyan-400 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">FAQ</a>
+                    <a href="#founder" onclick="switchPage('founder'); return false;" id="nav-founder"
+                        class="nav-link text-xs font-mono text-gray-400 hover:text-gold-400 text-yellow-100 transition-colors uppercase tracking-widest cursor-pointer hidden lg:inline">Founder</a>
+                    <!-- Language Toggle - Always Visible -->
+                    <button onclick="toggleLanguage()"
+                        class="font-mono text-xs text-cyan-400 hover:text-white transition-colors border border-cyan-400 px-3 py-1 pointer-events-auto rounded flex-shrink-0">
+                        <span class="lang-toggle-text">JP</span>
+                    </button>
+                </nav>
 
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn"
-                class="md:hidden interactive pointer-events-auto text-white bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/50 rounded p-2 transition-all"
-                onclick="toggleMobileMenu()">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn"
+                    class="md:hidden interactive pointer-events-auto text-white bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/50 rounded p-2 transition-all"
+                    onclick="toggleMobileMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
         </header>
 
         <!-- Mobile Menu Overlay -->
