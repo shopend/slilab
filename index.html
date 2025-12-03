@@ -5,6 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Structure & Liquidity Intelligence</title>
+
+    <!-- Favicon - Light Mode (Daytime) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-light-32x32.png"
+        media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-light-16x16.png"
+        media="(prefers-color-scheme: light)">
+
+    <!-- Favicon - Dark Mode (Nighttime) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-dark-32x32.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-dark-16x16.png" media="(prefers-color-scheme: dark)">
+
+    <!-- Apple Touch Icon (using dark version for consistency with dark backgrounds) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link
@@ -238,10 +252,7 @@
             class="fixed top-0 left-0 right-0 flex justify-between items-start p-6 md:p-12 z-[60] bg-gradient-to-b from-black via-black/80 to-transparent backdrop-blur-sm">
             <div class="flex flex-col interactive pointer-events-auto cursor-pointer" onclick="switchPage('home')">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 border border-cyan-400 flex items-center justify-center relative">
-                        <div class="absolute w-full h-[1px] bg-cyan-400 rotate-45"></div>
-                        <div class="absolute w-full h-[1px] bg-cyan-400 -rotate-45"></div>
-                    </div>
+                    <img src="logo.png" alt="SLI Lab Logo" class="w-10 h-10 object-contain">
                     <div>
                         <h1 class="font-display font-bold text-xl tracking-widest text-white uppercase">SLI_LAB</h1>
                         <p class="font-mono text-xs text-cyan-300 tracking-wider whitespace-nowrap">STRUCTURE &
@@ -386,6 +397,8 @@
                     <!-- STRUCTURAL INTELLIGENCE -->
                     <section>
                         <h3 class="font-display text-3xl text-white mb-8 flex items-center gap-4">
+                            <img src="structural-intelligence-icon.png" alt="Structural Intelligence"
+                                class="w-12 h-12 object-contain">
                             <span class="w-8 h-[1px] bg-cyan-500"></span>
                             <span class="lang-en">STRUCTURAL INTELLIGENCE</span>
                             <span class="lang-ja">構造的知性</span>
@@ -442,7 +455,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                            <div class="p-6 border border-white/10 bg-white/5">
+                            <div class="glass-panel p-6 bg-cyan-900/10 border border-cyan-500/30">
                                 <h4 class="text-cyan-300 font-display text-sm uppercase mb-4">
                                     <span class="lang-en">Core Domains</span>
                                     <span class="lang-ja">コア領域</span>
@@ -466,7 +479,8 @@
                                             class="lang-en">Liquidity</span><span class="lang-ja">流動性</span></span>
                                 </div>
                             </div>
-                            <div class="p-6 border border-white/10 bg-white/5 flex flex-col justify-center">
+                            <div
+                                class="glass-panel p-6 bg-cyan-900/10 border border-cyan-500/30 flex flex-col justify-center">
                                 <h4 class="text-cyan-300 font-display text-sm uppercase mb-2">
                                     <span class="lang-en">Purpose</span>
                                     <span class="lang-ja">目的</span>
@@ -510,7 +524,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                            <div class="md:col-span-2">
+                            <div class="md:col-span-2 glass-panel p-6 bg-yellow-900/10 border border-yellow-500/30">
                                 <h4 class="font-mono text-xs text-yellow-500 uppercase mb-4">
                                     <span class="lang-en">The Six Axes of Liquidity</span>
                                     <span class="lang-ja">流動性の6つの軸</span>
@@ -557,7 +571,7 @@
                                 </div>
                             </div>
                             <div
-                                class="glass-panel p-6 bg-yellow-900/10 border-t border-yellow-500/20 flex flex-col justify-center">
+                                class="glass-panel p-6 bg-yellow-900/10 border border-yellow-500/30 flex flex-col justify-center">
                                 <h4 class="font-mono text-xs text-yellow-500 uppercase mb-2">
                                     <span class="lang-en">Purpose</span>
                                     <span class="lang-ja">目的</span>
@@ -580,6 +594,13 @@
                         <div class="inline-block p-8 glass-panel relative overflow-hidden">
                             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-yellow-500">
                             </div>
+
+                            <!-- Core Identity Icon -->
+                            <div class="flex justify-center mb-6">
+                                <img src="core-identity-icon.png" alt="Core Research Identity"
+                                    class="w-24 h-24 md:w-32 md:h-32 object-contain opacity-90">
+                            </div>
+
                             <h3 class="font-display text-2xl text-white mb-6">
                                 <span class="lang-en">CORE RESEARCH IDENTITY</span>
                                 <span class="lang-ja">核心研究アイデンティティ</span>
